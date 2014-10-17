@@ -4,7 +4,7 @@ module.exports = {
 
     // get all applications given a userId
     getAll: function(req, res) {
-        var owner = req.body.owner;
+        var owner = req.body.userId;
 
         Application.find({ owner:owner }, function (err, applications) {
             if (err) {
@@ -25,7 +25,7 @@ module.exports = {
 
     // create an application given an owner and a company name
     create: function(req, res) {
-        var owner = req.body.owner;
+        var owner = req.body.userId;
         var companyName = req.body.companyName;
         var newApplication = new Application({
             companyName : companyName,
@@ -47,7 +47,7 @@ module.exports = {
 
     // delete an application given an applicationId
     delete: function(req, res) {
-        var applicationId = req.body.id;
+        var applicationId = req.body.applicationId;
 
         Application.findByIdAndRemove(applicationId, function (err, application) {
             if (err) {
