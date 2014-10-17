@@ -23,12 +23,12 @@ module.exports = {
         var dueDate = req.body.dueDate;
 
         var task = new Task({ phase: phaseId, description: description, dueDate: dueDate });
-        task.save(function (err, task) {
+        task.save(function (err, newTask) {
             if (err) {
                 console.error(err);
                 res.send(500, err);
             } else {
-                res.json({ taskId: task.id });
+                res.json({ taskId: newTask.id });
             }
         });
     },
@@ -61,7 +61,7 @@ module.exports = {
                 res.end();
             }
         });
-    },
+    }
 }
 
 }

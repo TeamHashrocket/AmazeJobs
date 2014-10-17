@@ -3,117 +3,112 @@ var Phase = require('../models/phase');
 var PhaseSchema = new Schema({
     phaseType: { type: String, required: true },
     startDate: { type: Date, required: true },
-    application: { type: mongoose.Schema.Types.ObjectId, ref: 'Application', required: true },
+    application: { type: mongoose.Schema.Types.ObjectId, ref: "Application", required: true },
     endDate: { type: Date }
 });
 '''
 module.exports = {
+
     // get all phases associated with id
     get: function(req, res){
-        var applicationId = mongoose.Schema.Types.ObjectId(req.body.applicationId);
-        Phase.find({application:applicationId}, function(err, docs){
+        var applicationId = req.body.applicationId;
+
+        Phase.find({ application: applicationId }, function(err, phases){
             if (err) {
                 // something bad happened
                 console.error(err);
-                res.redirect('/?error=Please try again');
+                res.send(500, err);
 
+            } else {
+                res.json({ phases: phases });
             }
-            return docs;
         });
-    }
+    },
 
     // create new phase
     create: function(req, res){
-        var applicationId = mongoose.Types.ObjectId(req.body.applicationId);
+        var applicationId = req.body.applicationId;
         var phaseType = req.body.phaseType;
-        var endDate = req.body.endDate;
         
-        var p = new Phase({
-            'phaseType':phaseType,
+        var phase = new Phase({
+            'phaseType': phaseType,
             'startDate': new Date(),
-            'application':applicationId,
-            'endDate':endDate
+            'application': applicationId
         });
 
-        p.save(function(error, p){
+        phase.save(function(error, newPhase){
             if(error){
                 // something bad happened
                 console.error(err);
-                res.redirect('/?error=Please try again');
+                res.send(500, err);
+
+            } else {
+                res.json({ phaseId: newPhase.id });
             }
-            else{
-                return p._id;
+        });
+    },
+    
+    // end phase and start a new one
+    update: function(req, res){
+        var phaseId = req.body.phaseId;
+        var terminated = req.body.terminated == 'True';
+
+        // update end date for current phase
+        Phase.findOneAndUpdate({ _id: phaseId }, { endDate: Date() }, function(err, phase){
+            var newPhase;
+            var nextPhase = Phase.nextPhase(phase.phaseType);
+
+            if(terminated){
+                //create a new terminated phase
+                newPhase = new Phase({
+                    'phaseType':'Terminated',
+                    'startDate': new Date(),
+                    'application': phase.applicationId,
+                    'endDate': new Date()
+                });
+
+            } else if (nextPhase != 'Done') { // make sure we're not at a terminal phase
+                // create a new phase
+                var newPhase = new Phase({
+                    'phaseType':nextPhase,
+                    'startDate': new Date(),
+                    'application': p.applicationId
+                });
+
+            } else {
+                // we're in a terminal phase, return nothing
+                return res.end();
             }
 
-        });
-    }
-    
-    //end phase and start a new one
-    update: function(req, res){
-        var phaseId = mongoose.Types.ObjectId(req.body.phaseId);
-        var terminated = req.body.terminated == 'True';
-        //update end date for current phase
-        Phase.update({_id:phaseId}, function(error, p){
-            p.endDate = Date();
-            p.save(function(error, p){
+
+            // save the new phase and return its id
+            newPhase.save(function(error, savedPhase){
                 if(error){
                     // something bad happened
                     console.error(err);
-                    res.redirect('/?error=Please try again');
+                    res.send(500, err);
+
+                } else {
+                    res.json({ phaseId: savedPhase.id });
                 }
-                else{
-                    if(terminated){
-                        //create a new terminated phase
-                        var newP = new Phase({
-                            'phaseType':'Terminated',
-                            'startDate': new Date(),
-                            'application': p.applicationId,
-                            'endDate': new Date()
-                        });
 
-                        newP.save(function(error, p){
-                            if(error){
-                                console.error(err);
-                                res.redirect('/?error=Please try again');
-                            }
-                            else{
-                                return p._id;
-                            }
-
-                        });
-                    }
-                    else{
-                        nextPhase = Phase.nextPhase(p._id);
-                        //the current phase is already at terminated, no need to create a new one
-                        if (nextPhase == 'Done') return null;
-                        //create a new phase
-                        var newP = new Phase({
-                            'phaseType':nextPhase,
-                            'startDate': new Date(),
-                            'application': p.applicationId,
-                            'endDate': null
-                        });
-
-                        newP.save(function(error, p){
-                            if(error){
-                                console.error(err);
-                                res.redirect('/?error=Please try again');
-                            }
-                            else{
-                                return p._id;
-                            }
-
-                        });
-
-                    }
-                }
             });
+            
         });
-    }
+    },
 
     // delete phase
-    remove:function(req, res){
+    remove: function(req, res){
+        var phaseId = req.body.phaseId;
 
+        Phase.remove({ _id: phaseId }, function (err) {
+            if (err) {
+                console.error(err);
+                res.send(500, err);
+            } else {
+                res.end();
+            }
+        });
     }
     
 }
