@@ -6,7 +6,7 @@ module.exports = {
     getAll: function(req, res) {
         var owner = req.body.userId;
 
-        Application.find({ owner:owner }, function (err, applications) {
+        Application.find({ user:user }, function (err, applications) {
             if (err) {
                 // umm... something bad happened
                 console.error(err);
@@ -29,7 +29,7 @@ module.exports = {
         var companyName = req.body.companyName;
         var newApplication = new Application({
             companyName : companyName,
-            owner       : owner,
+            user       : user,
             phases      : []
         });
         console.log(owner)
