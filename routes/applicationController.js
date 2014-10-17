@@ -28,7 +28,6 @@ module.exports = {
         var owner = req.body.owner;
         var companyName = req.body.companyName;
         var newApplication = new Application({
-            _id         : userId,
             companyName : companyName,
             owner       : owner,
             phases      : []
