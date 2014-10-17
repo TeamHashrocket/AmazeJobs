@@ -5,24 +5,33 @@ module.exports = {
     // login existing users
     login: function(req, res) {
         var email = req.body.email;
-        var password = req.body.password;
 
-        User.findOne({ email: email }, function (err, user) {
-            if (err) {
-                // something bad happened
-                console.error(err);
-                res.redirect('/?error=Please try again');
+        // already logged in
+        // if (req.session.userId != undefined) {
+        //     return res.redirect('/feed');
+        // }
 
-            } else if (user == null) {
-                // user not found
-                res.redirect('/?error=Please make an account');
+        loginWithGoogle(email, function() {
+            // find or create
+            User.findOne({ email: email }, 'id', { upsert: true }, function (err, user) {
+                if (err) console.error(err);
+                return err, user.id;
+            });
+        });
+    },
 
-            } else {
-                // all good! verify password
-                verifyPassword(password, user, req, res);
-            }
+    // logout existing users
+    logout: function(req, res) {
+        // delete cookies
+        req.session.destroy(function(err) {
+            if (err) console.error(err);
         });
     }
+}
+
+var loginWithGoogle = function(email, callback) {
+    // what the fuck
+    callback();
 }
 
 }
