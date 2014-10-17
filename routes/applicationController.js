@@ -10,11 +10,11 @@ module.exports = {
             if (err) {
                 // umm... something bad happened
                 console.error(err);
-                res.send(500, err);
+                res.status(status).send(body)
 
             } else if (applications == null) {
                 // user not found
-                res.send(500, err);
+                res.status(status).send(body)
 
             } else {
                 // all good! send them back
@@ -37,7 +37,7 @@ module.exports = {
             if (err) {
                 // oops
                 console.error(err)
-                res.send(500, err);
+                res.status(status).send(body)
             }
 
             // send an ID back because we are rockin this
@@ -53,7 +53,7 @@ module.exports = {
             if (err) {
                 // umm... something bad happened
                 console.error(err);
-                res.send(500, err);
+                res.status(status).send(body)
             }
         });
     }

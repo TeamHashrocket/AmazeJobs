@@ -10,7 +10,7 @@ module.exports = {
             if (err) {
                 // something bad happened
                 console.error(err);
-                res.send(500, err);
+                res.status(status).send(body)
 
             } else {
                 res.json({ phases: phases });
@@ -33,7 +33,7 @@ module.exports = {
             if(error){
                 // something bad happened
                 console.error(err);
-                res.send(500, err);
+                res.status(status).send(body)
 
             } else {
                 res.json({ phaseId: newPhase.id });
@@ -79,7 +79,7 @@ module.exports = {
                 if(error){
                     // something bad happened
                     console.error(err);
-                    res.send(500, err);
+                    res.status(status).send(body)
 
                 } else {
                     res.json({ phaseId: savedPhase.id });
@@ -97,7 +97,7 @@ module.exports = {
         Phase.findByIdAndRemove(phaseId, function (err) {
             if (err) {
                 console.error(err);
-                res.send(500, err);
+                res.status(status).send(body)
             } else {
                 res.end();
             }
