@@ -4,9 +4,9 @@ module.exports = {
 
     // get all applications given a userId
     getAll: function(req, res) {
-        var owner = req.query.userId;
+        var user = req.query.userId;
 
-        Application.find({ owner:owner }, function (err, applications) {
+        Application.find({ user:user }, function (err, applications) {
             if (err) {
                 // umm... something bad happened
                 console.error(err);
@@ -25,11 +25,11 @@ module.exports = {
 
     // create an application given an owner and a company name
     create: function(req, res) {
-        var owner = req.query.userId;
+        var user = req.query.userId;
         var companyName = req.query.companyName;
         var newApplication = new Application({
             companyName : companyName,
-            owner       : owner,
+            user       : user,
             phases      : []
         });
 
