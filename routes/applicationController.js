@@ -25,12 +25,11 @@ module.exports = {
 
     // create an application given an owner and a company name
     create: function(req, res) {
-        var owner = req.body.userId;
+        var user = req.body.userId;
         var companyName = req.body.companyName;
         var newApplication = new Application({
             companyName : companyName,
-            user       : user,
-            phases      : []
+            user        : user
         });
         console.log(owner)
         newApplication.save(function (err, application) {
