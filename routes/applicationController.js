@@ -14,7 +14,7 @@ module.exports = {
 
             } else if (applications == null) {
                 // user not found
-                res.redirect('/?error=Application does not exist.');
+                res.send(500, err);
 
             } else {
                 // all good! send them back
@@ -31,7 +31,7 @@ module.exports = {
                 if (err) {
                     // oops
                     console.error(err)
-                    res.json({applicationId:null})
+                    res.send(500, err);
                 }
 
                 res.json({applicationId:application._id});
@@ -47,7 +47,7 @@ module.exports = {
             if (err) {
                 // something bad happened
                 console.error(err);
-                res.redirect('/?error=Please try again');
+                res.send(500, err);
             }
         });
     }
