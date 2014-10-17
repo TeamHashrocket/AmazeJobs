@@ -13,13 +13,13 @@ module.exports = {
 
         loginWithGoogle(email, function() {
             // find or create
-            User.findOne({ email: email }, 'id', { upsert: true }, function (err, user) {
+            User.findOneAndUpdate({ email: email }, {}, { upsert: true }, function (err, user) {
                 if (err) {
                 console.error(err);
                 res.send(500, err);
-            } else {
-                res.json({ userId: user.id });
-            }
+                } else {
+                    res.json({ userId: user.id });
+                }
             });
         });
     },
