@@ -94,7 +94,7 @@ module.exports = {
     delete: function(req, res){
         var phaseId = req.body.phaseId;
 
-        Phase.remove({ _id: phaseId }, function (err) {
+        Phase.findByIdAndRemove(phaseId, function (err) {
             if (err) {
                 console.error(err);
                 res.send(500, err);

@@ -53,7 +53,7 @@ module.exports = {
     delete: function(req, res) {
         var taskId = req.body.taskId;
 
-        Task.remove({ _id: taskId }, function (err) {
+        Task.findByIdAndRemove(taskId, function (err) {
             if (err) {
                 console.error(err);
                 res.send(500, err);
