@@ -3,7 +3,7 @@ var Application = require('../models/application');
 module.exports = {
 
     // get all applications given a userId
-    applications: function(req, res) {
+    getAll: function(req, res) {
         var owner = req.body.owner;
 
         Application.find({ owner:owner }, function (err, applications) {
@@ -24,7 +24,7 @@ module.exports = {
     },
 
     // create an application
-    createApplication: function(req, res) {
+    create: function(req, res) {
         var owner = req.body.owner;
         var companyName = req.body.companyName;
         var newApplication = new Application({
@@ -46,7 +46,7 @@ module.exports = {
     },
 
     // login existing Applications
-    deleteApplication: function(req, res) {
+    delete: function(req, res) {
         var applicationId = req.body.id;
 
         Application.findByIdAndRemove(applicationId, function (err, application) {

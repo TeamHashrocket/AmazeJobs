@@ -15,15 +15,15 @@ module.exports = function(app) {
 
     // Application
     app.get('/applications', function(req, res) {
-        ApplicationController.applications(req, res);
+        ApplicationController.getAll(req, res);
     });
 
     app.post('/applications', function(req, res) {
-        ApplicationController.createApplication(req, res);
+        ApplicationController.create(req, res);
     });
 
     app.delete('/application/:id', function(req, res) {
-        ApplicationController.deleteApplication(req, res);
+        ApplicationController.delete(req, res);
     });
 
     // Application Phase
