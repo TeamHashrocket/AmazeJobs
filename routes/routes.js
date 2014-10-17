@@ -45,19 +45,19 @@ module.exports = function(app) {
 
     // Application Task
     app.get('/tasks', function(req, res) {
-        
+        TaskController.get(req, res);
     });
 
     app.post('/tasks', function(req, res) {
-        
+        TaskController.new(req, res);
     });
 
     app.put('/task/:id', function(req, res) {
-        
+        TaskController.update(req, res);
     });
 
     app.delete('/task/:id', function(req, res) {
-        
+        TaskController.delete(req, res);
     });
 
     

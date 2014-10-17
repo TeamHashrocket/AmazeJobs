@@ -14,8 +14,12 @@ module.exports = {
         loginWithGoogle(email, function() {
             // find or create
             User.findOne({ email: email }, 'id', { upsert: true }, function (err, user) {
-                if (err) console.error(err);
-                return err, user.id;
+                if (err) {
+                console.error(err);
+                res.send(500, err);
+            } else {
+                res.json({ userId: user.id });
+            }
             });
         });
     },
@@ -24,7 +28,12 @@ module.exports = {
     logout: function(req, res) {
         // delete cookies
         req.session.destroy(function(err) {
-            if (err) console.error(err);
+            if (err) {
+                console.error(err);
+                res.send(500, err);
+            } else {
+                res.end();
+            }
         });
     }
 }
