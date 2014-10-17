@@ -4,16 +4,12 @@ module.exports = {
 
     // get all applications given a userId
     getAll: function(req, res) {
-        var owner = req.body.userId;
+        var user = req.body.userId;
 
         Application.find({ user:user }, function (err, applications) {
-            if (err) {
+            if (err || applications == null) {
                 // umm... something bad happened
                 console.error(err);
-                res.status(500).send(err);
-
-            } else if (applications == null) {
-                // user not found
                 res.status(500).send(err);
 
             } else {
@@ -31,7 +27,7 @@ module.exports = {
             companyName : companyName,
             user        : user
         });
-        console.log(owner)
+
         newApplication.save(function (err, application) {
             if (err) {
                 // oops
