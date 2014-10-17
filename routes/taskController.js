@@ -3,7 +3,7 @@ var Task = require('../models/task');
 module.exports = {
 
     // get all tasks
-    get: function(req, res) {
+    getAll: function(req, res) {
         var phaseId = req.body.phaseId;
 
         Task.find({ phase: phaseId }, function (err, tasks) {

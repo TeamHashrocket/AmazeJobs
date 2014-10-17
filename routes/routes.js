@@ -28,19 +28,19 @@ module.exports = function(app) {
 
     // Application Phase
     app.get('/phases', function(req, res) {
-        
+        PhaseController.getAll(req, res);
     });
 
     app.post('/phases', function(req, res) {
-        
+        PhaseController.create(req, res);
     });
 
     app.put('/phase/:id', function(req, res) {
-        
+        PhaseController.update(req, res);
     });
 
     app.delete('/phase/:id', function(req, res) {
-        
+        PhaseController.delete(req, res);
     });
 
     // Application Task
@@ -49,7 +49,7 @@ module.exports = function(app) {
     });
 
     app.post('/tasks', function(req, res) {
-        TaskController.new(req, res);
+        TaskController.create(req, res);
     });
 
     app.put('/task/:id', function(req, res) {

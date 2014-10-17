@@ -10,7 +10,7 @@ var PhaseSchema = new Schema({
 module.exports = {
 
     // get all phases associated with id
-    get: function(req, res){
+    getAll: function(req, res){
         var applicationId = req.body.applicationId;
 
         Phase.find({ application: applicationId }, function(err, phases){
@@ -98,7 +98,7 @@ module.exports = {
     },
 
     // delete phase
-    remove: function(req, res){
+    delete: function(req, res){
         var phaseId = req.body.phaseId;
 
         Phase.remove({ _id: phaseId }, function (err) {
