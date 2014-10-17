@@ -10,7 +10,7 @@ module.exports = {
             if (err) {
                 // something bad happened
                 console.error(err);
-                res.redirect('/?error=Please try again');
+                res.send(500, err);
 
             } else if (applications == null) {
                 // user not found
