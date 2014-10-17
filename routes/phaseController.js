@@ -1,12 +1,5 @@
 var Phase = require('../models/phase');
-'''
-var PhaseSchema = new Schema({
-    phaseType: { type: String, required: true },
-    startDate: { type: Date, required: true },
-    application: { type: mongoose.Schema.Types.ObjectId, ref: "Application", required: true },
-    endDate: { type: Date }
-});
-'''
+
 module.exports = {
 
     // get all phases associated with id

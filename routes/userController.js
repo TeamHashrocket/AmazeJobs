@@ -42,5 +42,3 @@ var loginWithGoogle = function(email, callback) {
     // what the fuck
     callback();
 }
-
-}
