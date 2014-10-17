@@ -16,7 +16,7 @@ module.exports = {
             User.findOneAndUpdate({ email: email }, {}, { upsert: true }, function (err, user) {
                 if (err) {
                 console.error(err);
-                res.send(500, err);
+                res.status(500).send(err)
                 } else {
                     res.json({ userId: user.id });
                 }
@@ -30,7 +30,7 @@ module.exports = {
         req.session.destroy(function(err) {
             if (err) {
                 console.error(err);
-                res.send(500, err);
+                res.status(500).send(err)
             } else {
                 res.end();
             }

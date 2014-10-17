@@ -9,7 +9,7 @@ module.exports = {
         Task.find({ phase: phaseId }, function (err, tasks) {
             if (err) {
                 console.error(err);
-                res.send(500, err);
+                res.status(500).send(err)
             } else {
                 res.json({ tasks: tasks });
             }
@@ -26,7 +26,7 @@ module.exports = {
         task.save(function (err, newTask) {
             if (err) {
                 console.error(err);
-                res.send(500, err);
+                res.status(500).send(err)
             } else {
                 res.json({ taskId: newTask.id });
             }
@@ -42,7 +42,7 @@ module.exports = {
         Task.update({ _id: taskId }, { description: description, dueDate: dueDate }, function (err) {
             if (err) {
                 console.error(err);
-                res.send(500, err);
+                res.status(500).send(err)
             } else {
                 res.end();
             }
@@ -56,7 +56,7 @@ module.exports = {
         Task.findByIdAndRemove(taskId, function (err) {
             if (err) {
                 console.error(err);
-                res.send(500, err);
+                res.status(500).send(err)
             } else {
                 res.end();
             }
