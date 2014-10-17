@@ -27,15 +27,21 @@ module.exports = {
     createApplication: function(req, res) {
         var owner = req.body.owner;
         var companyName = req.body.companyName;
-            Application.create({ _id:userId, companyName:companyName, owner:owner, phases:[] }, function (err, application) {
-                if (err) {
-                    // oops
-                    console.error(err)
-                    res.send(500, err);
-                }
+        var newApplication = new Application({
+            _id         : userId,
+            companyName : companyName,
+            owner       : owner,
+            phases      : []
+        });
 
-                res.json({applicationId:application._id});
-            });
+        newApplication.save(function (err, application) {
+            if (err) {
+                // oops
+                console.error(err)
+                res.send(500, err);
+            }
+
+            res.json({applicationId:application._id});
         });
     },
 
