@@ -13,6 +13,8 @@ module.exports = function(app) {
         UserController.logout(req, res);
     });
 
+    //app.get('/oauthcallback');
+
     // Application
     app.get('/applications', function(req, res) {
         ApplicationController.getAll(req, res);
