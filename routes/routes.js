@@ -13,7 +13,9 @@ module.exports = function(app) {
         UserController.logout(req, res);
     });
 
-    //app.get('/oauthcallback');
+    app.get('/oauthcallback', function(req, res){
+        UserController.oauthcallback(req.query.code);
+    });
 
     // Application
     app.get('/applications', function(req, res) {
