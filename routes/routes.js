@@ -4,8 +4,13 @@ var PhaseController = require('./phaseController');
 var TaskController = require('./taskController');
 
 module.exports = function(app) {
+    // Testing
+    app.get('/test' , function(req, res) {
+        res.render('tests');
+    });
+
     // User
-    app.post('/login', function(req, res) {
+    app.get('/login', function(req, res) {
         UserController.login(req, res);
     });
 
@@ -14,7 +19,7 @@ module.exports = function(app) {
     });
 
     app.get('/oauthcallback', function(req, res){
-        UserController.oauthcallback(req.query.code);
+        UserController.oauthcallback(req.query.code, res);
     });
 
     // Application
