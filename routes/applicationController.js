@@ -39,26 +39,19 @@ module.exports = {
 
     // end current phase and start a new one if ended phase is not
     // terminal and user has not terminated the application
-    changePhase: function(req, res){
+    changePhase: function(req, res) {
         var applicationId = req.params.id;
         var terminated = req.body.terminated == 'True' || req.body.terminated == 'true';
 
         Application.findOne({ _id: applicationId }, function(err, application) {
             if (err) return handleError(res,  500, err);
             if (application == null) return handleError(res,  404, 'Application not found');
-           
-            var phaseId = application.currentPhase;
 
-            Phase.findOne({ _id: phaseId }, function(err, phase) {
-                if(err) return handleError(res, 500, err);
-
-                phase.endPhase(terminated, function(error, newPhaseId){
-                    if(err) return handleError(res, 500, err);
-                    res.json({ phaseId: newPhaseId });
-                });
+            application.changePhase(terminated, function(error, newPhaseId) {
+                if(error) return handleError(res, 500, err);
+                res.json({ phaseId: newPhaseId });
             });
         });
-        
     },
 
     // delete an application given an applicationId

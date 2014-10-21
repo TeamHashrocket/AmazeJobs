@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Phase = require('../models/phase');
 
 var ApplicationSchema = new Schema({
     companyName: { type: String, required: true },
@@ -13,7 +14,7 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
     // this is a new phase
     if (phaseId == undefined) {
         newPhase = new Phase({
-            'phaseType':'Applied',
+            'phaseType':'Applying',
             'startDate': new Date(),
             'application': this.id
         });
@@ -26,7 +27,7 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
             callback(null, savedPhase.id);
         });
 
-    } else {
+    } else { // there is already a current phase
 
         // find the current phase
         Phase.findOne({ _id: phaseId }, function(err, phase) {
