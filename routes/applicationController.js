@@ -1,5 +1,6 @@
 var Application = require('../models/application');
 var Phase = require('../models/phase');
+var handleError = require('./utils').handleError;
 
 module.exports = {
 
@@ -10,16 +11,12 @@ module.exports = {
         console.log(user)
 
         Application.find({ user:user }, function (err, applications) {
-            if (err || applications == null) {
-                // umm... something bad happened
-                console.error(err);
-                res.status(500).send(err);
+            if (err) return handleError(res, 500, err);
+            if (applications == null) return handleError(res, 404, "Cannot find applications for the user");
 
-            } else {
-                // all good! send them back
-                console.log(applications)
-                res.json({ applications:applications });
-            }
+            // all good! send them back
+            console.log(applications)
+            res.json({ applications:applications });
         });
     },
 
@@ -33,14 +30,10 @@ module.exports = {
         });
 
         newApplication.save(function (err, application) {
-            if (err) {
-                // oops
-                console.error(err)
-                res.status(500).send(err);
-            } else {
-                // send an ID back because we are rockin this
-                res.json({applicationId:application._id});
-            }
+            if (err) return handleError(res, 500, err);
+
+            // send an ID back because we are rockin this
+            res.json({ applicationId:application._id });
         });
     },
 
@@ -52,16 +45,16 @@ module.exports = {
 
         // update end date for current phase
         Application.findOne({ _id: applicationId }, function(err, application) {
-            if (err) return handleError(500, err);
-            if (application == null) return handleError(404, "Application not found");
+            if (err) return handleError(res,  500, err);
+            if (application == null) return handleError(res,  404, "Application not found");
            
             var phaseId = application.currentPhase;
 
             Phase.findOne({ _id: phaseId }, function(err, phase) {
-                if(err) return handleError(err);
+                if(err) return handleError(res, 500, err);
 
                 phase.endPhase(terminated, function(error, newPhaseId){
-                    if(err) return handleError(err);
+                    if(err) return handleError(res, 500, err);
                     res.json({ phaseId: newPhaseId });
                 });
             });
@@ -73,25 +66,14 @@ module.exports = {
     delete: function(req, res) {
         var applicationId = req.params.id;
 
-        if (applicationId === undefined) {
-            res.status(500).send(err);
-        }
+        if (applicationId === undefined) return handleError(res, 404, "No application found with null id");
 
         console.log(applicationId)
 
         Application.findByIdAndRemove(applicationId, function (err, application) {
-            if (err) {
-                // umm... something bad happened
-                console.error(err);
-                res.status(500).send(err);
-            }
+            if (err) return handleError(res, 500, err);
 
             res.json({success:true});
         });
     }
-}
-
-var handleError = function(code, err) {
-    console.error(err);
-    res.status(code).send(err);
 }
