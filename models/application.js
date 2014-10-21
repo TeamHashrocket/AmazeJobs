@@ -20,7 +20,7 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
 
         // save the new phase and return its id
         newPhase.save(function(error, savedPhase) {
-            if error return callback(error);
+            if (error) return callback(error);
 
             this.currentPhase = savedPhase.id;
             callback(null, savedPhase.id);
@@ -33,7 +33,7 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
             if(err) return callback(err);
 
             phase.endPhase(terminated, function(error, newPhaseId) {
-                if error return callback(error);
+                if (error) return callback(error);
 
                 this.currentPhase = newPhaseId;
                 callback(null, newPhaseId);
