@@ -9,6 +9,8 @@ module.exports = {
 
         Task.find({ phase: phaseId }, function (err, tasks) {
             if (err) return handleError(res, 500, err);
+            if (tasks == undefined) return handleError(res,  404, 'Tasks not found');
+
             res.json({ tasks: tasks });
         });
     },

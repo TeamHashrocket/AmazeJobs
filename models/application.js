@@ -53,5 +53,15 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
     }
 }
 
+// delete the application and its associated phases (which delete their tasks)
+ApplicationSchema.pre('remove', function(next) {
+    var application = this;
+
+    // delete all phases associated with this application
+    Phase.find({ application: application.id }).remove(function(err) {
+        next(err);
+    });
+});
+
 var Application = mongoose.model('Application', ApplicationSchema);
 module.exports = Application;
