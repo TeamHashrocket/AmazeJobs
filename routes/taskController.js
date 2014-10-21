@@ -1,4 +1,5 @@
 var Task = require('../models/task');
+var handleError = require('utils').handleError;
 
 module.exports = {
 
@@ -7,12 +8,8 @@ module.exports = {
         var phaseId = req.body.phaseId;
 
         Task.find({ phase: phaseId }, function (err, tasks) {
-            if (err) {
-                console.error(err);
-                res.status(500).send(err)
-            } else {
-                res.json({ tasks: tasks });
-            }
+            if (err) return handleError(res, 500, err);
+            res.json({ tasks: tasks });
         });
     },
 
@@ -24,12 +21,9 @@ module.exports = {
 
         var task = new Task({ phase: phaseId, description: description, dueDate: dueDate });
         task.save(function (err, newTask) {
-            if (err) {
-                console.error(err);
-                res.status(500).send(err)
-            } else {
-                res.json({ taskId: newTask.id });
-            }
+            if (err) return handleError(res, 500, err);
+            
+            res.json({ taskId: newTask.id });
         });
     },
 
@@ -40,12 +34,7 @@ module.exports = {
         var dueDate = req.body.dueDate;
 
         Task.update({ _id: taskId }, { description: description, dueDate: dueDate }, function (err) {
-            if (err) {
-                console.error(err);
-                res.status(500).send(err)
-            } else {
-                res.end();
-            }
+            if (err) return handleError(res, 500, err);
         });
     },
 
@@ -54,12 +43,7 @@ module.exports = {
         var taskId = req.params.id;
 
         Task.findByIdAndRemove(taskId, function (err) {
-            if (err) {
-                console.error(err);
-                res.status(500).send(err)
-            } else {
-                res.end();
-            }
+            if (err) return handleError(res, 500, err);
         });
     }
 }

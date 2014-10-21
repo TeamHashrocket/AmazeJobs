@@ -2,6 +2,7 @@ var User = require('../models/user');
 var google = require('googleapis');
 var calendar = google.calendar('v3');
 var plus = google.plus('v1');
+var handleError = require('utils').handleError;
 var OAuth2 = google.auth.OAuth2;
 // Elliott's personal machine
 // var oauth2Client = new OAuth2('563808076610-dm5h337nmlaq48iktd6crdqqmkba6b0a.apps.googleusercontent.com', 'iFc-NLyc_MVlscfM_ihyHuAb', 'http://tardis.mit.edu:8080/oauthcallback');
@@ -21,11 +22,7 @@ module.exports = {
     logout: function(req, res) {
         // delete cookies
         req.session.destroy(function(err) {
-            if (err) {
-                res.status(500).send(err)
-            } else {
-                res.end();
-            }
+            if (err) handleError(res, 500, err);
         });
     },
 
@@ -33,20 +30,17 @@ module.exports = {
     oauthcallback:function(req, res){
         var code = req.query.code;
         oauth2Client.getToken(code, function(err, tokens) {
+
         // Now tokens contains an access_token and an optional refresh_token. Save them.
-            if(err) {
-                res.status(500).send(err);
-            } else {
-                oauth2Client.setCredentials(tokens);
-                // user is now logged in. Using token to get personal info
-                plus.people.get({userId:'me', auth:oauth2Client}, function(err, googlePlusInfo) {
-                    if (err) {
-                        res.status(500).send(err);
-                    } else {
-                        savePersonalInfo(googlePlusInfo, req, res);
-                    }
-                });
-            }
+            if (err) return handleError(res, 500, err);
+            oauth2Client.setCredentials(tokens);
+
+            // user is now logged in. Using token to get personal info
+            plus.people.get({userId:'me', auth:oauth2Client}, function(err, googlePlusInfo) {
+                if (err) return handleError(res, 500, err);
+                savePersonalInfo(googlePlusInfo, req, res);
+            });
+            
         });
     }
 }
@@ -76,12 +70,10 @@ var savePersonalInfo = function(googlePlusInfo, req, res) {
     }
 
     User.findOneAndUpdate({ email:email }, { email:email, name:name }, {upsert: true}, function (err, user) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            req.session.name = email;
-            req.session.save();
-            res.render('index', { name:name, userId:user._id });
-        }
+        if (err) return handleError(res, 500, err);
+
+        req.session.name = email;
+        req.session.save();
+        res.render('index', { name:name, userId:user._id });
     });
 }
