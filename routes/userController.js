@@ -30,7 +30,8 @@ module.exports = {
     },
 
     //oauthcallback function
-    oauthcallback:function(code, res){
+    oauthcallback:function(req, res){
+        var code = req.query.code;
         oauth2Client.getToken(code, function(err, tokens) {
         // Now tokens contains an access_token and an optional refresh_token. Save them.
             if(err) {
@@ -42,7 +43,7 @@ module.exports = {
                     if (err) {
                         res.status(500).send(err);
                     } else {
-                        savePersonalInfo(googlePlusInfo, res);
+                        savePersonalInfo(googlePlusInfo, req, res);
                     }
                 });
             }
@@ -63,7 +64,7 @@ var loginWithGoogle = function(res) {
 }
 
 // parses and saves the google plus info into the Users model
-var savePersonalInfo = function(googlePlusInfo, res) {
+var savePersonalInfo = function(googlePlusInfo, req, res) {
     var name = googlePlusInfo.name.givenName; // + " " + googlePlusInfo.name.familyName;
     var email = null;
     // finds the email associated with the account

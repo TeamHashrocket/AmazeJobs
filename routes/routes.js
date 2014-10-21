@@ -2,11 +2,12 @@ var UserController = require('./userController');
 var ApplicationController = require('./applicationController');
 var PhaseController = require('./phaseController');
 var TaskController = require('./taskController');
+var TaskController = require('./testController');
 
 module.exports = function(app) {
     // Testing
     app.get('/test' , function(req, res) {
-        res.render('tests');
+        testController.test(res);
     });
 
     // User
