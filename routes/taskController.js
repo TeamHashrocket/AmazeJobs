@@ -1,5 +1,5 @@
 var Task = require('../models/task');
-var handleError = require('utils').handleError;
+var handleError = require('./utils').handleError;
 
 module.exports = {
 

@@ -79,7 +79,7 @@ module.exports = function(app) {
     });
 
     /* 
-        Ends the current phase, creates a new phase if the 
+        Ends the current phase if any, creates a new phase if the 
         ended phase was not a terminal phase and the application 
         was not terminated by the user
 
@@ -91,7 +91,7 @@ module.exports = function(app) {
             - error: error if there was one
     */
     app.put('/application/:id', function(req, res) {
-        ApplicationController.endPhase(req, res);
+        ApplicationController.changePhase(req, res);
     });
 
 
