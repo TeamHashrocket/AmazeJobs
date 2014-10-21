@@ -28,7 +28,7 @@ module.exports = {
         var code = req.query.code;
         oauth2Client.getToken(code, function(err, tokens) {
 
-        // Now tokens contains an access_token and an optional refresh_token. Save them.
+            // Now tokens contains an access_token and an optional refresh_token. Save them.
             if (err) return handleError(res, 500, err);
             oauth2Client.setCredentials(tokens);
 
@@ -71,7 +71,7 @@ var savePersonalInfo = function(googlePlusInfo, req, res) {
     User.findOneAndUpdate({ email:email }, { email:email, name:name }, {upsert: true}, function (err, user) {
         if (err) return handleError(res, 500, err);
 
-        req.session.name = email;
+        req.session.email = email;
         req.session.save();
         res.render('index', { name:name, userId:user._id });
     });

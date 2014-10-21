@@ -5,7 +5,7 @@ module.exports = {
 
     // get all tasks
     getAll: function(req, res) {
-        var phaseId = req.body.phaseId;
+        var phaseId = req.params.id;
 
         Task.find({ phase: phaseId }, function (err, tasks) {
             if (err) return handleError(res, 500, err);
@@ -15,14 +15,14 @@ module.exports = {
 
     // create new task
     create: function(req, res) {
-        var phaseId = req.body.phaseId;
+        var phaseId = req.params.id;
         var description = req.body.description;
         var dueDate = req.body.dueDate;
 
         var task = new Task({ phase: phaseId, description: description, dueDate: dueDate });
+        
         task.save(function (err, newTask) {
             if (err) return handleError(res, 500, err);
-            
             res.json({ taskId: newTask.id });
         });
     },

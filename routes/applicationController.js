@@ -6,23 +6,20 @@ module.exports = {
 
     // get all applications given a userId
     getAll: function(req, res) {
-        console.log(req.query.userId)
-        var user = req.query.userId;
-        console.log(user)
+        var user = req.params.id;
 
         Application.find({ user:user }, function (err, applications) {
             if (err) return handleError(res, 500, err);
             if (applications == null) return handleError(res, 404, 'Cannot find applications for the user');
 
             // all good! send them back
-            console.log(applications)
             res.json({ applications:applications });
         });
     },
 
     // create an application given an owner and a company name
     create: function(req, res) {
-        var user = req.body.userId;
+        var user = req.params.id;
         var companyName = req.body.companyName;
         var newApplication = new Application({
             companyName : companyName,
@@ -31,8 +28,6 @@ module.exports = {
 
         newApplication.save(function (err, application) {
             if (err) return handleError(res, 500, err);
-
-            // send an ID back because we are rockin this
             res.json({ applicationId:application._id });
         });
     },
@@ -60,11 +55,8 @@ module.exports = {
 
         if (applicationId === undefined) return handleError(res, 404, 'No application found with null id');
 
-        console.log(applicationId)
-
         Application.findByIdAndRemove(applicationId, function (err, application) {
             if (err) return handleError(res, 500, err);
-
             res.json({success:true});
         });
     }

@@ -53,13 +53,12 @@ module.exports = function(app) {
         Get all of the applications associated with the user
 
         GET /applications
-        Request Body:
-            - user id
+        Request Body: empty
         Response:
             - applications: list of Applications
             - error: error if there was one
     */
-    app.get('/applications', function(req, res) {
+    app.get('/user/:id/applications', function(req, res) {
         ApplicationController.getAll(req, res);
     });
 
@@ -68,13 +67,12 @@ module.exports = function(app) {
         
         POST /applications
         Request Body: 
-            - userId: user id
             - companyName: company name
         Response:
             - applicationId: new application id
             - error: error if there was one
     */
-    app.post('/applications', function(req, res) {
+    app.post('/user/:id/applications', function(req, res) {
         ApplicationController.create(req, res);
     });
 
@@ -111,13 +109,12 @@ module.exports = function(app) {
         Gets all phases for a specific application
 
         GET /phases
-        Request Body: 
-            - applicationId: application id
+        Request Body: empty
         Response:
             - phases: list of Phases
             - error: error if there was one
     */
-    app.get('/phases', function(req, res) {
+    app.get('/application/:id/phases', function(req, res) {
         PhaseController.getAll(req, res);
     });
 
@@ -126,13 +123,12 @@ module.exports = function(app) {
 
         POST /phases
         Request Body:
-            - application id
             - phase type
         Response:
             - phaseId: new phase id
             - error: error if there was one
     */
-    app.post('/phases', function(req, res) {
+    app.post('/application/:id/phases', function(req, res) {
         PhaseController.create(req, res);
     });
 
@@ -159,8 +155,8 @@ module.exports = function(app) {
             - tasks: list of Tasks
             - error: error if there was one
     */
-    app.get('/tasks', function(req, res) {
-        TaskController.get(req, res);
+    app.get('/phase/:id/tasks', function(req, res) {
+        TaskController.getAll(req, res);
     });
 
     /* 
@@ -168,14 +164,13 @@ module.exports = function(app) {
 
         POST /tasks
         Request Body:
-            - phase id
             - description
             - due date (optional)
         Response:
             - taskId: new task id
             - error: error if there was one
     */
-    app.post('/tasks', function(req, res) {
+    app.post('/phase/:id/tasks', function(req, res) {
         TaskController.create(req, res);
     });
 
