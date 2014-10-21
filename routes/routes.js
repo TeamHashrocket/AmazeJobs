@@ -15,11 +15,11 @@ module.exports = function(app) {
         Logs in the user via Google, adds them to the database
         if they don't exist, sets cookies
 
-        POST /login
-        Request Body:
-            -??
+        GET /login
+        Request Body: empty
         Response:
-            -??
+            - redirects to a google login page
+            - error: error if there was one
     */
         UserController.login(req, res);
     });
@@ -37,12 +37,11 @@ module.exports = function(app) {
     });
 
     /* 
-        What the fuck is this
-
         GET /oauthcallback
         Request Body:
-            -??
+            - Oauth2callback from google
         Response:
+            - renders a homepage
             - error: error if there was one
     */
     app.get('/oauthcallback', function(req, res){
