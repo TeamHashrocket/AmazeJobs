@@ -79,6 +79,8 @@ var savePersonalInfo = function(googlePlusInfo, req, res) {
         if (err) {
             res.status(500).send(err);
         } else {
+            req.session.name = email;
+            req.session.save();
             res.render('index', { name:name, userId:user._id });
         }
     });
