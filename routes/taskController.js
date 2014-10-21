@@ -34,11 +34,20 @@ module.exports = {
         var taskId = req.params.id;
         var description = req.body.description;
         var dueDate = req.body.dueDate;
+        var completed = req.body.completed;
 
-        var updateFields = { description: description };
-        
-        if (dueDate){
-            updateFields = { description: description, dueDate: dueDate };
+        // all of these fields are optional, only update the ones that are defined
+        var updateFields = {};
+        if (description) {
+            updateFields.description = description;
+        }
+
+        if (dueDate) {
+            updateFields.dueDate = dueDate;
+        }
+
+        if (completed) {
+            updateFields.completed = completed == 'True' || completed == 'true';
         }
         
         Task.update({ _id: taskId }, updateFields, function (err) {

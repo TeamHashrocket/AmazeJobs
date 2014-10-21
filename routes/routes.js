@@ -171,6 +171,7 @@ module.exports = function(app) {
         Request Body:
             - description: description (optional)
             - dueDate: due date (optional)
+            - completed: if task is completed, a boolean (optional)
         Response:
             - error: error if there was one
     */
