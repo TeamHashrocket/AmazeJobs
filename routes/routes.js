@@ -86,7 +86,7 @@ module.exports = function(app) {
 
         PUT /application/{id}
         Request Body:
-            - whether the application has been terminated or not (a boolean)
+            - terminated: whether the application has been terminated or not (a boolean)
         Response:
             - phaseId: new phase id if a new one has been created
             - error: error if there was one

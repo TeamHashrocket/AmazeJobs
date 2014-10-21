@@ -15,7 +15,7 @@ PhaseSchema.methods.endPhase = function(terminated, callback) {
     var newPhase;
     var nextPhaseType = getNextPhase(this.phaseType);
 
-    if (terminated){
+    if (terminated) {
         // create a new terminated phase
         newPhase = new Phase({
             'phaseType':'Terminated',
@@ -24,10 +24,10 @@ PhaseSchema.methods.endPhase = function(terminated, callback) {
             'endDate': new Date()
         });
 
-    } else if (nextPhase != 'Done') { // make sure we're not at a terminal phase
+    } else if (nextPhaseType != 'Done') { // make sure we're not at a terminal phase
         // create a new phase
         var newPhase = new Phase({
-            'phaseType': nextPhase,
+            'phaseType': nextPhaseType,
             'startDate': new Date(),
             'application': this.application
         });
