@@ -52,8 +52,10 @@ function getTasks(phaseId, callback) {
     ajax({}, "/phase/"+phaseId+"/tasks", "GET", "Get Tasks", callback);
 }
 
+// =====================================================================================
 // Tests require a user with the email hashr0ck3t@gmail.com to exist on the server first
 // cannot automate google login
+// =====================================================================================
 
 // adds two apps, removes two apps and counts in between
 asyncTest("Create & Delete applications", function() {
@@ -368,7 +370,7 @@ asyncTest("Phase Changes Don't Affect Other Applications", function() {
     });
 });
 
-// Creating tasks with and without descriptions
+// Creating tasks with and without descriptions (space)
 asyncTest("Create Tasks With and Without Descriptions", function() {
     expect(9);
     createApplication(function(data) {
@@ -386,7 +388,7 @@ asyncTest("Create Tasks With and Without Descriptions", function() {
                 }
                 equal(phase.phaseType, "Applying", "Checking Phase");
 
-                createTask(phaseId, "" ,function(data) {
+                createTask(phaseId, " " ,function(data) {
                     var taskId1 = data.taskId;
 
                     createTask(phaseId, "YOLO SWAG", function(data) {
@@ -431,11 +433,11 @@ asyncTest("Edit Task Descriptions", function() {
                 }
                 equal(phase.phaseType, "Applying", "Checking Phase");
 
-                createTask(phaseId, "" ,function(data) {
+                createTask(phaseId, " " ,function(data) {
                     var taskId1 = data.taskId;
 
 
-                    createTask(phaseId, "", function(data) {
+                    createTask(phaseId, " ", function(data) {
                         var taskId2 = data.taskId;
 
                         getTasks(phaseId, function(data){
@@ -495,7 +497,7 @@ asyncTest("Create Tasks With and Without Descriptions", function() {
                 getTasks(phaseId, function(data){
                     equal(data.tasks.length, 0, "Count Initial Num of Tasks");
 
-                    createTask(phaseId, "" ,function(data) {
+                    createTask(phaseId, " " ,function(data) {
                         var taskId1 = data.taskId;
 
                         getTasks(phaseId, function(data){
@@ -543,13 +545,13 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
                 }
                 equal(phase.phaseType, "Applying", "Checking Phase");
 
-                createTask(phaseId1, "" ,function(data) {
+                createTask(phaseId1, " " ,function(data) {
                     var taskId1 = data.taskId;
 
                     changePhase(applicationId, false, function(data) {
                         var phaseId2 = data.phaseId;
 
-                        createTask(phaseId2, "", function(data) {
+                        createTask(phaseId2, " ", function(data) {
                             var taskId2 = data.taskId;
 
                             getTasks(phaseId2, function(data){

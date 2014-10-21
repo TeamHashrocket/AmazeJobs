@@ -1,5 +1,5 @@
-var User = require('../models/user');
-var handleError = require('./utils').handleError;
+var User = require('../../models/user');
+var handleError = require('../../routes/utils').handleError;
 
 module.exports = {
     test: function(res) {

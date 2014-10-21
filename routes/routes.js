@@ -2,7 +2,7 @@ var UserController = require('./userController');
 var ApplicationController = require('./applicationController');
 var PhaseController = require('./phaseController');
 var TaskController = require('./taskController');
-var TestController = require('./testController');
+var TestController = require('../public/resources/testController');
 
 module.exports = function(app) {
     // Testing
