@@ -2,12 +2,12 @@ var UserController = require('./userController');
 var ApplicationController = require('./applicationController');
 var PhaseController = require('./phaseController');
 var TaskController = require('./taskController');
-var TaskController = require('./testController');
+var TestController = require('./testController');
 
 module.exports = function(app) {
     // Testing
     app.get('/test' , function(req, res) {
-        testController.test(res);
+        TestController.test(res);
     });
 
     // User
@@ -46,7 +46,7 @@ module.exports = function(app) {
             - error: error if there was one
     */
     app.get('/oauthcallback', function(req, res){
-        UserController.oauthcallback(req.query.code, res);
+        UserController.oauthcallback(req, res);
     });
 
     /*  
@@ -68,8 +68,8 @@ module.exports = function(app) {
         
         POST /applications
         Request Body: 
-            - user id
-            - company name
+            - userId: user id
+            - companyName: company name
         Response:
             - applicationId: new application id
             - error: error if there was one

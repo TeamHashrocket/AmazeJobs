@@ -5,7 +5,9 @@ module.exports = {
 
     // get all applications given a userId
     getAll: function(req, res) {
-        var user = req.body.userId;
+        console.log(req.query.userId)
+        var user = req.query.userId;
+        console.log(user)
 
         Application.find({ user:user }, function (err, applications) {
             if (err || applications == null) {
@@ -15,6 +17,7 @@ module.exports = {
 
             } else {
                 // all good! send them back
+                console.log(applications)
                 res.json({ applications:applications });
             }
         });
@@ -34,10 +37,10 @@ module.exports = {
                 // oops
                 console.error(err)
                 res.status(500).send(err);
+            } else {
+                // send an ID back because we are rockin this
+                res.json({applicationId:application._id});
             }
-
-            // send an ID back because we are rockin this
-            res.json({applicationId:application._id});
         });
     },
 
@@ -70,12 +73,20 @@ module.exports = {
     delete: function(req, res) {
         var applicationId = req.params.id;
 
+        if (applicationId === undefined) {
+            res.status(500).send(err);
+        }
+
+        console.log(applicationId)
+
         Application.findByIdAndRemove(applicationId, function (err, application) {
             if (err) {
                 // umm... something bad happened
                 console.error(err);
                 res.status(500).send(err);
             }
+
+            res.json({success:true});
         });
     }
 }
