@@ -1,4 +1,5 @@
 var Application = require('../models/application');
+var Phase = require('../models/phase');
 
 module.exports = {
 
@@ -40,9 +41,34 @@ module.exports = {
         });
     },
 
+    // end current phase and start a new one if ended phase is not
+    // terminal and user has not terminated the application
+    endPhase: function(req, res){
+        var applicationId = req.params.id;
+        var terminated = req.body.terminated == 'True' || req.body.terminated == 'true';
+
+        // update end date for current phase
+        Application.findOne({ _id: applicationId }, function(err, application) {
+            if (err) return handleError(500, err);
+            if (application == null) return handleError(404, "Application not found");
+           
+            var phaseId = application.currentPhase;
+
+            Phase.findOne({ _id: phaseId }, function(err, phase) {
+                if(err) return handleError(err);
+
+                phase.endPhase(terminated, function(error, newPhaseId){
+                    if(err) return handleError(err);
+                    res.json({ phaseId: newPhaseId });
+                });
+            });
+        });
+        
+    },
+
     // delete an application given an applicationId
     delete: function(req, res) {
-        var applicationId = req.body.applicationId;
+        var applicationId = req.params.id;
 
         Application.findByIdAndRemove(applicationId, function (err, application) {
             if (err) {
@@ -52,4 +78,9 @@ module.exports = {
             }
         });
     }
+}
+
+var handleError = function(code, err) {
+    console.error(err);
+    res.status(code).send(err);
 }

@@ -73,6 +73,23 @@ module.exports = function(app) {
     });
 
     /* 
+        Ends the current phase, creates a new phase if the 
+        ended phase was not a terminal phase and the application 
+        was not terminated by the user
+
+        PUT /application/{id}
+        Request Body:
+            - whether the application has been terminated or not (a boolean)
+        Response:
+            - phaseId: new phase id if a new one has been created
+            - error: error if there was one
+    */
+    app.put('/application/:id', function(req, res) {
+        ApplicationController.endPhase(req, res);
+    });
+
+
+    /* 
         Deletes the specified application and its associated phases and tasks
 
         DELETE /application/{id}
@@ -111,22 +128,6 @@ module.exports = function(app) {
     */
     app.post('/phases', function(req, res) {
         PhaseController.create(req, res);
-    });
-
-    /* 
-        Ends the phase if is not already ended, creates a new phase
-        if the ended phase was not a terminal phase and the application 
-        was not terminated by the user
-
-        PUT /phase/{id}
-        Request Body:
-            - whether the application has been terminated or not (a boolean)
-        Response:
-            - phaseId: new phase id if a new one has been created
-            - error: error if there was one
-    */
-    app.put('/phase/:id', function(req, res) {
-        PhaseController.update(req, res);
     });
 
     /* 

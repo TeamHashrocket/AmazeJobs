@@ -35,7 +35,7 @@ module.exports = {
 
     // modify existing task
     update: function(req, res) {
-        var taskId = req.body.taskId;
+        var taskId = req.params.id;
         var description = req.body.description;
         var dueDate = req.body.dueDate;
 
@@ -51,7 +51,7 @@ module.exports = {
 
     // delete task
     delete: function(req, res) {
-        var taskId = req.body.taskId;
+        var taskId = req.params.id;
 
         Task.findByIdAndRemove(taskId, function (err) {
             if (err) {
