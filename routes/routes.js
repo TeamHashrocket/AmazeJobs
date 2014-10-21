@@ -2,19 +2,26 @@ var UserController = require('./userController');
 var ApplicationController = require('./applicationController');
 var PhaseController = require('./phaseController');
 var TaskController = require('./taskController');
+var TaskController = require('./testController');
 
 module.exports = function(app) {
+    // Testing
+    app.get('/test' , function(req, res) {
+        testController.test(res);
+    });
+
+    // User
+    app.get('/login', function(req, res) {
     /* 
         Logs in the user via Google, adds them to the database
         if they don't exist, sets cookies
 
-        POST /login
-        Request Body:
-            -??
+        GET /login
+        Request Body: empty
         Response:
-            -??
+            - redirects to a google login page
+            - error: error if there was one
     */
-    app.post('/login', function(req, res) {
         UserController.login(req, res);
     });
 
@@ -31,16 +38,15 @@ module.exports = function(app) {
     });
 
     /* 
-        What the fuck is this
-
         GET /oauthcallback
         Request Body:
-            -??
+            - Oauth2callback from google
         Response:
+            - renders a homepage
             - error: error if there was one
     */
     app.get('/oauthcallback', function(req, res){
-        UserController.oauthcallback(req.query.code);
+        UserController.oauthcallback(req.query.code, res);
     });
 
     /*  
