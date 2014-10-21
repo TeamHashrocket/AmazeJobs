@@ -12,7 +12,7 @@ module.exports = {
 
         Application.find({ user:user }, function (err, applications) {
             if (err) return handleError(res, 500, err);
-            if (applications == null) return handleError(res, 404, "Cannot find applications for the user");
+            if (applications == null) return handleError(res, 404, 'Cannot find applications for the user');
 
             // all good! send them back
             console.log(applications)
@@ -39,14 +39,13 @@ module.exports = {
 
     // end current phase and start a new one if ended phase is not
     // terminal and user has not terminated the application
-    endPhase: function(req, res){
+    changePhase: function(req, res){
         var applicationId = req.params.id;
         var terminated = req.body.terminated == 'True' || req.body.terminated == 'true';
 
-        // update end date for current phase
         Application.findOne({ _id: applicationId }, function(err, application) {
             if (err) return handleError(res,  500, err);
-            if (application == null) return handleError(res,  404, "Application not found");
+            if (application == null) return handleError(res,  404, 'Application not found');
            
             var phaseId = application.currentPhase;
 
@@ -66,7 +65,7 @@ module.exports = {
     delete: function(req, res) {
         var applicationId = req.params.id;
 
-        if (applicationId === undefined) return handleError(res, 404, "No application found with null id");
+        if (applicationId === undefined) return handleError(res, 404, 'No application found with null id');
 
         console.log(applicationId)
 

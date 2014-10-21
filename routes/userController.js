@@ -12,9 +12,6 @@ module.exports = {
 
     // login existing users
     login: function(req, res) {
-        //Probably won't need this, can just read email from google given the permissions
-        var email = req.body.email;
-
         loginWithGoogle(res);
     },
 
@@ -61,6 +58,7 @@ var loginWithGoogle = function(res) {
 var savePersonalInfo = function(googlePlusInfo, req, res) {
     var name = googlePlusInfo.name.givenName; // + " " + googlePlusInfo.name.familyName;
     var email = null;
+
     // finds the email associated with the account
     for (var i = 0; i < googlePlusInfo.emails.length; i++) {
         var emailObject = googlePlusInfo.emails[i];
@@ -69,6 +67,7 @@ var savePersonalInfo = function(googlePlusInfo, req, res) {
         }
     }
 
+    // update name or insert anew if not in database
     User.findOneAndUpdate({ email:email }, { email:email, name:name }, {upsert: true}, function (err, user) {
         if (err) return handleError(res, 500, err);
 
