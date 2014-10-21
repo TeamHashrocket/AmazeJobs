@@ -111,7 +111,7 @@ module.exports = function(app) {
     /* 
         Gets all phases for a specific application
 
-        GET /phases
+        GET /application/{id}/phases
         Request Body: empty
         Response:
             - phases: list of Phases
@@ -124,7 +124,7 @@ module.exports = function(app) {
     /* 
         Creates a new phase in the given application
 
-        POST /phases
+        POST /application/{id}/phases
         Request Body:
             - phase type
         Response:
@@ -151,7 +151,7 @@ module.exports = function(app) {
     /* 
         Gets all the tasks associated with a specific phase
         
-        GET /tasks
+        GET /phase/{id}/tasks
         Request Body:
             - phase id
         Response:
@@ -165,7 +165,7 @@ module.exports = function(app) {
     /* 
         Creates a new task for the specified phase
 
-        POST /tasks
+        POST /phase/{id}/tasks
         Request Body:
             - description
             - due date (optional)
