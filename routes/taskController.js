@@ -19,6 +19,10 @@ module.exports = {
         var description = req.body.description;
         var dueDate = req.body.dueDate;
 
+        if (description === undefined || description == "") {
+            description = " ";
+        }
+
         var task = new Task({ phase: phaseId, description: description, dueDate: dueDate });
         
         task.save(function (err, newTask) {

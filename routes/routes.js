@@ -167,8 +167,8 @@ module.exports = function(app) {
 
         POST /phase/{id}/tasks
         Request Body:
-            - description
-            - due date (optional)
+            - description: description
+            - dueDate: due date (optional)
         Response:
             - taskId: new task id
             - error: error if there was one
@@ -183,8 +183,8 @@ module.exports = function(app) {
 
         PUT /task/{id}
         Request Body:
-            - description (optional)
-            - due date (optional)
+            - description: description (optional)
+            - dueDate: due date (optional)
         Response:
             - error: error if there was one
     */
