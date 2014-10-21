@@ -36,6 +36,7 @@ module.exports = {
 
         Phase.findByIdAndRemove(phaseId, function (err) {
             if (err) return handleError(res, 500, err);
+            res.json({ success:true });
         });
     }
     

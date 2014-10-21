@@ -33,8 +33,15 @@ module.exports = {
         var description = req.body.description;
         var dueDate = req.body.dueDate;
 
-        Task.update({ _id: taskId }, { description: description, dueDate: dueDate }, function (err) {
+        var updateFields = { description: description };
+        
+        if (dueDate){
+            updateFields = { description: description, dueDate: dueDate };
+        }
+        
+        Task.update({ _id: taskId }, updateFields, function (err) {
             if (err) return handleError(res, 500, err);
+            res.json({ success:true });
         });
     },
 
@@ -44,6 +51,7 @@ module.exports = {
 
         Task.findByIdAndRemove(taskId, function (err) {
             if (err) return handleError(res, 500, err);
+            res.json({ success:true });
         });
     }
 }

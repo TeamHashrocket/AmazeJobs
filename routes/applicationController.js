@@ -57,7 +57,7 @@ module.exports = {
 
         Application.findByIdAndRemove(applicationId, function (err, application) {
             if (err) return handleError(res, 500, err);
-            res.json({success:true});
+            res.json({ success:true });
         });
     }
 }
