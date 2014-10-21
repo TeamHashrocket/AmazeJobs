@@ -13,13 +13,13 @@ module.exports = function(app) {
     // User
     app.get('/login', function(req, res) {
     /* 
-        Logs in the user via Google, adds them to the database
-        if they don't exist, sets cookies
+        Logs in the user via Google OAuth2.0 by redirecting to 
+        Google. Once Google has received login/permssions, 
+        redirects to /oauthcallback.
 
         GET /login
         Request Body: empty
         Response:
-            - redirects to a google login page
             - error: error if there was one
     */
         UserController.login(req, res);
@@ -38,11 +38,14 @@ module.exports = function(app) {
     });
 
     /* 
+        Gets tokens from using the authorization code 
+        and saves them as the client tokens. Adds user to 
+        database if they don’t exist, sets cookies.
+
         GET /oauthcallback
         Request Body:
-            - Oauth2callback from google
+            - Oauth2callback from Google
         Response:
-            - renders a homepage
             - error: error if there was one
     */
     app.get('/oauthcallback', function(req, res){
