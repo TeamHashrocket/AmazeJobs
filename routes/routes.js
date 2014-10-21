@@ -112,7 +112,7 @@ module.exports = function(app) {
 
         GET /phases
         Request Body: 
-            - application id
+            - applicationId: application id
         Response:
             - phases: list of Phases
             - error: error if there was one

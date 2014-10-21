@@ -15,7 +15,8 @@ function ajax (params, url, restType, testName, success) {
         success     : function(data) { success(data); }
     });
 }
-
+// Tests require a user with the email hashr0ck3t@gmail.com to exist on the server first
+// cannot automate google login
 asyncTest("Create & Delete application", function() {
     expect(5);
 
@@ -47,6 +48,16 @@ asyncTest("Create & Delete application", function() {
 
 asyncTest("Testing Tasks", function() {
     expect(1);
-    ok(true,"YOLO")
+    
+    ajax({ userId:userId, companyName:"YOLOsoft" }, "/applications", "POST", "Create Application", function(data) {
+        ok(true, "Create Application");
+        var applicationId = data.applicationId;
+
+        ajax({applicationId:applicationId}, "/phases", "GET", function(data){
+            ok(true, "count initial phases")
+            var initialNumPhases = data.phases.length;
+            console.log(phases);
+        });
+    });
     start();
 });

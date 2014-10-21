@@ -5,7 +5,9 @@ module.exports = {
 
     // get all phases associated with id
     getAll: function(req, res){
-        var applicationId = req.body.applicationId;
+        var applicationId = req.query.applicationId;
+        console.log(applicationId);
+
 
         Phase.find({ application: applicationId }, function(err, phases){
             if (err) {
@@ -23,7 +25,7 @@ module.exports = {
     create: function(req, res){
         var applicationId = req.body.applicationId;
         var phaseType = req.body.phaseType;
-        
+
         var phase = new Phase({
             'phaseType': phaseType,
             'startDate': new Date(),
