@@ -420,7 +420,7 @@ asyncTest("Create Tasks With and Without Descriptions and Dates", function() {
 
 // Editing task descriptions, dates, and completed
 asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
-    expect(17);
+    expect(21);
     createApplication(function(data) {
         var applicationId = data.applicationId;
 
@@ -460,6 +460,7 @@ asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
                             }
 
                             var curTime = new Date();
+
                             editTask(taskId1, "Change 1", curTime, true, function(data) {
                                 getTasks(phaseId, function(data) {
                                     for (var i = 0; i<data.tasks.length; i++) {
@@ -544,7 +545,7 @@ asyncTest("Create and Delete Tasks With and Without Descriptions and Dates", fun
 
 // Creating tasks at distinct phases and editing tasks within them separately
 asyncTest("Create and Edit Tasks in Different Phases of Same Application", function() {
-    expect(17);
+    expect(20);
     createApplication(function(data) {
         var applicationId = data.applicationId;
 
