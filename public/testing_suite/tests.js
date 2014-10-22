@@ -44,8 +44,8 @@ function deleteTask(taskId, callback) {
     ajax({}, "/task/"+taskId, "DELETE", "Delete Task", callback);
 }
 
-function editTask(taskId, description, date, callback) {
-    ajax({description:description, dueDate:date}, "/task/"+taskId, "PUT", "Edited task", callback);
+function editTask(taskId, description, date, completed, callback) {
+    ajax({description:description, dueDate:date, completed:completed}, "/task/"+taskId, "PUT", "Edited task", callback);
 }
 
 function getTasks(phaseId, callback) {
@@ -418,8 +418,8 @@ asyncTest("Create Tasks With and Without Descriptions and Dates", function() {
     });
 });
 
-// Editing task descriptions
-asyncTest("Edit Task Descriptions and Dates", function() {
+// Editing task descriptions, dates, and completed
+asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
     expect(17);
     createApplication(function(data) {
         var applicationId = data.applicationId;
@@ -450,15 +450,17 @@ asyncTest("Edit Task Descriptions and Dates", function() {
                                 if (task._id == taskId1) {
                                     equal(task.description, " ", "Test Empty Task Description");
                                     equal(task.dueDate, undefined, "Test Empty Due Date");
+                                    equal(task.completed, false, "Test False Completed");
 
                                 } else if (task._id == taskId2) {
                                     equal(task.description, " ", "Test Empty Task Description");
                                     equal(task.dueDate, undefined, "Test Empty Due Date");
+                                    equal(task.completed, false, "Test False Completed");
                                 }
                             }
 
                             var curTime = new Date();
-                            editTask(taskId1, "Change 1", curTime, function(data) {
+                            editTask(taskId1, "Change 1", curTime, true, function(data) {
                                 getTasks(phaseId, function(data) {
                                     for (var i = 0; i<data.tasks.length; i++) {
                                         var task = data.tasks[i];
@@ -466,10 +468,12 @@ asyncTest("Edit Task Descriptions and Dates", function() {
                                         if (task._id == taskId1) {
                                             equal(task.description, "Change 1", "Test edit 1");
                                             equal(toString(new Date(task.dueDate)), toString(curTime), "Test edit 1");
+                                            equal(task.completed, true, "Test edit 1");
 
                                         } else if (task._id == taskId2) {
                                             equal(task.description, " ", "Make sure edit 1 didnt change task 2 description");
                                             equal(task.dueDate, undefined, "Make sure edit 1 didnt change task 2 date");
+                                            equal(task.completed, false, "Make sure edit 1 didnt change task 2 completed");
                                         }
                                     }
 
@@ -572,6 +576,7 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
                                     if (task._id == taskId2) {
                                         equal(task.description, " ", "Test New Task Description");
                                         equal(task.dueDate, undefined, "Test New Task Due Date");
+                                        equal(task.completed, false, "Test New Task Completed");
 
                                     } else if (task._id == taskId1) {
                                         ok(false, "Old task was found in new phase");
@@ -579,7 +584,7 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
                                 }
                                 var curTime = new Date();
 
-                                editTask(taskId2, "Change 2", curTime, function(data) {
+                                editTask(taskId2, "Change 2", curTime, true, function(data) {
                                     getTasks(phaseId2, function(data) {
                                         for (var i = 0; i<data.tasks.length; i++) {
                                             var task = data.tasks[i];
@@ -587,6 +592,7 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
                                             if (task._id == taskId2) {
                                                 equal(task.description, "Change 2", "Test edit 2 Description");
                                                 equal(toString(new Date(task.dueDate)), toString(curTime), "Test edit 2 Date");
+                                                equal(task.completed, true, "Test edit 2 completed");
 
                                             } else if (task._id == taskId1) {
                                                 ok(false, "Old task was found in new phase");
@@ -600,6 +606,7 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
                                                 if (task._id == taskId1) {
                                                     equal(task.description, " ", "Test Old Task Description");
                                                     equal(task.dueDate, undefined, "Test Old Task Date");
+                                                    equal(task.completed, false, "Test Old Task Completed");
 
                                                 } else if (task._id == taskId2) {
                                                     ok(false, "New task was found in old phase");
