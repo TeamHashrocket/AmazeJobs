@@ -9,24 +9,9 @@ module.exports = {
 
         Phase.find({ application: applicationId }, function(err, phases){
             if (err) return handleError(res, 500, err);
+            if (phases == undefined) return handleError(res, 404, 'Phases not found');
+
             res.json({ phases: phases });
-        });
-    },
-
-    // create new phase
-    create: function(req, res){
-        var applicationId = req.params.id;
-        var phaseType = req.body.phaseType;
-
-        var phase = new Phase({
-            'phaseType': phaseType,
-            'startDate': new Date(),
-            'application': applicationId
-        });
-
-        phase.save(function(error, newPhase){
-            if (error) return handleError(res, 500, err);
-            res.json({ phaseId: newPhase.id });
         });
     },
 
@@ -34,9 +19,15 @@ module.exports = {
     delete: function(req, res){
         var phaseId = req.params.id;
 
-        Phase.findByIdAndRemove(phaseId, function (err) {
+        Phase.findOne({ _id: phaseId }, function (err, phase) {
             if (err) return handleError(res, 500, err);
-            res.json({ success:true });
+            if (phase == undefined) return handleError(res, 404, "Phase not found");
+
+            // remove, not findByIdAndRemove because we have middleware
+            phase.remove(function(error) {
+                if (err) return handleError(res, 500, err);
+                res.json({ success:true });
+            });
         });
     }
     

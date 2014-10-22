@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Task = require('../models/task');
 
 var PhaseSchema = new Schema({
     phaseType: { type: String, enum: ['Applying', 'Interviewing', 'Offered', 'Terminated'], required: true },
@@ -42,6 +43,16 @@ PhaseSchema.methods.endPhase = function(terminated, callback) {
         callback(error, savedPhase.id);
     });
 }
+
+// delete the phase and its associated tasks
+PhaseSchema.pre('remove', function(next) {
+    var phase = this;
+
+    // delete all tasks associated with this phase
+    Task.find({ phase: phase.id }).remove(function(err) {
+        next(err);
+    });
+});
 
 
 // determine the next phase type based on the current phase type

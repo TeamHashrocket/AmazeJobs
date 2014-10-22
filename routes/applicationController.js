@@ -10,7 +10,7 @@ module.exports = {
 
         Application.find({ user:user }, function (err, applications) {
             if (err) return handleError(res, 500, err);
-            if (applications == null) return handleError(res, 404, 'Cannot find applications for the user');
+            if (applications == undefined) return handleError(res, 404, 'Applications not found');
 
             // all good! send them back
             res.json({ applications:applications });
@@ -40,7 +40,7 @@ module.exports = {
 
         Application.findOne({ _id: applicationId }, function(err, application) {
             if (err) return handleError(res,  500, err);
-            if (application == null) return handleError(res,  404, 'Application not found');
+            if (application == undefined) return handleError(res,  404, 'Application not found');
 
             application.changePhase(terminated, function(error, newPhaseId) {
                 if(error) return handleError(res, 500, err);
@@ -53,11 +53,15 @@ module.exports = {
     delete: function(req, res) {
         var applicationId = req.params.id;
 
-        if (applicationId === undefined) return handleError(res, 404, 'No application found with null id');
-
-        Application.findByIdAndRemove(applicationId, function (err, application) {
+        Application.findOne({ _id: applicationId }, function (err, application) {
             if (err) return handleError(res, 500, err);
-            res.json({ success:true });
+            if (application == undefined) return handleError(res, 404, "Application not found");
+
+            // remove, not findByIdAndRemove because we have middleware
+            application.remove(function(error) {
+                if (err) return handleError(res, 500, err);
+                res.json({ success:true });
+            });
         });
     }
 }

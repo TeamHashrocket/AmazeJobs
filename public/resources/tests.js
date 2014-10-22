@@ -33,7 +33,7 @@ function getPhases(applicationId, callback) {
 }
 
 function changePhase(applicationId, terminated, callback) {
-    ajax({terminated:terminated}, "/application/"+applicationId, "PUT", terminated ? "Terminate Phase" : "Change Phase", callback)
+    ajax({terminated:terminated}, "/application/"+applicationId+"/phases", "POST", terminated ? "Terminate Phase" : "Change Phase", callback)
 }
 
 function createTask(phaseId, description, callback) {

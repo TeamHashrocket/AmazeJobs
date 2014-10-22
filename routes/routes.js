@@ -84,14 +84,14 @@ module.exports = function(app) {
         ended phase was not a terminal phase and the application 
         was not terminated by the user
 
-        PUT /application/{id}
+        POST /application/{id}/phases
         Request Body:
             - terminated: whether the application has been terminated or not (a boolean)
         Response:
             - phaseId: new phase id if a new one has been created
             - error: error if there was one
     */
-    app.put('/application/:id', function(req, res) {
+    app.post('/application/:id/phases', function(req, res) {
         ApplicationController.changePhase(req, res);
     });
 
@@ -119,20 +119,6 @@ module.exports = function(app) {
     */
     app.get('/application/:id/phases', function(req, res) {
         PhaseController.getAll(req, res);
-    });
-
-    /* 
-        Creates a new phase in the given application
-
-        POST /application/{id}/phases
-        Request Body:
-            - phase type
-        Response:
-            - phaseId: new phase id
-            - error: error if there was one
-    */
-    app.post('/application/:id/phases', function(req, res) {
-        PhaseController.create(req, res);
     });
 
     /* 
@@ -185,6 +171,7 @@ module.exports = function(app) {
         Request Body:
             - description: description (optional)
             - dueDate: due date (optional)
+            - completed: if task is completed, a boolean (optional)
         Response:
             - error: error if there was one
     */
