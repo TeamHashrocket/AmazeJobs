@@ -2,16 +2,14 @@ var UserController = require('./userController');
 var ApplicationController = require('./applicationController');
 var PhaseController = require('./phaseController');
 var TaskController = require('./taskController');
-var TestController = require('../public/resources/testController');
+var TestController = require('./testController');
 
 module.exports = function(app) {
-    // Testing
+    // Runs testing suite
     app.get('/test' , function(req, res) {
         TestController.test(res);
     });
 
-    // User
-    app.get('/login', function(req, res) {
     /* 
         Logs in the user via Google OAuth2.0 by redirecting to 
         Google. Once Google has received login/permssions, 
@@ -22,6 +20,7 @@ module.exports = function(app) {
         Response:
             - error: error if there was one
     */
+    app.get('/login', function(req, res) {
         UserController.login(req, res);
     });
 
