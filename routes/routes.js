@@ -163,8 +163,7 @@ module.exports = function(app) {
     });
 
     /* 
-        Modifies the task. If due date is given, populates a 
-        calendar event and shares it with the user
+        Modifies the task's fields
 
         PUT /task/{id}
         Request Body:
