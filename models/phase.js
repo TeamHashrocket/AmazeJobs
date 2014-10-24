@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var Task = require('../models/task');
 
 var PhaseSchema = new Schema({
-    phaseType: { type: String, enum: ['Applying', 'Interviewing', 'Offered', 'Terminated'], required: true },
+    phaseType: { type: String, enum: ['Applying', 'Interviewing', 'Offered', 'Terminated', 'Accepted'], required: true },
     startDate: { type: Date, required: true },
     application: { type: mongoose.Schema.Types.ObjectId, ref: 'Application', required: true },
     endDate: { type: Date }
@@ -62,8 +62,10 @@ var getNextPhase = function(phaseType) {
         return 'Interviewing';
     if (phaseType == 'Interviewing')
         return 'Offered';
+    if (phaseType == 'Offered')
+        return 'Accepted';
 
-    // Offered and Terminated are terminal phases
+    // Accepted and Terminated are terminal phases
     return 'Done';
 }
 
