@@ -5,6 +5,10 @@ var TaskController = require('./taskController');
 var TestController = require('./testController');
 
 module.exports = function(app) {
+    app.get('/' , function(req, res) {
+        res.render('index');
+    });
+    
     // Runs testing suite
     app.get('/test' , function(req, res) {
         TestController.test(res);
