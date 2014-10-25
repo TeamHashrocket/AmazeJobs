@@ -104,7 +104,7 @@ asyncTest("Create & Delete applications", function() {
 // goes through all phases except terminated also checks that you cant
 // go past offered without terminating
 asyncTest("Go Through All Phases", function() {
-    expect(12);
+    expect(15);
     createApplication(function(data) {
         var applicationId = data.applicationId;
 
@@ -146,11 +146,26 @@ asyncTest("Go Through All Phases", function() {
                                 phaseId = data.phaseId;
 
                                 changePhase(applicationId, false, function(data) {
-                                    phaseId = data.phaseId;
-                                    equal(phaseId, undefined, "Does not go past Offered");
+                                phaseId = data.phaseId;
 
-                                    start();
+                                getPhases(applicationId, function(data) {
+                                    for (var i=0; i<data.phases.length; i++) {
+                                        phase = data.phases[i];
+                                        if (phaseId == phase._id) {
+                                            break;
+                                        }
+                                    }
+                                    equal(phase.phaseType, "Accepted", "Checking Phase");
+                                    phaseId = data.phaseId;
+
+                                    changePhase(applicationId, false, function(data) {
+                                        phaseId = data.phaseId;
+                                        equal(phaseId, undefined, "Does not go past Accepted");
+
+                                        start();
+                                    });
                                 });
+                            });
                             });
                         });
                     });
