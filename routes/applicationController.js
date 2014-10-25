@@ -8,12 +8,14 @@ module.exports = {
     getAll: function(req, res) {
         var user = req.params.id;
 
-        Application.find({ user:user }, function (err, applications) {
-            if (err) return handleError(res, 500, err);
-            if (applications == undefined) return handleError(res, 404, 'Applications not found');
+        Application.find({ user:user }).exec(function (err, applications) {
+            Application.populate(applications, { path: "currentPhase" }, function (err, applications) {
+                if (err) return handleError(res, 500, err);
+                if (applications == undefined) return handleError(res, 404, 'Applications not found');
 
-            // all good! send them back
-            res.json({ applications:applications });
+                // all good! send them back
+                res.json({ applications:applications });
+            });
         });
     },
 

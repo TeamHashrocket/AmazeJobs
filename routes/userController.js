@@ -8,7 +8,7 @@ var OAuth2 = google.auth.OAuth2;
 // var oauth2Client = new OAuth2('563808076610-dm5h337nmlaq48iktd6crdqqmkba6b0a.apps.googleusercontent.com', 'iFc-NLyc_MVlscfM_ihyHuAb', 'http://tardis.mit.edu:8080/oauthcallback');
 // var oauth2Client = new OAuth2('563808076610-otrdufoeerabtegnb9hua7ac5cuolj1v.apps.googleusercontent.com', 'SVdWatbvETNR87cS4Vg9z4I7', 'https://hakin.mit.edu:8080/oauthcallback');
 // openshift
-var oauth2Client = new OAuth2('563808076610-qk1rp29poub2fpnmdm26tf5n16cd81pl.apps.googleusercontent.com', 's9co0tkklFmv9d2Va47sSXV1', 'http://amazejobs-hashrocket.rhcloud.com/oauthcallback');
+var oauth2Client = new OAuth2('563808076610-qk1rp29poub2fpnmdm26tf5n16cd81pl.apps.googleusercontent.com', 's9co0tkklFmv9d2Va47sSXV1', 'http://localhost:8080/oauthcallback');
 module.exports = {
 
     // login existing users
@@ -63,7 +63,7 @@ var savePersonalInfo = function(googlePlusInfo, req, res) {
     // finds the email associated with the account
     for (var i = 0; i < googlePlusInfo.emails.length; i++) {
         var emailObject = googlePlusInfo.emails[i];
-        if (emailObject.type == "account") {
+        if (emailObject.type == 'account') {
             email = emailObject.value;
         }
     }
@@ -72,8 +72,8 @@ var savePersonalInfo = function(googlePlusInfo, req, res) {
     User.findOneAndUpdate({ email:email }, { email:email, name:name }, {upsert: true}, function (err, user) {
         if (err) return handleError(res, 500, err);
 
-        req.session.email = email;
+        req.session.userId = user.id;
         req.session.save();
-        res.redirect("/");
+        res.redirect('/');
     });
 }

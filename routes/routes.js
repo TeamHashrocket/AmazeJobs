@@ -8,7 +8,7 @@ module.exports = function(app) {
     app.get('/' , function(req, res) {
         // already logged in, render apps page
         if (req.session.userId != undefined) {
-            return res.render('index', {});
+            return res.render('index');
         } else {
             // not logged in, render login
             res.render('login');
