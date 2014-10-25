@@ -6,7 +6,13 @@ var TestController = require('./testController');
 
 module.exports = function(app) {
     app.get('/' , function(req, res) {
-        res.render('index');
+        // already logged in, render apps page
+        if (req.session.userId != undefined) {
+            return res.render('index', {});
+        }
+        
+        // not logged in, render login
+        res.render('login');
     });
     
     // Runs testing suite
