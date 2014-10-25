@@ -19,6 +19,21 @@ module.exports = {
         });
     },
 
+    // get all tasks of the active phase of the application
+    getTasks: function(req, res) {
+        var application = req.params.id;
+
+        Application.findOne({ _id: application }, function (err, application) {
+            application.getTasks(function (err, tasks) {
+                if (err) return handleError(res, 500, err);
+                if (tasks == undefined) return handleError(res, 404, 'Tasks not found');
+
+                // tasks is {completeTasks:completeTasks, pendingTasks:pendingTasks}
+                res.json(tasks);
+            });
+        });
+    },
+
     // create an application given an owner and a company name
     create: function(req, res) {
         var user = req.params.id;

@@ -1,0 +1,13 @@
+{{#each tasks}}
+    {{> task}}
+{{/each}}
+
+<a href='#' class='add-task'>+ Add Task... (MM/DD/YYYY)</a>
+<div class='footer'>
+    <button class='delete-application'>Delete</button>
+
+    {{#if nextPhase}}
+        <button class='next-phase'>{{nextPhase}}</button>
+        <button class='terminate'>Terminate</button>
+    {{/if}}
+</div>

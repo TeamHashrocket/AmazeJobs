@@ -1,18 +1,3 @@
 <div class='application' app-id={{application._id}}>
     <p>{{application.companyName}} {{application.currentPhase.phaseType}}</p>
-    
-    {{#each tasks}}
-        {{> task}}
-    {{/each}}
-
-    <a href='#' class='add-task'>+ Add Task... (MM/DD/YYYY)</a>
-    <div class='footer'>
-        <button class='delete-application'>Delete</button>
-
-        {{#if nextPhase}}
-            <button class='next-phase'>{{nextPhase}}</button>
-            <button class='terminate'>Terminate</button>
-        {{/if}}
-    </div>
-
 </div>

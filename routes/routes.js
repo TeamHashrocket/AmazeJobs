@@ -8,7 +8,9 @@ module.exports = function(app) {
     app.get('/' , function(req, res) {
         // already logged in, render apps page
         if (req.session.userId != undefined) {
+            console.log(req.session.userId);
             return res.render('index');
+
         } else {
             // not logged in, render login
             res.render('login');
@@ -64,7 +66,7 @@ module.exports = function(app) {
     /*  
         Get all of the applications associated with the user
 
-        GET /applications
+        GET /user/{id}/applications
         Request Body: empty
         Response:
             - applications: list of Applications
@@ -77,7 +79,7 @@ module.exports = function(app) {
     /* 
         Creates a new application for a specified user
         
-        POST /applications
+        POST /user/{id}/applications
         Request Body: 
             - companyName: company name
         Response:
@@ -86,6 +88,21 @@ module.exports = function(app) {
     */
     app.post('/user/:id/applications', function(req, res) {
         ApplicationController.create(req, res);
+    });
+
+    /*  
+        Get all of the tasks associated with the active phase 
+        of the application, separated into complete/incomplete
+
+        GET /application/{id}/tasks
+        Request Body: empty
+        Response:
+            - completeTasks: list of complete Tasks
+            - pendingTasks: list of pending Tasks
+            - error: error if there was one
+    */
+    app.get('/application/:id/tasks', function(req, res) {
+        ApplicationController.getTasks(req, res);
     });
 
     /* 
