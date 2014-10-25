@@ -9,10 +9,10 @@ module.exports = function(app) {
         // already logged in, render apps page
         if (req.session.userId != undefined) {
             return res.render('index', {});
+        } else {
+            // not logged in, render login
+            res.render('login');
         }
-        
-        // not logged in, render login
-        res.render('login');
     });
     
     // Runs testing suite
