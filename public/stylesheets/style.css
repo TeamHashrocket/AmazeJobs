@@ -1,8 +1,43 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  background-image:url("/images/bg.png");
+}
+
+.title {
+    text-align: center;
+    font-family: "HelveticaNeue-UltraLight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 70px !important;
+}
+
+.subtitle {
+    font-size: 30px !important;
 }
 
 a {
   color: #00B7FF;
+}
+
+.text-centered {
+    text-align: center;
+}
+
+.abscentered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bg {
+    background-color: white;
+    padding: 15px;
+    border: 0px solid;
+    border-radius: 25px;
+}
+
+.out-text {
+    color:white;
+    text-shadow: 1px 1px 1px black;
+    padding-bottom: 20px;
 }
