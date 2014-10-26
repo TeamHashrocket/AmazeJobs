@@ -1,4 +1,4 @@
-$(document).on('click', '#new-application', function(event) {
+$(document).on('click', '#new-application-button', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application']);
 });
 
@@ -36,9 +36,12 @@ $(document).on('click', '#delete-application', function(event) {
     });
 });
 
+Handlebars.registerPartial('application', Handlebars.templates['application']);
+Handlebars.registerPartial('applications', Handlebars.templates['applications']);
+
 function addApplication(application) {
     var list = $('#application-list');
-    list.prepend(Handlebars.templates['application']({
+    list.append(Handlebars.templates['application']({
         application: application
     }));
 }

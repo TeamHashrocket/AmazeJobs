@@ -30,7 +30,12 @@ module.exports = {
 
         newApplication.save(function (err, application) {
             if (err) return handleError(res, 500, err);
-            res.json({ applicationId:application._id });
+
+            // make a new phase as soon as we get an application going
+            application.changePhase(false, function(error) {
+                if (error) return handleError(res, 500, error);
+                res.json({ applicationId:application._id });
+            })
         });
     },
 
