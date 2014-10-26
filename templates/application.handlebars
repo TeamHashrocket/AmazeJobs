@@ -1,19 +1,19 @@
 <div class='title' app-id={{application._id}}>
     {{application.companyName}}
-    <div style="float:right;" phase-identifier="{{application._id}}">
+    <div style='float:right;' phase-identifier={{application._id}}>
         {{application.currentPhase.phaseType}}
     </div>
 </div>
-<div class='content' app-id={{_id}}>
+<div class='content' app-id={{application._id}}>
     {{>task}}
-    <div id='delete-application' class="ui red button">
+    <div id='delete-application' class='ui red button'>
         Delete
     </div>
-    <div style="float:right;">
-        <div id='change-phase' class="ui button">
+    <div style='float:right;'>
+        <div id='change-phase' class='ui button'>
             Next
         </div>
-        <div id='terminate-application' class="ui button right-buttons">
+        <div id='terminate-application' class='ui button right-buttons'>
             Terminate
         </div>
     </div>
