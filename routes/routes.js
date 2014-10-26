@@ -8,7 +8,6 @@ module.exports = function(app) {
     app.get('/' , function(req, res) {
         // already logged in, render apps page
         if (req.session.userId != undefined) {
-            console.log(req.session.userId);
             return res.render('index');
 
         } else {
@@ -76,6 +75,19 @@ module.exports = function(app) {
     */
     app.get('/user/:id/tasks', function(req, res) {
         UserController.getTasks(req, res);
+    });
+
+    /*  
+        Get the logged in user
+
+        GET /user
+        Request Body: empty
+        Response:
+            - user: the user
+            - error: error if there was one
+    */
+    app.get('/user', function(req, res) {
+        UserController.getLoggedInUser(req, res);
     });
 
     /*  
