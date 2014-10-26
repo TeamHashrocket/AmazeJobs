@@ -30,6 +30,7 @@ $(document).ready(function() {
                     // add to the accumulating tasks
                     pendingTasks = pendingTasks.concat(response.pendingTasks);
                     completedTasks = completedTasks.concat(response.completedTasks);
+
                 }).fail(function(error) {
                     console.log(error);
                 });
@@ -38,7 +39,6 @@ $(document).ready(function() {
             // sort tasks
             pendingTasks = sortByDueDate(pendingTasks);
             completedTasks = sortByDueDate(completedTasks);
-
             // display tasks
             addAllTasks(pendingTasks, completedTasks);
 

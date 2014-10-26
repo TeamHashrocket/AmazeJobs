@@ -57,13 +57,11 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
 // get all complete and pending tasks of the current phase
 ApplicationSchema.methods.getTasks = function(callback) {
     var application = this;
-
     // get complete tasks
-    Task.find({ phase: this.currentPhase, complete: true }, function(err, completedTasks) {
+    Task.find({ phase: application.currentPhase, completed: true }, function(err, completedTasks) {
         if (err) return callback(err);
-
         // get pending tasks
-        Task.find({ phase: this.currentPhase, complete: false }, function(error, pendingTasks) {
+        Task.find({ phase: application.currentPhase, completed: false }, function(error, pendingTasks) {
             callback(error, { completedTasks:completedTasks, pendingTasks:pendingTasks });
         });
     });
