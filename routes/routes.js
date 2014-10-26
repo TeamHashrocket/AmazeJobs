@@ -63,21 +63,6 @@ module.exports = function(app) {
     });
 
     /*  
-        Get all of the tasks associated with the active phases
-        of the applications of the user, separated into complete/incomplete
-
-        GET /user/{id}/tasks
-        Request Body: empty
-        Response:
-            - completeTasks: sorted list of complete Tasks
-            - pendingTasks: sorted list of pending Tasks
-            - error: error if there was one
-    */
-    app.get('/user/:id/tasks', function(req, res) {
-        UserController.getTasks(req, res);
-    });
-
-    /*  
         Get the logged in user
 
         GET /user
@@ -101,6 +86,21 @@ module.exports = function(app) {
     */
     app.get('/user/:id/applications', function(req, res) {
         ApplicationController.getAll(req, res);
+    });
+
+    /*  
+        Get all of the tasks associated with the active phase, 
+        separated into complete/incomplete
+
+        GET /application/{id}/tasks
+        Request Body: empty
+        Response:
+            - completeTasks: sorted list of complete Tasks
+            - pendingTasks: sorted list of pending Tasks
+            - error: error if there was one
+    */
+    app.get('/application/:id/tasks', function(req, res) {
+        ApplicationController.getTasks(req, res);
     });
 
     /* 

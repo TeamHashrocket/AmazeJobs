@@ -1,18 +1,18 @@
-<div class='title' app-id={{_id}}>
-	{{#if currentPhase.phaseType}}
-    	{{companyName}} {{currentPhase.phaseType}}
+<div class='title' app-id={{application._id}}>
+    {{#if application.currentPhase.phaseType}}
+        {{application.companyName}} {{application.currentPhase.phaseType}}
     {{else}}
-    	{{companyName}} Applying
-	{{/if}}
+        {{application.companyName}} Applying
+    {{/if}}
 </div>
 <div class='content' app-id={{_id}}>
-    <div class="ui red button">
+    <div id='delete-application' class="ui red button">
         Delete
     </div>
-    <div class="ui button">
+    <div id='change-phase' class="ui button">
         Next
     </div>
-    <div class="ui button right-buttons">
+    <div id='terminate-application' class="ui button right-buttons">
         Terminate
     </div>
 </div>

@@ -1,7 +1,9 @@
+// insert input field for new application
 $(document).on('click', '#new-application-button', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application']);
 });
 
+// make a new application
 $(document).on('keydown', '#new-application-input', function(event) {
     // only care about enter being pressed
     if(event.which != 13) {
@@ -37,23 +39,11 @@ $(document).on('click', '#delete-application', function(event) {
 });
 
 Handlebars.registerPartial('application', Handlebars.templates['application']);
-Handlebars.registerPartial('applications', Handlebars.templates['applications']);
 
 function addApplication(application) {
     var list = $('#application-list');
-    list.append(Handlebars.templates['application']({
-        _id: application.id,
-        companyName: application.companyName
-    }));
-
-    $('.ui.accordion').accordion();
-}
-
-function addAllApplications(applications) {
-    var list = $('#applications');
-    console.log(applications)
-    list.append(Handlebars.templates['applications']({
-        applications: applications
+    list.prepend(Handlebars.templates['application']({
+        application: application
     }));
 
     $('.ui.accordion').accordion();
