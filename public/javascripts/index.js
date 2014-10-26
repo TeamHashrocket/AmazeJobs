@@ -1,6 +1,7 @@
 var userId = undefined;
 
 $(document).ready(function() {
+    $('#upper-right').append(Handlebars.templates['new-application-button']);
 
     $(document).on('click', '#logout', function(){
         $.post('/logout/').done(function(response){
