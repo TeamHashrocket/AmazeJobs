@@ -39,6 +39,24 @@ module.exports = {
         });
     },
 
+    // get all tasks of the active phase
+    getTasks: function(req, res) {
+        var application = req.params.id;
+
+        Application.findOne({ _id: application }, function (err, application) {
+            if (err) return handleError(res, 500, err);
+            if (application == undefined) return handleError(res, 404, 'Application not found');
+
+            application.getTasks(function (err, tasks) {
+                if (err) return handleError(res, 500, err);
+                if (tasks == undefined) return handleError(res, 404, 'Tasks not found');
+
+                // tasks is {completeTasks:completeTasks, pendingTasks:pendingTasks}
+                res.json(tasks);
+            });
+        });
+    },
+
     // end current phase and start a new one if ended phase is not
     // terminal and user has not terminated the application
     changePhase: function(req, res) {

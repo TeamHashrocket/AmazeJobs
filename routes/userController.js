@@ -52,24 +52,6 @@ module.exports = {
             if (user == undefined) return handleError(res, 404, 'User not found');
             res.json({ user: user });
         });
-    },
-
-    // get all tasks of the active phases of the applications of the user
-    getTasks: function(req, res) {
-        var user = req.params.id;
-
-        User.findOne({ _id: user }, function (err, user) {
-            if (err) return handleError(res, 500, err);
-            if (user == undefined) return handleError(res, 404, 'User not found');
-
-            user.getTasks(function (err, tasks) {
-                if (err) return handleError(res, 500, err);
-                if (tasks == undefined) return handleError(res, 404, 'Tasks not found');
-
-                // tasks is {completeTasks:completeTasks, pendingTasks:pendingTasks}
-                res.json(tasks);
-            });
-        });
     }
 }
 
