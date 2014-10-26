@@ -44,11 +44,14 @@ Handlebars.registerPartial('applications', Handlebars.templates['applications'])
 function addApplication(application) {
     var list = $('#application-list');
     list.append(Handlebars.templates['application']({
-        application: application
+        _id: application.id,
+        companyName: application.companyName,
+        currentPhase: { phaseType: application.currentPhase.phaseType }
     }));
 }
 
 function addAllApplications(applications) {
+    console.log(applications);
     var list = $('#application-list');
     list.append(Handlebars.templates['applications']({
         applications: applications
