@@ -15,7 +15,7 @@ var phaseChange = function(terminated, that) {
         var phase = response.phase;
 
         if (phase != null) {
-            var phaseText = $('#p'+appId);
+            var phaseText = $('[phase-identifier='+appId+']');
             phaseText.html(phase.phaseType);
         }
 
