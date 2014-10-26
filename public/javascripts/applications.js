@@ -51,8 +51,7 @@ function addApplication(application) {
 }
 
 function addAllApplications(applications) {
-    console.log(applications);
-    var list = $('#application-list');
+    var list = $('#applications');
     list.append(Handlebars.templates['applications']({
         applications: applications
     }));
