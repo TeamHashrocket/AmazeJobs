@@ -48,11 +48,16 @@ function addApplication(application) {
         companyName: application.companyName,
         currentPhase: { phaseType: application.currentPhase.phaseType }
     }));
+
+    $('.ui.accordion').accordion();
 }
 
 function addAllApplications(applications) {
     var list = $('#applications');
+    console.log(applications)
     list.append(Handlebars.templates['applications']({
         applications: applications
     }));
+
+    $('.ui.accordion').accordion();
 }
