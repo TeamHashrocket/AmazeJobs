@@ -18,7 +18,7 @@ $(document).ready(function() {
             var applications = response.applications;
 
             // display applications
-            displayApplications(applications);
+            addAllApplications(applications);
 
             // get all tasks
             $.get('/user/' + userId + '/tasks', function(response) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
                 var completedTasks = response.pendingTasks;
 
                 // display tasks
-                displayTasks(pendingTasks, completedTasks);
+                addAllTasks(pendingTasks, completedTasks);
             });
         });
 
