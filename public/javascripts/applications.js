@@ -49,7 +49,7 @@ function addApplication(application) {
 }
 
 function addAllApplications(applications) {
-    var list = $('#application-list');
+    var list = $('#applications');
     list.append(Handlebars.templates['applications']({
         applications: applications
     }));
