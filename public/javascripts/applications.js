@@ -3,8 +3,8 @@ $(document).on('click', '#new-application-button', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application']);
 });
 
-var phaseChange = function(terminated) {
-    var appId = $(this).parent().parent().attr('app-id');
+var phaseChange = function(terminated, that) {
+    var appId = $(that).parent().parent().attr('app-id');
 
     $.post(
         '/application/' + appId + '/phases',
@@ -26,12 +26,12 @@ var phaseChange = function(terminated) {
 
 // phase change button
 $(document).on('click', '#change-phase', function(event) {
-    phaseChange(false);
+    phaseChange(false, this);
 });
 
 // phase change button
 $(document).on('click', '#terminate-application', function(event) {
-    phaseChange(true);
+    phaseChange(true, this);
 });
 
 // make a new application
