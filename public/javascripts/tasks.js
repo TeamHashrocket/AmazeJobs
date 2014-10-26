@@ -14,7 +14,7 @@ $(document).on('submit', '#new-task', function(event) {
     ).done(function(response) {
         addApplication(response.application);
     }).fail(function(error) {
-        console.log(error);
+        handleError(error);
     });
 });
 
@@ -34,7 +34,7 @@ $(document).on('submit', '.task', function(event) {
         ).done(function(response) {
             // idk???
         }).fail(function(error) {
-            console.log(error);
+            handleError(error);
         });
     } else { // if empty description, delete it
         $.delete(
@@ -42,10 +42,12 @@ $(document).on('submit', '.task', function(event) {
         ).done(function(response) {
             item.remove();
         }).fail(function(error) {
-            console.log(error);
+            handleError(error);
         });
     }
 });
+
+Handlebars.registerPartial('task', Handlebars.templates['task']);
 
 // add all tasks to the UI
 function addAllTasks(pendingTasks, completedTasks) {

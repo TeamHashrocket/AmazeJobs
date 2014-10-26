@@ -32,7 +32,7 @@ $(document).ready(function() {
                     completedTasks = completedTasks.concat(response.completedTasks);
 
                 }).fail(function(error) {
-                    console.log(error);
+                    handleError(error);
                 });
             });
 
@@ -43,11 +43,11 @@ $(document).ready(function() {
             addAllTasks(pendingTasks, completedTasks);
 
         }).fail(function(error) {
-            console.log(error);
+            handleError(error);
         });
 
     }).fail(function(error) {
-        console.log(error);
+        handleError(error);
     });
 });
 
@@ -58,6 +58,6 @@ $(document).on('click', '#logout', function(){
     ).done(function(response){
         location.replace('/');
     }).fail(function(error){
-        console.log(error);
+        handleError(error);
     });
 });

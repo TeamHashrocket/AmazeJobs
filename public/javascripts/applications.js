@@ -20,7 +20,7 @@ var phaseChange = function(terminated) {
         }
 
     }).fail(function(error) {
-        console.log(error);
+        handleError(error);
     });
 };
 
@@ -44,6 +44,10 @@ $(document).on('keydown', '#new-application-input', function(event) {
     event.preventDefault();
     var companyName = $("input[name=companyName]").val();
 
+    if (companyName == '') {
+        return showError('Please enter a company name');
+    }
+
     // put the new application button back
     $(this).replaceWith(Handlebars.templates['new-application-button']);
     
@@ -55,7 +59,7 @@ $(document).on('keydown', '#new-application-input', function(event) {
         response.application.currentPhase = { phaseType: 'Applying' };
         addApplication(response.application);
     }).fail(function(error) {
-        console.log(error);
+        handleError(error);
     });
 });
 
@@ -71,7 +75,7 @@ $(document).on('click', '#delete-application', function(event) {
         var application = $('[app-id=' + id + ']');
         application.remove();
     }).fail(function(error) {
-        console.log(error);
+        handleError(error);
     });
 });
 
