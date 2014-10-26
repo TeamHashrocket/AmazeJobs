@@ -2,9 +2,10 @@ body {
   padding: 50px;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   background-image:url("/images/bg.png");
+  min-width: 650;
 }
 
-.title {
+.ctitle {
     font-family: "HelveticaNeue-UltraLight", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-size: 70px !important;
 }
@@ -33,8 +34,10 @@ a {
 .bg {
     background-color: white;
     padding: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     border: 0px solid;
-    border-radius: 25px;
+    border-radius: 5px;
 }
 
 .out-text {

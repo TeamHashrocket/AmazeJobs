@@ -17,32 +17,59 @@
     <body>
         <divc class='ui grid'>
             <div class='ui grid'>
-                <div class='ten wide column out-text title'>AmazeJobs</div>
+                <div class='ten wide column out-text ctitle'>AmazeJobs</div>
                 <div class='six wide column right item'>
-                    <div class='ui medium button'>
-                        Create Application
+                    <div style="padding-bottom:10px;">
+                        <div class='ui medium button'>
+                            Create Application
+                        </div>
                     </div>
                     <div class='ui inverted blue button' id = "logout">
                         Logout
                     </div>
                 </div>
             </div>
-            <div class='twelve wide column'>
+            <div class='ten wide column'>
                 <div id='application-list'>
                     <div class="out-text subtitle">
                         Applications
                     </div>
+<div class="ui fluid accordion">
+  <div class="active title">
+    This is some title
+  </div>
+  <div class="content">
+    This is what is inside the stuff
+  </div>
+</div>
                 </div>
             </div>
-            <div class='four wide column'>
+            <div class='six wide column'>
                 <div id='task-list'>
                     <div class='out-text subtitle'>Tasks</div>
+                    <div class="bg">
+<div class="ui list">
+    <div class="item">
+    yolo
+    </div>
+    <div class="item">
+    swaggity
+    </div>
+    <div class="item">
+    yolo
+    </div>
+    <div class="item">
+    swaggins
+    </div>
+</div>
+                    </div>
                 </div>
             </div>
         </div>
     </body>
 
     <script type='text/javascript'>
-        //$('body').blurjs({source:'body', radius:10});
+        $('.ui.accordion').accordion();
+        $('body').blurjs({source:'body', radius:10});
     </script>
 </html>
