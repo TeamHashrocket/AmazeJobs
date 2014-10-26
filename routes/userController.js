@@ -25,7 +25,7 @@ module.exports = {
     },
 
     //oauthcallback function
-    oauthcallback:function(req, res){
+    oauthcallback:function(req, res) {
         var code = req.query.code;
         oauth2Client.getToken(code, function(err, tokens) {
 
@@ -40,7 +40,25 @@ module.exports = {
             });
             
         });
-    }
+    },
+
+    // get all tasks of the active phases of the applications of the user
+    getTasks: function(req, res) {
+        var user = req.params.id;
+
+        User.findOne({ _id: user }, function (err, user) {
+            if (err) return handleError(res, 500, err);
+            if (user == undefined) return handleError(res, 404, 'User not found');
+
+            user.getTasks(function (err, tasks) {
+                if (err) return handleError(res, 500, err);
+                if (tasks == undefined) return handleError(res, 404, 'Tasks not found');
+
+                // tasks is {completeTasks:completeTasks, pendingTasks:pendingTasks}
+                res.json(tasks);
+            });
+        });
+    },
 }
 
 // sends user to google login url
