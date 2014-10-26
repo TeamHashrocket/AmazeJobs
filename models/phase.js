@@ -38,9 +38,9 @@ PhaseSchema.methods.endPhase = function(terminated, callback) {
         return callback();
     }
 
-    // save the new phase and return its id
+    // save the new phase and return it
     newPhase.save(function(error, savedPhase){
-        callback(error, savedPhase.id);
+        callback(error, savedPhase);
     });
 }
 

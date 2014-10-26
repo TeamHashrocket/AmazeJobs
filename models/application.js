@@ -21,13 +21,13 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
             'application': application.id
         });
 
-        // save the new phase and return its id
+        // save the new phase and return it
         newPhase.save(function(err, savedPhase) {
             if (err) return callback(err);
 
             // update currentPhase
             application.currentPhase = savedPhase.id;
-            application.save(function(error, savedPhase) {
+            application.save(function(error) {
                 if (error) return callback(error);
                 callback(null, savedPhase);
             });
@@ -40,14 +40,14 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
             if(err) return callback(err);
 
             // end the phase, make a new one if necessary
-            phase.endPhase(terminated, function(error, newPhaseId) {
+            phase.endPhase(terminated, function(error, newPhase) {
                 if (error) return callback(error);
 
                 // update currentPhase
                 application.currentPhase = newPhaseId;
-                application.save(function(error2, savedPhase) {
+                application.save(function(error2) {
                     if (error2) return callback(error2);
-                    callback(null, savedPhase);
+                    callback(null, newPhase);
                 });
             });
         });
