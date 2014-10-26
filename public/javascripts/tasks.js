@@ -1,3 +1,4 @@
+//new task
 $(document).on('submit', '#new-task', function(event) {
     event.preventDefault();
 
@@ -17,6 +18,7 @@ $(document).on('submit', '#new-task', function(event) {
     });
 });
 
+//edit task
 $(document).on('submit', '.task', function(event) {
     event.preventDefault();
 

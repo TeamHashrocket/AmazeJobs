@@ -28,6 +28,8 @@ $(document).ready(function() {
                 var pendingTasks = response.pendingTasks;
                 var completedTasks = response.pendingTasks;
 
+                console.log(pendingTasks);
+                console.log(completedTasks);
                 // display tasks
                 addAllTasks(pendingTasks, completedTasks);
             });
