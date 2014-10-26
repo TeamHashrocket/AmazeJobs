@@ -21,7 +21,6 @@ $(document).ready(function() {
                     completedTasks = completedTasks.concat(response.completedTasks);
 
                     application.tasks = tasks;
-
                     addApplication(application);
                 });
             });
@@ -29,7 +28,6 @@ $(document).ready(function() {
             // sort tasks
             pendingTasks = sortByDueDate(pendingTasks);
             completedTasks = sortByDueDate(completedTasks);
-
             // display tasks
             addAllTasks(pendingTasks, completedTasks);
         });
