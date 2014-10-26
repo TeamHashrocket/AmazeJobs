@@ -1,5 +1,5 @@
 var userId = undefined;
-
+Handlebars.registerPartial('tasks', Handlebars.templates['tasks']);
 $(document).ready(function() {
     $('#upper-right').append(Handlebars.templates['new-application-button']);
 
@@ -24,7 +24,7 @@ $(document).ready(function() {
                 ).done(function(response) {
                     // add the application and its tasks
                     var tasks = response.pendingTasks.concat(response.completedTasks);
-                    application.tasks = sortByDueDate(tasks);
+                    application.tasks = {label:'Tasks', tasks:sortByDueDate(tasks)};
                     addApplication(application);
 
                     // add to the accumulating tasks
