@@ -43,12 +43,16 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
             phase.endPhase(terminated, function(error, newPhase) {
                 if (error) return callback(error);
 
+                if (newPhase != undefined) {
                 // update currentPhase
-                application.currentPhase = newPhaseId;
-                application.save(function(error2) {
-                    if (error2) return callback(error2);
-                    callback(null, newPhase);
-                });
+                    application.currentPhase = newPhase.id;
+                    application.save(function(error2) {
+                        if (error2) return callback(error2);
+                        callback(null, newPhase);
+                    });
+                } else {
+                    callback(null, null);
+                }
             });
         });
     }

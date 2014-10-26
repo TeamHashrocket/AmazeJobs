@@ -3,23 +3,35 @@ $(document).on('click', '#new-application-button', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application']);
 });
 
-// phase change button
-$(document).on('click', '#change-phase', function(event) {
+var phaseChange = function(terminated) {
     var appId = $(this).parent().parent().attr('app-id');
 
     $.post(
         '/application/' + appId + '/phases',
-        { terminated: false } 
+        { terminated: terminated } 
+
     ).done(function(response) {
         console.log(response);
         var phase = response.phase;
 
-        var phaseText = $('#p'+appId);
-        phaseText.replaceWith(phase.phaseType);
+        if (phase != null) {
+            var phaseText = $('#p'+appId);
+            phaseText.html(phase.phaseType);
+        }
 
     }).fail(function(error) {
         console.log(error);
     });
+};
+
+// phase change button
+$(document).on('click', '#change-phase', function(event) {
+    phaseChange(false);
+});
+
+// phase change button
+$(document).on('click', '#terminate-application', function(event) {
+    phaseChange(true);
 });
 
 // make a new application
