@@ -16,8 +16,10 @@ $(document).on('keydown', '#new-application-input', function(event) {
     $.post(
         '/user/' + userId + '/applications',
         { companyName: companyName } 
-    ).done(function(response) {
-        addApplication(response.application);
+    ).done(function(application) {
+        console.log(application);
+        application.currentPhase.phaseType = 'Applying';
+        addApplication(application);
     }).fail(function(error) {
         console.log(error);
     });

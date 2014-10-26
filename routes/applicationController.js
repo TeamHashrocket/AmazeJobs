@@ -34,7 +34,7 @@ module.exports = {
             // make a new phase as soon as we get an application going
             application.changePhase(false, function(error) {
                 if (error) return handleError(res, 500, error);
-                res.json({ applicationId:application._id });
+                res.json({ application:application });
             })
         });
     },
@@ -49,9 +49,9 @@ module.exports = {
             if (err) return handleError(res,  500, err);
             if (application == undefined) return handleError(res,  404, 'Application not found');
 
-            application.changePhase(terminated, function(error, newPhaseId) {
+            application.changePhase(terminated, function(error, newPhase) {
                 if(error) return handleError(res, 500, err);
-                res.json({ phaseId: newPhaseId });
+                res.json({ phase: newPhase });
             });
         });
     },

@@ -25,7 +25,7 @@ module.exports = {
         
         task.save(function (err, newTask) {
             if (err) return handleError(res, 500, err);
-            res.json({ taskId: newTask.id });
+            res.json({ task: newTask });
         });
     },
 

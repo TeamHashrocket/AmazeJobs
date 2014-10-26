@@ -28,7 +28,7 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
             application.currentPhase = savedPhase.id;
             application.save(function(error, savedPhase) {
                 if (error) return callback(error);
-                callback(null, savedPhase.id);
+                callback(null, savedPhase);
             });
         });
 
@@ -46,7 +46,7 @@ ApplicationSchema.methods.changePhase = function(terminated, callback) {
                 application.currentPhase = newPhaseId;
                 application.save(function(error2, savedPhase) {
                     if (error2) return callback(error2);
-                    callback(null, newPhaseId);
+                    callback(null, savedPhase);
                 });
             });
         });
