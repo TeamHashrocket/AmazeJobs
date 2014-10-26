@@ -47,6 +47,7 @@ $(document).on('submit', '.task', function(event) {
     }
 });
 
+// add all tasks to the UI
 function addAllTasks(pendingTasks, completedTasks) {
     var list = $('#task-list');
     if (pendingTasks.length != 0) {
@@ -62,4 +63,11 @@ function addAllTasks(pendingTasks, completedTasks) {
             tasks: completedTasks
         }));
     }
+}
+
+// given a list of tasks, sort them by due date
+function sortByDueDate(list) {
+    return list.sort(function(a,b) {
+        return a.dueDate - b.dueDate;
+    });
 }

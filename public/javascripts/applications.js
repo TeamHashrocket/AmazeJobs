@@ -32,7 +32,9 @@ $(document).on('keydown', '#new-application-input', function(event) {
     event.preventDefault();
     var companyName = $("input[name=companyName]").val();
 
+    // put the new application button back
     $(this).replaceWith(Handlebars.templates['new-application-button']);
+    
     $.post(
         '/user/' + userId + '/applications',
         { companyName: companyName } 
@@ -63,6 +65,7 @@ $(document).on('click', '#delete-application', function(event) {
 
 Handlebars.registerPartial('application', Handlebars.templates['application']);
 
+// add an application to the UI
 function addApplication(application) {
     var list = $('#application-list');
     list.prepend(Handlebars.templates['application']({
