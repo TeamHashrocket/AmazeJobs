@@ -1,6 +1,7 @@
 <div class='title' app-id={{application._id}}>
-    {{#if application.currentPhase.phaseType}}
-        {{application.companyName}} {{application.currentPhase.phaseType}}
+	{{#if application.currentPhase.phaseType}}
+    	{{application.companyName}}
+        <div style="float:right;">{{application.currentPhase.phaseType}}</div>
     {{else}}
         {{application.companyName}} Applying
     {{/if}}
@@ -9,10 +10,12 @@
     <div id='delete-application' class="ui red button">
         Delete
     </div>
-    <div id='change-phase' class="ui button">
-        Next
-    </div>
-    <div id='terminate-application' class="ui button right-buttons">
-        Terminate
+    <div style="float:right;">
+        <div id='change-phase' class="ui button">
+            Next
+        </div>
+        <div id='terminate-application' class="ui button right-buttons">
+            Terminate
+        </div>
     </div>
 </div>
