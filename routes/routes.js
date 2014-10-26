@@ -110,7 +110,7 @@ module.exports = function(app) {
         Request Body: 
             - companyName: company name
         Response:
-            - applicationId: new application id
+            - application: new application
             - error: error if there was one
     */
     app.post('/user/:id/applications', function(req, res) {
@@ -126,7 +126,7 @@ module.exports = function(app) {
         Request Body:
             - terminated: whether the application has been terminated or not (a boolean)
         Response:
-            - phaseId: new phase id if a new one has been created
+            - phase: new phase if a new one has been created
             - error: error if there was one
     */
     app.post('/application/:id/phases', function(req, res) {
@@ -163,8 +163,7 @@ module.exports = function(app) {
         Deletes the specified phase and its tasks
 
         DELETE /phase/{id}
-        Request Body:
-            - phase id
+        Request Body: empty
         Response:
             - error: error if there was one
     */
@@ -176,8 +175,7 @@ module.exports = function(app) {
         Gets all the tasks associated with a specific phase
         
         GET /phase/{id}/tasks
-        Request Body:
-            - phase id
+        Request Body: empty
         Response:
             - tasks: list of Tasks
             - error: error if there was one
@@ -194,7 +192,7 @@ module.exports = function(app) {
             - description: description
             - dueDate: due date (optional)
         Response:
-            - taskId: new task id
+            - task: new task
             - error: error if there was one
     */
     app.post('/phase/:id/tasks', function(req, res) {

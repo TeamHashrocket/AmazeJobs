@@ -1,10 +1,8 @@
 <div class='title' app-id={{application._id}}>
-	{{#if application.currentPhase.phaseType}}
-    	{{application.companyName}}
-        <div style="float:right;">{{application.currentPhase.phaseType}}</div>
-    {{else}}
-        {{application.companyName}} Applying
-    {{/if}}
+    {{application.companyName}}
+    <div style="float:right;" id="p{{application._id}}">
+        {{application.currentPhase.phaseType}}
+    </div>
 </div>
 <div class='content' app-id={{_id}}>
     {{>task}}
