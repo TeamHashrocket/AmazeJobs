@@ -27,7 +27,7 @@ $(document).on('submit', '.task', function(event) {
     var dueDate = $("input[name=date]").val();
 
     if (description) {
-        $.post({
+        $.post(
             '/task/' + id
         ).done(function(response) {
             // idk???
@@ -35,7 +35,7 @@ $(document).on('submit', '.task', function(event) {
             console.log(error);
         });
     } else { // if empty description, delete it
-        $.delete({
+        $.delete(
             '/task/' + id
         ).done(function(response) {
             item.remove();
