@@ -21,6 +21,7 @@ module.exports = {
         // delete cookies
         req.session.destroy(function(err) {
             if (err) handleError(res, 500, err);
+            res.json({success:true});
         });
     },
 
