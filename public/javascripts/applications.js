@@ -1,7 +1,21 @@
 $(document).on('click', '#new-application', function(event) {
+    $(this).replaceWith(Handlebars.templates['new-application']);
+});
+
+$(document).on('keydown', '#new-application-input', function(event) {
+    // only care about enter being pressed
+    if(event.which != 13) {
+        return;
+    }
+
     event.preventDefault();
+
+    var companyName = $("input[name=companyName]").val();
+
+    $(this).replaceWith(Handlebars.templates['new-application-button']);
     $.post(
-        '/user/' + userId + '/applications'
+        '/user/' + userId + '/applications',
+        { companyName: companyName } 
     ).done(function(response) {
         addApplication(response.application);
     }).fail(function(error) {
@@ -10,8 +24,6 @@ $(document).on('click', '#new-application', function(event) {
 });
 
 $(document).on('click', '#delete-application', function(event) {
-    event.preventDefault();
-
     var item = $(this).parent();
     var id = item.attr('app-id');
 
