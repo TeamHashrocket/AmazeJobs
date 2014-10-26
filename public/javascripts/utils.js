@@ -5,6 +5,10 @@ function handleError(error) {
     }));
 }
 
+function removeError() {
+    $('#error').html('');
+}
+
 function showError(error) {
     $('#error').html(Handlebars.templates['error']({
         error: error
