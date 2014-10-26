@@ -3,35 +3,33 @@
 <head>
     <title>AmazeJobs</title>
     <link rel='stylesheet' href='stylesheets/semantic.min.css' />
-    <script src='https://code.jquery.com/jquery-1.11.1.min.js'></script>
-    <script src='javascripts/semantic.min.js'></script>
-    <script src='javascripts/handlebars.runtime.js'></script>
-    <script src='javascripts/templates.js'></script>
-    <script src='javascripts/users.js'></script>
     <link rel='stylesheet' href='stylesheets/style.css' />
-    <script src="/javascripts/blur.min.js"></script>
+    <script src='https://code.jquery.com/jquery-1.11.1.min.js'></script>
+    <script src='/lib/semantic.min.js'></script>
+    <script src='/lib/handlebars.runtime.js'></script>
+    <script src='/lib/blur.min.js'></script>
 </head>
 <body>
-    <div id='main-container' class="abscentered">
-        <div class="title out-text">
+    <div id='main-container' class='abscentered'>
+        <div class='title out-text'>
             Welcome to AmazeJobs
         </div>
-        <div class="text-centered out-text subtitle">
+        <div class='text-centered out-text subtitle'>
             Get your job applications under control
         </div>
-        <center style="padding-bottom:20px;">
-            <a href="/login" class='ui google plus button'>
+        <center style='padding-bottom:20px;'>
+            <a href='/login' class='ui google plus button'>
                 <i class='google plus icon'></i>
                 Sign in/up with Google
             </a>
         </center>
-        <div class="text-centered out-text subtitle">
+        <div class='text-centered out-text subtitle'>
             Brought to you by team =>
         </div>
     </div>
 
     <script>
-        $("body").blurjs({source:'body', radius:10});
+        $('body').blurjs({source:'body', radius:10});
     </script>
 </body>
 </html>
