@@ -3,6 +3,25 @@ $(document).on('click', '#new-application-button', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application']);
 });
 
+// phase change button
+$(document).on('click', '#change-phase', function(event) {
+    var appId = $(this).parent().parent().attr('app-id');
+
+    $.post(
+        '/application/' + appId + '/phases',
+        { terminated: false } 
+    ).done(function(response) {
+        console.log(response);
+        var phase = response.phase;
+
+        var phaseText = $('#p'+appId);
+        phaseText.replaceWith(phase.phaseType);
+
+    }).fail(function(error) {
+        console.log(error);
+    });
+});
+
 // make a new application
 $(document).on('keydown', '#new-application-input', function(event) {
     // only care about enter being pressed
