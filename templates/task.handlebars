@@ -1,10 +1,9 @@
 <div class="task" data-task-id={{_id}}>
   <div class="ui checkbox">
   {{#if completed }}
-  	<input type="checkbox" name={{_id}} checked>
+  	<input type="checkbox" name={{_id}} checked> <label>{{description}} {{dueDate}}</label>
   {{else}}
-  	<input type="checkbox" name={{_id}}>
-  	<label>{{description}} {{dueDate}}</label>
+  	<input type="checkbox" name={{_id}}> <label>{{description}} {{dueDate}}</label>
   {{/if}}
   </div>
 </div>
