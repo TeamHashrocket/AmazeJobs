@@ -1,5 +1,9 @@
 <div class='title' app-id={{_id}}>
-    {{companyName}} {{currentPhase.phaseType}}
+	{{#if currentPhase.phaseType}}
+    	{{companyName}} {{currentPhase.phaseType}}
+    {{else}}
+    	{{companyName}} Applying
+	{{/if}}
 </div>
 <div class='content' app-id={{_id}}>
 </div>

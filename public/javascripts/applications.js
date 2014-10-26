@@ -17,8 +17,6 @@ $(document).on('keydown', '#new-application-input', function(event) {
         '/user/' + userId + '/applications',
         { companyName: companyName } 
     ).done(function(response) {
-        // initial phase type
-        response.application.currentPhase.phaseType = 'Applying';
         addApplication(response.application);
     }).fail(function(error) {
         console.log(error);
@@ -45,8 +43,7 @@ function addApplication(application) {
     var list = $('#application-list');
     list.append(Handlebars.templates['application']({
         _id: application.id,
-        companyName: application.companyName,
-        currentPhase: { phaseType: application.currentPhase.phaseType }
+        companyName: application.companyName
     }));
 
     $('.ui.accordion').accordion();
