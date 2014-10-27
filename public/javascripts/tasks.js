@@ -1,6 +1,15 @@
-//new task
-$(document).on('submit', '#new-task', function(event) {
+// make new task input form
+$(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
+    $(this).replaceWith(Handlebars.templates['new-task-form']);
+});
+
+// make a new task
+$(document).on('keydown', '#new-task-input', function(event) {
+    // only care about enter being pressed
+    if(event.which != 13) {
+        return;
+    }
 
     var item = $(this).parent();
     var id = item.attr('task-id');

@@ -1,5 +1,7 @@
 var userId = undefined;
+
 Handlebars.registerPartial('tasks', Handlebars.templates['tasks']);
+
 $(document).ready(function() {
     $('#upper-right').append(Handlebars.templates['new-application-button']);
 

@@ -49,6 +49,7 @@ $(document).on('click', '#delete-application', function(event) {
 });
 
 Handlebars.registerPartial('application', Handlebars.templates['application']);
+Handlebars.registerPartial('new-task', Handlebars.templates['new-task']);
 
 // add an application to the UI
 function addApplication(application) {
@@ -56,6 +57,11 @@ function addApplication(application) {
     list.prepend(Handlebars.templates['application']({
         application: application
     }));
+
     addAppTasks(application.tasks, application._id);
+
+    // add a new add task label
+    $('.tasks').append(Handlebars.templates['new-task']);
+    
     $('.ui.accordion').accordion();
 }
