@@ -23,7 +23,7 @@ $(document).on('keydown', '#new-application-input', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application-button']);
     
     $.post(
-        '/user/' + userId + '/applications',
+        '/users/' + userId + '/applications',
         { companyName: companyName } 
     ).done(function(response) {
         // set up starting phase type
@@ -44,7 +44,7 @@ $(document).on('click', '#delete-application', function(event) {
 
     $.ajax({
         type: 'DELETE',
-        url: '/application/' + id
+        url: '/applications/' + id
     }).done(function(response) {
         var application = $('[app-id=' + id + ']');
         application.remove();

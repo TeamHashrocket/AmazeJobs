@@ -21,35 +21,35 @@ function createApplication(callback) {
 }
 
 function deleteApplication(applicationId, callback) {
-    ajax({}, "/application/" + applicationId, "DELETE", "Delete Application", callback);
+    ajax({}, "/applications/" + applicationId, "DELETE", "Delete Application", callback);
 }
 
 function getApplications(callback) {
-    ajax({}, "/user/"+userId+"/applications", "GET", "Get Applications", callback);
+    ajax({}, "/users/"+userId+"/applications", "GET", "Get Applications", callback);
 }
 
 function getPhases(applicationId, callback) {
-    ajax({}, "/application/"+applicationId+"/phases", "GET", "Get Phases", callback);
+    ajax({}, "/applications/"+applicationId+"/phases", "GET", "Get Phases", callback);
 }
 
 function changePhase(applicationId, terminated, callback) {
-    ajax({terminated:terminated}, "/application/"+applicationId+"/phases", "POST", terminated ? "Terminate Phase" : "Change Phase", callback)
+    ajax({terminated:terminated}, "/applications/"+applicationId+"/phases", "POST", terminated ? "Terminate Phase" : "Change Phase", callback)
 }
 
 function createTask(phaseId, description, date, callback) {
-    ajax({description:description, dueDate:date}, "/phase/"+phaseId+"/tasks", "POST", "Created Task", callback);
+    ajax({description:description, dueDate:date}, "/phases/"+phaseId+"/tasks", "POST", "Created Task", callback);
 }
 
 function deleteTask(taskId, callback) {
-    ajax({}, "/task/"+taskId, "DELETE", "Delete Task", callback);
+    ajax({}, "/tasks/"+taskId, "DELETE", "Delete Task", callback);
 }
 
 function editTask(taskId, description, date, completed, callback) {
-    ajax({description:description, dueDate:date, completed:completed}, "/task/"+taskId, "PUT", "Edited task", callback);
+    ajax({description:description, dueDate:date, completed:completed}, "/tasks/"+taskId, "PUT", "Edited task", callback);
 }
 
 function getTasks(phaseId, callback) {
-    ajax({}, "/phase/"+phaseId+"/tasks", "GET", "Get Tasks", callback);
+    ajax({}, "/phases/"+phaseId+"/tasks", "GET", "Get Tasks", callback);
 }
 
 // =====================================================================================
