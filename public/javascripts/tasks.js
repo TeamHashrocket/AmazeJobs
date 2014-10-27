@@ -189,6 +189,9 @@ function addAppTasks(tasks, phaseId) {
     }));
     
     $('.ui.checkbox').checkbox();
+
+    // add a new add task label
+    $('[phase-id=' + phaseId + '] .list').append(Handlebars.templates['new-task']);
 }
 
 // add a single task to both the app task list and the total task list
@@ -246,9 +249,23 @@ function deleteTask(id, callback) {
     });
 }
 
+function clearTasks(phaseId, appId) {
+    var tasks = $('[app-id=' + appId + '] .tasks');
+    tasks.empty();
+    tasks.attr('phase-id', phaseId)
+    addAppTasks([], phaseId);
+    renderTaskList();
+}
+
 // given a list of tasks, sort them by due date
 function sortByDueDate(list) {
     return list.sort(function(a,b) {
-        return a.dueDate - b.dueDate;
+        if (a.dueDate == undefined) {
+            return 1;
+        }
+        if (b.dueDate == undefined) {
+            return -1;
+        }
+        return new Date(a.dueDate) - new Date(b.dueDate);
     });
 }

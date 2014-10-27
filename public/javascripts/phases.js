@@ -19,9 +19,8 @@ var phaseChange = function(terminated, that) {
     ).done(function(response) {
         var phase = response.phase;
 
-        if (phase != null) {
-            updatePhaseLabels(phase.phaseType, appId);
-        }
+        updatePhaseLabels(phase.phaseType, appId);
+        clearTasks(phase._id, appId);
 
     }).fail(function(error) {
         handleError(error);
