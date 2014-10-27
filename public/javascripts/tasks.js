@@ -65,7 +65,7 @@ $(document).on('click', '#new-task-label', function(event) {
         year: 'YYYY'
     }));
     $('.ui.dropdown').dropdown();
-    $('.accordion input[type="text"]').keyup(resizeInput);
+    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput);
 });
 
 // make a new task or submit an edit
@@ -151,6 +151,7 @@ $(document).on('dblclick', '.task-item .description', function(event) {
     }));
 
     $('.ui.dropdown').dropdown();
+    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput);
 });
 
 Handlebars.registerPartial('task', Handlebars.templates['task']);
