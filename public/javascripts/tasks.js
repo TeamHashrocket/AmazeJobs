@@ -133,8 +133,8 @@ $(document).on('keydown', '.new-task-input', function(event) {
 });
 
 // edit task
-$(document).on('dblclick', '.task-item .description', function(event) {
-    var task = $(this).parent().parent().parent();
+$(document).on('dblclick', '.task-item .task-content', function(event) {
+    var task = $(this).parent();
     var id = task.attr('task-id');
     var description = task.find('.description').html();
     var month = task.find('.month').html();

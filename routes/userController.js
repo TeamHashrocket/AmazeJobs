@@ -6,6 +6,10 @@ var handleError = require('./utils').handleError;
 var OAuth2 = google.auth.OAuth2;
 // openshift
 var oauth2Client = new OAuth2('563808076610-qk1rp29poub2fpnmdm26tf5n16cd81pl.apps.googleusercontent.com', 's9co0tkklFmv9d2Va47sSXV1', 'http://amazejobs-hashrocket.rhcloud.com/oauthcallback');
+
+//localhost testing
+//var oauth2Client = new OAuth2('563808076610-op9dep6ss37gq68d9tv0sg2igper3pl6.apps.googleusercontent.com', 'YzyYv8U3OBVymmCXSr2Ojh0h', 'http://localhost:8080/oauthcallback');
+
 module.exports = {
 
     // login existing users
@@ -55,7 +59,7 @@ module.exports = {
 // sends user to google login url
 var loginWithGoogle = function(res) {
     // generate a url that asks permissions for Google Calendar and Email address scopes
-    var scopes = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/calendar'];
+    var scopes = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/plus.me'];
     var url = oauth2Client.generateAuthUrl({
         access_type : 'offline', // 'online' (default) or 'offline' (gets refresh_token)
         scope       : scopes // If you only need one scope you can pass it as string
