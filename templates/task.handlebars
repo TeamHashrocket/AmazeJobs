@@ -5,10 +5,18 @@
         <input type='checkbox' name={{_id}} style = 'float:left;'>
     {{/if}}
     <label>
+        <div style='float:left;'>
         <div class='description'>{{description}}</div>
         {{#if month}}
-        	(<div class='month'>{{month}}</div>/<div class='day'>{{day}}</div>/<div class='year'>{{year}}</div>)
+        	(
+            <div class='month'>{{month}}</div>
+            /
+            <div class='day'>{{day}}</div>
+            /
+            <div class='year'>{{year}}</div>
+            )
         {{/if}}
+        </div>
     </label>
     
 </div>

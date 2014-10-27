@@ -53,35 +53,46 @@ $(document).on('keydown', '#new-task-input', function(event) {
     var phaseId = tasks.attr('phase-id');
 
     var id = thisForm.attr('task-id');
+    var completed = thisForm.find('[type="checkbox"]').attr('checked');
     var description = thisForm.find('#description').val();
     var month = thisForm.find('#month .text').html();
     var day = thisForm.find('#day .text').html();
     var year = thisForm.find('#year .text').html();
     var date;
 
-    if (month != 'MM' && day != 'DD' && year == 'YYYY') {
+    if (month != 'MM' && day != 'DD' && year != 'YYYY') {
         date = new Date(year, month, day);
+    } else {
+        month = 'MM';
+        day = 'DD';
+        year = 'YYYY';
     }
 
     // existing task
     if (id) {
+        console.log('exists');
         if (description) {
+            console.log('edit');
             // this is an edit
             editTask(id, description, date, function(task) {
                 thisForm.replaceWith(Handlebars.templates['task']({
-                    _id: task._id,
-                    completed: task.completed,
-                    description: task.description,
-                    dueDate: task.dueDate
+                    _id: id,
+                    completed: completed,
+                    description: description,
+                    month: month,
+                    day: day,
+                    year: year
                 }));
             });
         } else {
+            console.log('delete');
             // this is a delete
             deleteTask(id, function() {
                 thisForm.remove();
             });
         }
     } else {
+        console.log('new');
         // this is a new task post
         newTask(phaseId, description, date, function(task) {
             addTask(task);
@@ -156,11 +167,14 @@ function addAppTasks(tasks, phaseId) {
 function addTask(task) {
     var appTaskList = $('[phase-id=' + task.phase + '] .list');
     var allTasksList = $('#task-list .list');
+    var date = new Date(task.dueDate);
     var taskItem = Handlebars.templates['task']({
         _id: task._id,
         completed: task.completed,
         description: task.description,
-        dueDate: task.dueDate
+        month: date.getMonth(),
+        day: date.getDay(),
+        year: date.getYear(),
     });
 
     appTaskList.append(taskItem);
@@ -185,8 +199,8 @@ function editTask(id, description, date, callback) {
         type: 'PUT',
         url:'/task/' + id,
         data: { description:description, dueDate:date }
-    }).done(function(response) {
-        callback(response.task);
+    }).done(function() {
+        callback();
     }).fail(function(error) {
         handleError(error);
     });
