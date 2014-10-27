@@ -21,7 +21,10 @@ var phaseChange = function(terminated, that) {
 
         updatePhaseLabels(phase.phaseType, appId);
         clearTasks(phase._id, appId);
-
+        if(terminated){
+        console.log('termianted in phases')
+        $('.title[app-id ='+appId+']').addClass('terminated');
+    }
     }).fail(function(error) {
         handleError(error);
     });

@@ -56,7 +56,6 @@ $(document).on('click', '#delete-application', function(event) {
 
 Handlebars.registerPartial('application', Handlebars.templates['application']);
 Handlebars.registerPartial('new-task', Handlebars.templates['new-task']);
-
 // add an application to the UI
 function addApplication(application) {
     var list = $('#application-list');
