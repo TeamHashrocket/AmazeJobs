@@ -1,10 +1,10 @@
 // phase change button
-$(document).on('click', '#change-phase', function(event) {
+$(document).on('click', '.change-phase', function(event) {
     phaseChange(false, this);
 });
 
 // terminate application button
-$(document).on('click', '#terminate-application', function(event) {
+$(document).on('click', '.terminate-application', function(event) {
     phaseChange(true, this);
 });
 
@@ -34,13 +34,14 @@ const terminalLabels = ['Accepted', 'Terminated'];
 var updatePhaseLabels = function(phaseType, appId) {
     var terminal = terminalLabels.indexOf(phaseType) > -1;
     var phaseText = $('.title[app-id='+appId+'] .phase');
-    var changePhaseButton = $('#change-phase');
+    var changePhaseButton = $('.content[app-id='+appId+'] .change-phase');
     // update the current phase text
     phaseText.html(phaseType);
+    console.log(changePhaseButton);
 
     // if the phase is terminal, there should be no change phase buttons
     if (terminal) {
-        var terminateButton = $('#terminate-application');
+        var terminateButton = $('.content[app-id='+appId+'] .terminate-application');
         changePhaseButton.remove();
         terminateButton.remove();
     } else {
