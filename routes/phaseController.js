@@ -1,5 +1,6 @@
 var Phase = require('../models/phase');
 var handleError = require('./utils').handleError;
+var Task = require('../models/task');
 
 module.exports = {
 
@@ -24,6 +25,15 @@ module.exports = {
             if (phase == undefined) return handleError(res, 404, "Phase not found");
 
             // remove, not findByIdAndRemove because we have middleware
+            Task.find({'phase':phaseId}, function(err, tasks){
+                if(err) return handleError(res, 500, err);
+                for(var i = 0; i<tasks.length; i++){
+                    tasks[i].remove(function(err){
+                        if (err) return handleError(res, 500, err);
+                    });
+                }
+            });
+
             phase.remove(function(error) {
                 if (err) return handleError(res, 500, err);
                 res.json({ success:true });
