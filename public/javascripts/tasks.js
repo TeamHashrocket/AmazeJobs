@@ -54,7 +54,7 @@ $(document).on('mouseup', ':checkbox', function(event){
 function handleCheckedCallback(id, checked){
     return function(error){
         $('[name='+id+']').prop('checked', !checked);
-        renderTaskList();
+        renderTaskList(false);
     }
 }
 

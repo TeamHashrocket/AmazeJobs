@@ -48,7 +48,7 @@ $(document).on('click', '#delete-application', function(event) {
     }).done(function(response) {
         var application = $('[app-id=' + id + ']');
         application.remove();
-        renderTaskList();
+        renderTaskList(false);
     }).fail(function(error) {
         handleError(error);
     });
