@@ -27,8 +27,8 @@ var phaseChange = function(terminated, that) {
     });
 }
 
-const phaseLabels = ['Interviewing', 'Offered'];
-const phaseButtonLabels = ['Got Offer', 'Accepted Offer'];
+const phaseLabels = ['Applying', 'Interviewing', 'Offered'];
+const phaseButtonLabels = ['Got Inteview', 'Got Offer', 'Accepted Offer'];
 const terminalLabels = ['Accepted', 'Terminated'];
 
 var updatePhaseLabels = function(phaseType, appId) {
@@ -37,7 +37,6 @@ var updatePhaseLabels = function(phaseType, appId) {
     var changePhaseButton = $('.content[app-id='+appId+'] .change-phase');
     // update the current phase text
     phaseText.html(phaseType);
-    console.log(changePhaseButton);
 
     // if the phase is terminal, there should be no change phase buttons
     if (terminal) {
