@@ -67,7 +67,7 @@ $(document).on('click', '#new-task-label', function(event) {
         year: 'YYYY'
     }));
     $('.ui.dropdown').dropdown();
-    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput);
+    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput).focus();
 });
 
 // make a new task or submit an edit
