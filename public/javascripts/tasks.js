@@ -13,7 +13,11 @@ $(document).on('click', ':checkbox', function(event){
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
-    $(this).replaceWith(Handlebars.templates['new-task-form']);
+    $(this).replaceWith(Handlebars.templates['new-task-form']({
+        month: 'MM',
+        day: 'DD',
+        year: 'YYYY'
+    }));
     $('.ui.dropdown').dropdown();
 });
 
@@ -51,10 +55,13 @@ $(document).on('dblclick', '.task-checkbox', function(event) {
     var task = $(this);
     var id = $(this).parent().parent().attr('task-id');
 
-    $(this).replaceWith(Handlebars.templates['new-task-form']({
+    task.replaceWith(Handlebars.templates['new-task-form']({
         taskId: id,
         description: task.find('.description').val(),
-        dueDate: task.find('.dueDate').val()
+        dueDate: task.find('.dueDate').val(),
+        month: task.find('.dueDate').val(),
+        day: 'DD',
+        year: 'YYYY'
     }));
 
     var item = $(this).parent();
