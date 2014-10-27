@@ -211,7 +211,7 @@ function addTask(task) {
     }else{
         allTasksList.append(taskItem);
     }
-    appTaskList.append(Handlebars.templates.task[taskItem]);
+    appTaskList.append(Handlebars.templates['task'](taskItem));
     $('.ui.checkbox').checkbox();
 }
 
