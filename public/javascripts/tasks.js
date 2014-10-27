@@ -11,7 +11,9 @@ $(document).on('keydown', '#new-task-input', function(event) {
         return;
     }
 
-    var tasks = $(this).parent();
+    var thisForm = $(this);
+    var list = thisForm.parent();
+    var tasks = list.parent().parent();
     var phaseId = tasks.attr('phase-id');
 
     var description = $('[phase-id=' + phaseId + '] input[name=description]').val();
@@ -21,7 +23,11 @@ $(document).on('keydown', '#new-task-input', function(event) {
         '/phase/' + phaseId + '/tasks',
         { description:description, dueDate:dueDate }
     ).done(function(response) {
-        addTask(response.application);
+        addTask(response.task);
+
+        // remove the input form, add a new New Task label to the end
+        thisForm.remove();
+        list.append(Handlebars.templates['new-task']);
     }).fail(function(error) {
         handleError(error);
     });
@@ -78,14 +84,30 @@ function addAllTasks(pendingTasks, completedTasks) {
 }
 
 // add all tasks to the UI
-function addAppTasks(tasks, id) {
-    var list = $('.content[phase-id=' + id + '] .tasks');
-    if (tasks.tasks.length != 0) {
+function addAppTasks(tasks, phaseId) { 
+    var list = $('[phase-id=' + phaseId + ']');
         list.append(Handlebars.templates['tasks']({
-            label: tasks.label,
-            tasks: tasks.tasks
-        }));
-    }
+            label: 'Tasks',
+            tasks: tasks
+    }));
+    
+    $('.ui.checkbox').checkbox();
+}
+
+// add a single task to both the app task list and the total task list
+function addTask(task) {
+    var appTaskList = $('[phase-id=' + task.phase + '] .list');
+    var allTasksList = $('#task-list .list');
+    var taskItem = Handlebars.templates['task']({
+        _id: task._id,
+        completed: task.completed,
+        description: task.description,
+        dueDate: task.dueDate
+    });
+
+    appTaskList.append(taskItem);
+    allTasksList.append(taskItem);
+
     $('.ui.checkbox').checkbox();
 }
 

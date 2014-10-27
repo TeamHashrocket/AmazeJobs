@@ -27,7 +27,7 @@ $(document).ready(function() {
                 ).done(function(response) {
                     // add the application and its tasks
                     var tasks = response.pendingTasks.concat(response.completedTasks);
-                    application.tasks = {label:'Tasks', tasks:sortByDueDate(tasks)};
+                    application.tasks = sortByDueDate(tasks);
                     addApplication(application);
 
                     // add to the accumulating tasks

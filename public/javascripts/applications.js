@@ -62,9 +62,10 @@ function addApplication(application) {
     }));
 
     addAppTasks(application.tasks, application.currentPhase._id);
+    updatePhaseLabels(application.currentPhase.phaseType, application._id);
 
     // add a new add task label
-    $('.tasks').append(Handlebars.templates['new-task']);
+    $('[phase-id=' + application.currentPhase._id + '] .list').append(Handlebars.templates['new-task']);
     
     $('.ui.accordion').accordion();
 }

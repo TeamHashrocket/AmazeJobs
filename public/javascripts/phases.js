@@ -34,11 +34,8 @@ const terminalLabels = ['Accepted', 'Terminated'];
 
 var updatePhaseLabels = function(phaseType, appId) {
     var terminal = terminalLabels.indexOf(phaseType) > -1;
-    console.log(phaseType, terminal);
     var phaseText = $('.title[app-id='+appId+'] .phase');
     var changePhaseButton = $('#change-phase');
-    console.log(changePhaseButton);
-
     // update the current phase text
     phaseText.html(phaseType);
 
