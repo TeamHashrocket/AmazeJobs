@@ -1,11 +1,12 @@
 <div class='item' task-id={{_id}}>
     {{#if completed }}
-        <input class='checkbox' type='checkbox' name={{_id}} checked>
+        <input type='checkbox' name={{_id}} checked style = 'float:left;'>
     {{else}}
-        <input class='checkbox' type='checkbox' name={{_id}}>
+        <input type='checkbox' name={{_id}} style = 'float:left;'>
     {{/if}}
     <label>
         <div class='description'>{{description}}</div> 
         <div class='dueDate'>{{dueDate}}</div>
     </label>
+    
 </div>
