@@ -22,7 +22,7 @@ Handlebars.registerHelper("getMonth", function(datestring) {
 Handlebars.registerHelper("getDay", function(datestring) {
     if (datestring) {
         var date = new Date(datestring);
-        return date.getDay();  
+        return date.getDate();  
     }
     
     return 'DD';
@@ -31,7 +31,7 @@ Handlebars.registerHelper("getDay", function(datestring) {
 Handlebars.registerHelper("getYear", function(datestring) {
     if (datestring) {
         var date = new Date(datestring);
-        return date.getYear() + 1900;  
+        return date.getFullYear();  
     }
     
     return 'YYYY';
@@ -142,19 +142,16 @@ $(document).on('dblclick', '.task-item .description', function(event) {
     var month = task.find('#month').html();
     var day = task.find('#day').html();
     var year = task.find('#year').html();
+    var date;
 
-    if (month == undefined) {
-        month = 'MM';
-        day = 'DD';
-        year = 'YYYY';
+    if (month != undefined) {
+        date = new Date(month, day, year);
     }
 
     task.replaceWith(Handlebars.templates['new-task-form']({
         id: id,
         description: description,
-        month: month,
-        day: day,
-        year: year
+        dueDate: date
     }));
 
     $('.ui.dropdown').dropdown();
@@ -198,21 +195,19 @@ function addAppTasks(tasks, phaseId) {
 function addTask(task) {
     var appTaskList = $('[phase-id=' + task.phase + '] .list');
     var allTasksList = $('#task-list .list');
-    var date = new Date(task.dueDate);
     var taskItem ={
         _id: task._id,
         completed: task.completed,
         description: task.description,
-        month: date.getMonth(),
-        day: date.getDay(),
-        year: date.getYear(),
+        dueDate: task.dueDate
     };
-    if(allTasksList.children().length==0){
-        console.log(taskItem);
+
+    if(allTasksList.children().length==0) {
         addAllTasks([taskItem], []);    
-    }else{
+    } else {
         allTasksList.append(Handlebars.templates['task'](taskItem));
     }
+
     appTaskList.append(Handlebars.templates['task'](taskItem));
     $('.ui.checkbox').checkbox();
 }
