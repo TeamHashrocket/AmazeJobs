@@ -110,7 +110,6 @@ asyncTest("Go Through All Phases", function() {
 
         changePhase(applicationId, false, function(data) {
             phaseId = data.phase._id;
-            console.log(data)
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
