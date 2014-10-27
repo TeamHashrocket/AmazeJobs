@@ -1,3 +1,7 @@
+function resizeInput() {
+    $(this).attr('size', $(this).val().length);
+}
+
 // handlebars for loop
 Handlebars.registerHelper('for', function(from, to, incr, block) {
     var accum = '';
@@ -6,11 +10,24 @@ Handlebars.registerHelper('for', function(from, to, incr, block) {
     return accum;
 });
 //toggle complete/incomplete
-$(document).on('click', '.checkbox', function(event){
+$(document).on('mouseup', ':checkbox', function(event){
     var id = $(this).attr('name');
-    console.log(id);
-    //$.post().done().fail();
+    var checked = $(this).is(':checked');
+    
+    $.ajax({
+        url         : '/task/'+id,
+        type        : 'PUT',
+        data        : {completed:!checked},
+        dataType    : 'json',
+        success     : handleCheckedCallback(id, checked)
+    });
 });
+function handleCheckedCallback(id, checked){
+    return function(error){
+        $('[name='+id+']').prop('checked', !checked);
+        renderTaskList();
+    }
+}
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
@@ -20,6 +37,7 @@ $(document).on('click', '#new-task-label', function(event) {
         year: 'YYYY'
     }));
     $('.ui.dropdown').dropdown();
+    $('.accordion input[type="text"]').keyup(resizeInput);
 });
 
 // make a new task or submit an edit
@@ -106,6 +124,7 @@ Handlebars.registerPartial('task', Handlebars.templates['task']);
 // add all tasks to the UI
 function addAllTasks(pendingTasks, completedTasks) {
     var list = $('#task-list');
+    list.empty();
     if (pendingTasks.length != 0) {
         list.append(Handlebars.templates['tasks']({
             label: 'Pending Tasks',
