@@ -67,7 +67,7 @@ $(document).on('click', '#new-task-label', function(event) {
         year: 'YYYY'
     }));
     $('.ui.dropdown').dropdown();
-    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput);
+    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput).focus();
 });
 
 // make a new task or submit an edit
@@ -134,7 +134,7 @@ $(document).on('keydown', '#new-task-input', function(event) {
 
 // edit task
 $(document).on('dblclick', '.task-item .description', function(event) {
-    var task = $(this).parent().parent().parent();
+    var task = $(this).parent().parent();
     var id = task.attr('task-id');
     var description = task.find('.description').html();
     var month = task.find('#month').html();

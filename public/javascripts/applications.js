@@ -1,6 +1,8 @@
 // insert input field for new application
 $(document).on('click', '#new-application-button', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application']);
+    $('input[name=companyName]').focus();
+
 });
 
 // make a new application
