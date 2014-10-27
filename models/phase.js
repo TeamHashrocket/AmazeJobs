@@ -1,3 +1,4 @@
+// primary author: Elliott
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Task = require('../models/task');

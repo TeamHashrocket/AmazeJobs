@@ -1,3 +1,4 @@
+// primary author: Elliott
 // phase change button
 $(document).on('click', '.change-phase', function(event) {
     phaseChange(false, this);

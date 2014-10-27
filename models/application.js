@@ -1,3 +1,4 @@
+// primary author: Olga
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var Phase = require('../models/phase');

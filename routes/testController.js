@@ -1,3 +1,4 @@
+// primary author: Elliott
 var User = require('../models/user');
 var handleError = require('./utils').handleError;
 

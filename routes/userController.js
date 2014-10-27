@@ -1,3 +1,4 @@
+// primary author: Catherine
 var User = require('../models/user');
 var google = require('googleapis');
 var calendar = google.calendar('v3');

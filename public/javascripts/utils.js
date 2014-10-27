@@ -1,3 +1,4 @@
+// primary author: Elliott
 function handleError(error) {
     console.log(error);
     $('#error').html(Handlebars.templates['error']({

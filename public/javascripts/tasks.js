@@ -1,3 +1,4 @@
+// primary author: Catherine
 function resizeInput() {
     $(this).attr('size', $(this).val().length);
 }

@@ -1,3 +1,4 @@
+// primary author: Olga
 var Application = require('../models/application');
 var Phase = require('../models/phase');
 var handleError = require('./utils').handleError;

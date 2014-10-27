@@ -1,3 +1,4 @@
+// primary author: Olga
 // insert input field for new application
 $(document).on('click', '#new-application-button', function(event) {
     $(this).replaceWith(Handlebars.templates['new-application']);

@@ -1,3 +1,4 @@
+// primary author: Elliott
 var userId = $("#qunit").attr("userId");
 
 function ajax (params, url, restType, testName, success) {
