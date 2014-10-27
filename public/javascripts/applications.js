@@ -25,7 +25,8 @@ $(document).on('keydown', '#new-application-input', function(event) {
         { companyName: companyName } 
     ).done(function(response) {
         // set up starting phase type
-        response.application.currentPhase = { phaseType: 'Applying' };
+        var phaseId = response.application.currentPhase;
+        response.application.currentPhase = { _id: phaseId, phaseType: 'Applying' };
         response.application.tasks = {label:'Tasks', tasks:[]};
         
         addApplication(response.application);
