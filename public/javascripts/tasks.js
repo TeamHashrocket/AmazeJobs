@@ -50,12 +50,14 @@ $(document).on('mouseup', ':checkbox', function(event){
         success     : handleCheckedCallback(id, checked)
     });
 });
+
 function handleCheckedCallback(id, checked){
     return function(error){
         $('[name='+id+']').prop('checked', !checked);
         renderTaskList();
     }
 }
+
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
@@ -91,30 +93,33 @@ $(document).on('keydown', '#new-task-input', function(event) {
     if (month != 'MM' && day != 'DD' && year != 'YYYY') {
         date = new Date(year, month, day);
     } else {
-        month = 'MM';
-        day = 'DD';
-        year = 'YYYY';
+        month = '';
+        day = '';
+        year = '';
     }
 
     // existing task
-    if (id) {
-        if (description) {
-            console.log(date);
-            // this is an edit
-            editTask(id, description, date, function(task) {
-                thisForm.replaceWith(Handlebars.templates['task']({
-                    _id: id,
-                    completed: completed,
-                    description: description,
-                    dueDate: date
-                }));
-            });
-        } else {
-            // this is a delete
-            deleteTask(id, function() {
-                thisForm.remove();
-            });
-        }
+    if (id && description) {
+        // this is an edit
+        editTask(id, description, date, function(task) {
+            thisForm.replaceWith(Handlebars.templates['task']({
+                _id: id,
+                completed: completed,
+                description: description,
+                dueDate: date
+            }));
+
+            var taskItem = $('[task-id=' + id + ']');
+            taskItem.find('.description').html(description);
+            taskItem.find('.month').html(month);
+            taskItem.find('.day').html(day);
+            taskItem.find('.year').html(year);
+        });
+    } else if (id) {
+        // this is a delete
+        deleteTask(id, function() {
+            thisForm.remove();
+        });
     } else {
         // this is a new task post
         newTask(phaseId, description, date, function(task) {
