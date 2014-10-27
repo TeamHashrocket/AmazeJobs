@@ -14,9 +14,15 @@ $(document).on('mouseup', ':checkbox', function(event){
         url         : '/task/'+id,
         type        : 'PUT',
         data        : {completed:!checked},
-        dataType    : 'json'
+        dataType    : 'json',
+        success     : handleCheckedCallback(id, checked)
     });
 });
+function handleCheckedCallback(id, checked){
+    return function(error){
+        $('[name='+id+']').prop('checked', !checked);
+    }
+}
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
