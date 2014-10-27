@@ -1,3 +1,7 @@
+function resizeInput() {
+    $(this).attr('size', $(this).val().length);
+}
+
 // handlebars for loop
 Handlebars.registerHelper('for', function(from, to, incr, block) {
     var accum = '';
@@ -33,6 +37,7 @@ $(document).on('click', '#new-task-label', function(event) {
         year: 'YYYY'
     }));
     $('.ui.dropdown').dropdown();
+    $('.accordion input[type="text"]').keyup(resizeInput);
 });
 
 // make a new task
