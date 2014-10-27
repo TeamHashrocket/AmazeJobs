@@ -11,7 +11,7 @@ $(document).on('keydown', '#new-application-input', function(event) {
     }
 
     event.preventDefault();
-    var companyName = $("input[name=companyName]").val();
+    var companyName = $('input[name=companyName]').val();
 
     if (companyName == '') {
         return showError('Please enter a company name');
@@ -61,7 +61,7 @@ function addApplication(application) {
         application: application
     }));
 
-    addAppTasks(application.tasks, application._id);
+    addAppTasks(application.tasks, application.currentPhase._id);
 
     // add a new add task label
     $('.tasks').append(Handlebars.templates['new-task']);

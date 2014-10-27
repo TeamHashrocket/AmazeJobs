@@ -11,17 +11,17 @@ $(document).on('keydown', '#new-task-input', function(event) {
         return;
     }
 
-    var item = $(this).parent();
-    var id = item.attr('task-id');
+    var tasks = $(this).parent();
+    var phaseId = tasks.attr('phase-id');
 
-    var description = $("input[name=description]").val();
-    var dueDate = $("input[name=date]").val();
+    var description = $('[phase-id=' + phaseId + '] input[name=description]').val();
+    var dueDate = $('[phase-id=' + phaseId + '] input[name=date]').val();
 
     $.post(
-        '/phase/' + id + '/tasks',
+        '/phase/' + phaseId + '/tasks',
         { description:description, dueDate:dueDate }
     ).done(function(response) {
-        addApplication(response.application);
+        addTask(response.application);
     }).fail(function(error) {
         handleError(error);
     });
@@ -34,8 +34,8 @@ $(document).on('submit', '.task', function(event) {
     var item = $(this).parent();
     var id = item.attr('task-id');
 
-    var description = $("input[name=description]").val();
-    var dueDate = $("input[name=date]").val();
+    var description = $('input[name=description]').val();
+    var dueDate = $('input[name=date]').val();
 
     if (description) {
         $.post(
@@ -76,6 +76,7 @@ function addAllTasks(pendingTasks, completedTasks) {
     }
     $('.ui.checkbox').checkbox();
 }
+
 // add all tasks to the UI
 function addAppTasks(tasks, id) {
     var list = $('#'+id);
@@ -87,6 +88,7 @@ function addAppTasks(tasks, id) {
     }
     $('.ui.checkbox').checkbox();
 }
+
 // given a list of tasks, sort them by due date
 function sortByDueDate(list) {
     return list.sort(function(a,b) {
