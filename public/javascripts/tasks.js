@@ -34,7 +34,7 @@ $(document).on('keydown', '#new-task-input', function(event) {
 });
 
 //edit task
-$(document).on('submit', '.task', function(event) {
+$(document).on('dblclick', '.task', function(event) {
     event.preventDefault();
 
     var item = $(this).parent();
