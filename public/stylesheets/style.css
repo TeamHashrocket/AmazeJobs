@@ -66,3 +66,7 @@ a {
 .ui.list .description {
   color: black !important;
 }
+
+.accordion .task-item div {
+  display: inline-block;
+}
