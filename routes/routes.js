@@ -95,8 +95,8 @@ module.exports = function(app) {
         GET /applications/{id}/tasks
         Request Body: empty
         Response:
-            - completeTasks: sorted list of complete Tasks
-            - pendingTasks: sorted list of pending Tasks
+            - completeTasks: list of complete Tasks
+            - pendingTasks: list of pending Tasks
             - error: error if there was one
     */
     app.get('/applications/:id/tasks', function(req, res) {
