@@ -6,16 +6,11 @@
     {{/if}}
     <label>
         <div style='float:left;'>
-        <div class='description'>{{description}}</div>
-        {{#if month}}
-        	(
-            <div class='month'>{{month}}</div>
-            /
-            <div class='day'>{{day}}</div>
-            /
-            <div class='year'>{{year}}</div>
-            )
-        {{/if}}
+            <div class='description'>{{description}}
+                {{#if month}}
+                	&#40;<div class='month'>{{month}}</div>&#47;<div class='day'>{{day}}</div>&#47;<div class='year'>{{year}}</div>&#41;
+                {{/if}}
+            </div>
         </div>
     </label>
     

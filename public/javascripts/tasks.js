@@ -168,17 +168,21 @@ function addTask(task) {
     var appTaskList = $('[phase-id=' + task.phase + '] .list');
     var allTasksList = $('#task-list .list');
     var date = new Date(task.dueDate);
-    var taskItem = Handlebars.templates['task']({
+    var taskItem ={
         _id: task._id,
         completed: task.completed,
         description: task.description,
         month: date.getMonth(),
         day: date.getDay(),
         year: date.getYear(),
-    });
-
-    appTaskList.append(taskItem);
-    allTasksList.append(taskItem);
+    };
+    if(allTasksList.children().length==0){
+        console.log(taskItem);
+        addAllTasks([taskItem], []);    
+    }else{
+        allTasksList.append(taskItem);
+    }
+    appTaskList.append(Handlebars.templates.task[taskItem]);
 
     $('.ui.checkbox').checkbox();
 }
