@@ -9,6 +9,34 @@ Handlebars.registerHelper('for', function(from, to, incr, block) {
         accum += block.fn(i);
     return accum;
 });
+
+Handlebars.registerHelper("getMonth", function(datestring) {
+    if (datestring) {
+        var date = new Date(datestring);
+        return date.getMonth();  
+    }
+
+    return 'MM';
+});
+
+Handlebars.registerHelper("getDay", function(datestring) {
+    if (datestring) {
+        var date = new Date(datestring);
+        return date.getDay();  
+    }
+    
+    return 'DD';
+});
+
+Handlebars.registerHelper("getYear", function(datestring) {
+    if (datestring) {
+        var date = new Date(datestring);
+        return date.getYear() + 1900;  
+    }
+    
+    return 'YYYY';
+});
+
 //toggle complete/incomplete
 $(document).on('mouseup', ':checkbox', function(event){
     var id = $(this).attr('name');
@@ -22,12 +50,14 @@ $(document).on('mouseup', ':checkbox', function(event){
         success     : handleCheckedCallback(id, checked)
     });
 });
+
 function handleCheckedCallback(id, checked){
     return function(error){
         $('[name='+id+']').prop('checked', !checked);
         renderTaskList();
     }
 }
+
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
@@ -37,7 +67,7 @@ $(document).on('click', '#new-task-label', function(event) {
         year: 'YYYY'
     }));
     $('.ui.dropdown').dropdown();
-    $('.accordion input[type="text"]').keyup(resizeInput);
+    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput);
 });
 
 // make a new task or submit an edit
@@ -63,36 +93,34 @@ $(document).on('keydown', '#new-task-input', function(event) {
     if (month != 'MM' && day != 'DD' && year != 'YYYY') {
         date = new Date(year, month, day);
     } else {
-        month = 'MM';
-        day = 'DD';
-        year = 'YYYY';
+        month = '';
+        day = '';
+        year = '';
     }
 
     // existing task
-    if (id) {
-        console.log('exists');
-        if (description) {
-            console.log('edit');
-            // this is an edit
-            editTask(id, description, date, function(task) {
-                thisForm.replaceWith(Handlebars.templates['task']({
-                    _id: id,
-                    completed: completed,
-                    description: description,
-                    month: month,
-                    day: day,
-                    year: year
-                }));
-            });
-        } else {
-            console.log('delete');
-            // this is a delete
-            deleteTask(id, function() {
-                thisForm.remove();
-            });
-        }
+    if (id && description) {
+        // this is an edit
+        editTask(id, description, date, function(task) {
+            thisForm.replaceWith(Handlebars.templates['task']({
+                _id: id,
+                completed: completed,
+                description: description,
+                dueDate: date
+            }));
+
+            var taskItem = $('[task-id=' + id + ']');
+            taskItem.find('.description').html(description);
+            taskItem.find('.month').html(month);
+            taskItem.find('.day').html(day);
+            taskItem.find('.year').html(year);
+        });
+    } else if (id) {
+        // this is a delete
+        deleteTask(id, function() {
+            thisForm.remove();
+        });
     } else {
-        console.log('new');
         // this is a new task post
         newTask(phaseId, description, date, function(task) {
             addTask(task);
@@ -128,6 +156,7 @@ $(document).on('dblclick', '.task-item .description', function(event) {
     }));
 
     $('.ui.dropdown').dropdown();
+    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput);
 });
 
 Handlebars.registerPartial('task', Handlebars.templates['task']);
@@ -183,7 +212,6 @@ function addTask(task) {
         allTasksList.append(taskItem);
     }
     appTaskList.append(Handlebars.templates.task[taskItem]);
-
     $('.ui.checkbox').checkbox();
 }
 

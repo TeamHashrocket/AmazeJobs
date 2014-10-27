@@ -6,11 +6,16 @@
     {{/if}}
     <label>
         <div style='float:left;'>
-            <div class='description'>{{description}}
-                {{#if month}}
-                	&#40;<div class='month'>{{month}}</div>&#47;<div class='day'>{{day}}</div>&#47;<div class='year'>{{year}}</div>&#41;
-                {{/if}}
-            </div>
+        <div class='description'>{{description}}</div>
+        {{#if dueDate}}
+    	(
+        <div class='month'>{{getMonth dueDate}}</div>
+        /
+        <div class='day'>{{getDay dueDate}}</div>
+        /
+        <div class='year'>{{getYear dueDate}}</div>
+        )
+        {{/if}}
         </div>
     </label>
     
