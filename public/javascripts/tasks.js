@@ -6,9 +6,16 @@ Handlebars.registerHelper('for', function(from, to, incr, block) {
     return accum;
 });
 //toggle complete/incomplete
-$(document).on('click', ':checkbox', function(event){
+$(document).on('mouseup', ':checkbox', function(event){
     var id = $(this).attr('name');
-    $.put('/task/'+id,{completed:$(this).attr('checked')}).done().fail();
+    var checked = $(this).is(':checked');
+    
+    $.ajax({
+        url         : '/task/'+id,
+        type        : 'PUT',
+        data        : {completed:!checked},
+        dataType    : 'json'
+    });
 });
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
