@@ -1,7 +1,16 @@
+// handlebars for loop
+Handlebars.registerHelper('for', function(from, to, incr, block) {
+    var accum = '';
+    for(var i = from; i < to; i += incr)
+        accum += block.fn(i);
+    return accum;
+});
+
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
     $(this).replaceWith(Handlebars.templates['new-task-form']);
+    $('.ui.dropdown').dropdown();
 });
 
 // make a new task
