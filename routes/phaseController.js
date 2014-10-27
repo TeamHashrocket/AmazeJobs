@@ -25,7 +25,7 @@ module.exports = {
             if (phase == undefined) return handleError(res, 404, "Phase not found");
 
             // remove, not findByIdAndRemove because we have middleware
-            Task.find({'phase':phaseId}, function(err, tasks){
+            Task.find({'phase':phase._id}, function(err, tasks){
                 if(err) return handleError(res, 500, err);
                 for(var i = 0; i<tasks.length; i++){
                     tasks[i].remove(function(err){

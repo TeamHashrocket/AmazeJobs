@@ -84,6 +84,9 @@ function renderTaskList(){
             var completedTasks = [];
             var counter = 0;
             var len = applications.length;
+            if(len == 0){
+                addAllTasks([],[]);
+            }
             applications.forEach(function(application) {
                 // get all tasks
                 $.get(
@@ -103,8 +106,7 @@ function renderTaskList(){
                         pendingTasks = sortByDueDate(pendingTasks);
                         completedTasks = sortByDueDate(completedTasks);
                         // display tasks
-
-                        addAllTasks(pendingTasks, completedTasks,'#task-list');
+                        addAllTasks(pendingTasks, completedTasks);
                     }
                 }).fail(function(error) {
                     handleError(error);
