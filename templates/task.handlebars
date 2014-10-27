@@ -7,13 +7,13 @@
     <label>
         <div style='float:left;'>
         <div class='description'>{{description}}</div>
-        {{#if month}}
+        {{#if dueDate}}
         	(
-            <div class='month'>{{month}}</div>
+            <div class='month'>{{getMonth dueDate}}</div>
             /
-            <div class='day'>{{day}}</div>
+            <div class='day'>{{getDay dueDate}}</div>
             /
-            <div class='year'>{{year}}</div>
+            <div class='year'>{{getYear dueDate}}</div>
             )
         {{/if}}
         </div>

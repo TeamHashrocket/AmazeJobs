@@ -31,7 +31,7 @@ Handlebars.registerHelper("getDay", function(datestring) {
 Handlebars.registerHelper("getYear", function(datestring) {
     if (datestring) {
         var date = new Date(datestring);
-        return date.getYear();  
+        return date.getYear() + 1900;  
     }
     
     return 'YYYY';
@@ -98,27 +98,24 @@ $(document).on('keydown', '#new-task-input', function(event) {
 
     // existing task
     if (id) {
-        console.log('exists');
         if (description) {
-            console.log('edit');
+            console.log(date);
             // this is an edit
             editTask(id, description, date, function(task) {
                 thisForm.replaceWith(Handlebars.templates['task']({
                     _id: id,
                     completed: completed,
                     description: description,
-                    dueDate: date.toString()
+                    dueDate: date
                 }));
             });
         } else {
-            console.log('delete');
             // this is a delete
             deleteTask(id, function() {
                 thisForm.remove();
             });
         }
     } else {
-        console.log('new');
         // this is a new task post
         newTask(phaseId, description, date, function(task) {
             addTask(task);
