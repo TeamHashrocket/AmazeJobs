@@ -67,11 +67,11 @@ $(document).on('click', '#new-task-label', function(event) {
         year: 'YYYY'
     }));
     $('.ui.dropdown').dropdown();
-    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput).focus();
+    $('.new-task-input input[type="text"]').keyup(resizeInput).each(resizeInput).focus();
 });
 
 // make a new task or submit an edit
-$(document).on('keydown', '#new-task-input', function(event) {
+$(document).on('keydown', '.new-task-input', function(event) {
     // only care about enter being pressed
     if(event.which != 13) {
         return;
@@ -155,7 +155,7 @@ $(document).on('dblclick', '.task-item .description', function(event) {
     }));
 
     $('.ui.dropdown').dropdown();
-    $('.accordion input[type="text"]').keyup(resizeInput).each(resizeInput);
+    $('.new-task-input input[type="text"]').keyup(resizeInput).each(resizeInput);
 });
 
 Handlebars.registerPartial('task', Handlebars.templates['task']);
