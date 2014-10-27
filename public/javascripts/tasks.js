@@ -22,7 +22,7 @@ $(document).on('click', '#new-task-label', function(event) {
     $('.ui.dropdown').dropdown();
 });
 
-// make a new task
+// make a new task or submit an edit
 $(document).on('keydown', '#new-task-input', function(event) {
     // only care about enter being pressed
     if(event.which != 13) {
@@ -34,57 +34,71 @@ $(document).on('keydown', '#new-task-input', function(event) {
     var tasks = list.parent().parent();
     var phaseId = tasks.attr('phase-id');
 
-    var description = $('[phase-id=' + phaseId + '] input[name=description]').val();
-    var dueDate = $('[phase-id=' + phaseId + '] input[name=date]').val();
+    var id = thisForm.attr('task-id');
+    var description = thisForm.find('#description').val();
+    var month = thisForm.find('#month .text').html();
+    var day = thisForm.find('#day .text').html();
+    var year = thisForm.find('#year .text').html();
+    var date;
 
-    $.post(
-        '/phase/' + phaseId + '/tasks',
-        { description:description, dueDate:dueDate }
-    ).done(function(response) {
-        addTask(response.task);
+    if (month != 'MM' && day != 'DD' && year == 'YYYY') {
+        date = new Date(year, month, day);
+    }
 
-        // remove the input form, add a new New Task label to the end
-        thisForm.remove();
-        list.append(Handlebars.templates['new-task']);
-    }).fail(function(error) {
-        handleError(error);
-    });
+    // existing task
+    if (id) {
+        if (description) {
+            // this is an edit
+            editTask(id, description, date, function(task) {
+                thisForm.replaceWith(Handlebars.templates['task']({
+                    _id: task._id,
+                    completed: task.completed,
+                    description: task.description,
+                    dueDate: task.dueDate
+                }));
+            });
+        } else {
+            // this is a delete
+            deleteTask(id, function() {
+                thisForm.remove();
+            });
+        }
+    } else {
+        // this is a new task post
+        newTask(phaseId, description, date, function(task) {
+            addTask(task);
+
+            // remove the input form, add a new New Task label to the end
+            thisForm.remove();
+            list.append(Handlebars.templates['new-task']);
+        });
+    }
 });
 
 // edit task
-$(document).on('dblclick', '.task-checkbox', function(event) {
+$(document).on('dblclick', '.task-item', function(event) {
     var task = $(this);
-    var id = $(this).parent().parent().attr('task-id');
+    var id = $(this).attr('task-id');
+    var description = task.find('.description').html();
+    var month = task.find('#month').html();
+    var day = task.find('#day').html();
+    var year = task.find('#year').html();
+
+    if (month == undefined) {
+        month = 'MM';
+        day = 'DD';
+        year = 'YYYY';
+    }
 
     task.replaceWith(Handlebars.templates['new-task-form']({
-        taskId: id,
-        description: task.find('.description').val(),
-        dueDate: task.find('.dueDate').val(),
-        month: task.find('.dueDate').val(),
-        day: 'DD',
-        year: 'YYYY'
+        id: id,
+        description: description,
+        month: month,
+        day: day,
+        year: year
     }));
 
-    var item = $(this).parent();
-    var id = item.attr('task-id');
-
-    if (description) {
-        $.post(
-            '/task/' + id
-        ).done(function(response) {
-            // idk???
-        }).fail(function(error) {
-            handleError(error);
-        });
-    } else { // if empty description, delete it
-        $.delete(
-            '/task/' + id
-        ).done(function(response) {
-            item.remove();
-        }).fail(function(error) {
-            handleError(error);
-        });
-    }
+    $('.ui.dropdown').dropdown();
 });
 
 Handlebars.registerPartial('task', Handlebars.templates['task']);
@@ -134,6 +148,40 @@ function addTask(task) {
     allTasksList.append(taskItem);
 
     $('.ui.checkbox').checkbox();
+}
+
+function newTask(phaseId, description, date, callback) {
+    $.post(
+        '/phase/' + phaseId + '/tasks',
+        { description:description, dueDate:date }
+    ).done(function(response) {
+        callback(response.task);
+    }).fail(function(error) {
+        handleError(error);
+    });
+}
+
+function editTask(id, description, date, callback) {
+    $.ajax({
+        type: 'PUT',
+        url:'/task/' + id,
+        data: { description:description, dueDate:date }
+    }).done(function(response) {
+        callback(response.task);
+    }).fail(function(error) {
+        handleError(error);
+    });
+}
+
+function deleteTask(id, callback) {
+    $.ajax({
+        type: 'DELETE',
+        url:'/task/' + id
+    }).done(function(response) {
+        callback();
+    }).fail(function(error) {
+        handleError(error);
+    });
 }
 
 // given a list of tasks, sort them by due date

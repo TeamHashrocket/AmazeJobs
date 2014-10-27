@@ -1,12 +1,14 @@
-<div class='item' task-id={{_id}}>
+<div class='item task-item' task-id={{_id}}>
     {{#if completed }}
         <input type='checkbox' name={{_id}} checked style = 'float:left;'>
     {{else}}
         <input type='checkbox' name={{_id}} style = 'float:left;'>
     {{/if}}
     <label>
-        <div class='description'>{{description}}</div> 
-        <div class='dueDate'>{{dueDate}}</div>
+        <div class='description'>{{description}}</div>
+        {{#if month}}
+        	(<div class='month'>{{month}}</div>/<div class='day'>{{day}}</div>/<div class='year'>{{year}}</div>)
+        {{/if}}
     </label>
     
 </div>

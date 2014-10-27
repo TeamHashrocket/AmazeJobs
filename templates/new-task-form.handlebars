@@ -1,13 +1,13 @@
-<div id='new-task-input' class={{id}}>
+<div id='new-task-input' task-id={{id}}>
 	{{#if completed}}
     	<input type='checkbox' checked disabled>
     {{else}}
     	<input type='checkbox' disabled>
     {{/if}}
-    <input type='text' name='description' placeholder='New Task'>{{description}}
+    <input type='text' id='description' value={{description}}>
     (
-    <div class='ui dropdown'>
-        <div id='month' class='text'>{{month}}</div>
+    <div id='month' class='ui dropdown'>
+        <div class='text'>{{month}}</div>
         <div class='menu' style='overflow:auto;max-height:200px;'>
             {{#for 1 13 1}}
                 <div class='item'>{{this}}</div>
@@ -15,8 +15,8 @@
         </div>
     </div>
     /
-    <div class='ui dropdown'>
-        <div id='day' class='text'>{{day}}</div>
+    <div id='day' class='ui dropdown'>
+        <div class='text'>{{day}}</div>
         <div class='menu' style='overflow:auto;max-height:200px;'>
             {{#for 1 32 1}}
                 <div class='item'>{{this}}</div>
@@ -24,8 +24,8 @@
         </div>
     </div>
     /
-    <div class='ui dropdown'>
-        <div id='year' class='text'>{{year}}</div>
+    <div id='year' class='ui dropdown'>
+        <div class='text'>{{year}}</div>
         <div class='menu' style='overflow:auto;max-height:200px;'>
             {{#for 2014 2031 1}}
                 <div class='item'>{{this}}</div>
