@@ -13,7 +13,7 @@ var phaseChange = function(terminated, that) {
     var appId = $(that).parent().parent().attr('app-id');
 
     $.post(
-        '/application/' + appId + '/phases',
+        '/applications/' + appId + '/phases',
         { terminated: terminated } 
 
     ).done(function(response) {

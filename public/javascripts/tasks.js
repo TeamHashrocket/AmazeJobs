@@ -43,7 +43,7 @@ $(document).on('mouseup', ':checkbox', function(event){
     var checked = $(this).is(':checked');
     
     $.ajax({
-        url         : '/task/'+id,
+        url         : '/tasks/'+id,
         type        : 'PUT',
         data        : {completed:!checked},
         dataType    : 'json',
@@ -211,7 +211,7 @@ function addTask(task) {
 
 function newTask(phaseId, description, date, callback) {
     $.post(
-        '/phase/' + phaseId + '/tasks',
+        '/phases/' + phaseId + '/tasks',
         { description:description, dueDate:date }
     ).done(function(response) {
         callback(response.task);
@@ -223,7 +223,7 @@ function newTask(phaseId, description, date, callback) {
 function editTask(id, description, date, callback) {
     $.ajax({
         type: 'PUT',
-        url:'/task/' + id,
+        url:'/tasks/' + id,
         data: { description:description, dueDate:date }
     }).done(function() {
         callback();
@@ -235,7 +235,7 @@ function editTask(id, description, date, callback) {
 function deleteTask(id, callback) {
     $.ajax({
         type: 'DELETE',
-        url:'/task/' + id
+        url:'/tasks/' + id
     }).done(function(response) {
         callback();
     }).fail(function(error) {

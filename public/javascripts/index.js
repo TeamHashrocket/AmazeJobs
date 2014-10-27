@@ -13,7 +13,7 @@ $(document).ready(function() {
 
         // get all applications
         $.get(
-            '/user/' + userId + '/applications'
+            '/users/' + userId + '/applications'
         ).done(function(response) {
             var applications = response.applications;
             var pendingTasks = [];
@@ -21,9 +21,10 @@ $(document).ready(function() {
             var counter = 0;
             var len = applications.length;
             applications.forEach(function(application) {
+
                 // get all tasks
                 $.get(
-                    '/application/' + application._id + '/tasks'
+                    '/applications/' + application._id + '/tasks'
                 ).done(function(response) {
                     // add the application and its tasks
                     var tasks = response.pendingTasks.concat(response.completedTasks);
@@ -43,6 +44,7 @@ $(document).ready(function() {
 
                         addAllTasks(pendingTasks, completedTasks,'#task-list');
                     }
+
                 }).fail(function(error) {
                     handleError(error);
                 });
@@ -77,7 +79,7 @@ function renderTaskList(){
 
         // get all applications
         $.get(
-            '/user/' + userId + '/applications'
+            '/users/' + userId + '/applications'
         ).done(function(response) {
             var applications = response.applications;
             var pendingTasks = [];
@@ -88,9 +90,10 @@ function renderTaskList(){
                 addAllTasks([],[]);
             }
             applications.forEach(function(application) {
+                
                 // get all tasks
                 $.get(
-                    '/application/' + application._id + '/tasks'
+                    '/applications/' + application._id + '/tasks'
                 ).done(function(response) {
                     // add the application and its tasks
                     var tasks = response.pendingTasks.concat(response.completedTasks);
