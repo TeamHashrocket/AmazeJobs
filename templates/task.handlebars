@@ -7,7 +7,6 @@
     <label>
         <div style='float:left;'>
         <div class='description'>{{description}}</div>
-        {{#if dueDate}}
     	(
         <div class='month'>{{getMonth dueDate}}</div>
         /
@@ -15,7 +14,6 @@
         /
         <div class='year'>{{getYear dueDate}}</div>
         )
-        {{/if}}
         </div>
     </label>
     

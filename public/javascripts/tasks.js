@@ -88,15 +88,13 @@ $(document).on('keydown', '.new-task-input', function(event) {
     var month = thisForm.find('#month .text').html();
     var day = thisForm.find('#day .text').html();
     var year = thisForm.find('#year .text').html();
-    var date;
+    
 
-    if (month != 'MM' && day != 'DD' && year != 'YYYY') {
-        date = new Date(year, month, day);
-    } else {
-        month = '';
-        day = '';
-        year = '';
+    if (month == 'MM' || day == 'DD' || year == 'YYYY') {
+        return showError('Please enter a date');
     }
+
+    var date = new Date(year, month, day);
 
     // existing task
     if (id && description) {
@@ -142,11 +140,7 @@ $(document).on('dblclick', '.task-item .description', function(event) {
     var month = task.find('.month').html();
     var day = task.find('.day').html();
     var year = task.find('.year').html();
-    var date;
-
-    if (month != undefined) {
-        date = new Date(year, month, day);
-    }
+    var date = new Date(year, month, day);
 
     task.replaceWith(Handlebars.templates['new-task-form']({
         id: id,
@@ -260,12 +254,6 @@ function clearTasks(phaseId, appId) {
 // given a list of tasks, sort them by due date
 function sortByDueDate(list) {
     return list.sort(function(a,b) {
-        if (a.dueDate == undefined) {
-            return 1;
-        }
-        if (b.dueDate == undefined) {
-            return -1;
-        }
         return new Date(a.dueDate) - new Date(b.dueDate);
     });
 }

@@ -190,7 +190,7 @@ module.exports = function(app) {
         POST /phase/{id}/tasks
         Request Body:
             - description: description
-            - dueDate: due date (optional)
+            - dueDate: due date
         Response:
             - task: new task
             - error: error if there was one
