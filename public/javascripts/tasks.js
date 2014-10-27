@@ -21,6 +21,7 @@ $(document).on('mouseup', ':checkbox', function(event){
 function handleCheckedCallback(id, checked){
     return function(error){
         $('[name='+id+']').prop('checked', !checked);
+        renderTaskList();
     }
 }
 // make new task input form
@@ -104,6 +105,7 @@ Handlebars.registerPartial('task', Handlebars.templates['task']);
 // add all tasks to the UI
 function addAllTasks(pendingTasks, completedTasks) {
     var list = $('#task-list');
+    list.empty();
     if (pendingTasks.length != 0) {
         list.append(Handlebars.templates['tasks']({
             label: 'Pending Tasks',
