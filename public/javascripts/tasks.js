@@ -80,7 +80,7 @@ $(document).on('keydown', '.new-task-input', function(event) {
     var thisForm = $(this);
     var list = thisForm.parent();
     var tasks = list.parent().parent();
-    var phaseId = tasks.attr('phase-id');
+    var phaseId = tasks.attr('phase-id') || thisForm.attr('phase-id');
 
     var id = thisForm.attr('task-id');
     var completed = thisForm.find('[type="checkbox"]').attr('checked');
@@ -102,6 +102,7 @@ $(document).on('keydown', '.new-task-input', function(event) {
         editTask(id, description, date, function(task) {
             thisForm.replaceWith(Handlebars.templates['task']({
                 _id: id,
+                phase: phaseId,
                 completed: completed,
                 description: description,
                 dueDate: date
@@ -118,7 +119,7 @@ $(document).on('keydown', '.new-task-input', function(event) {
         deleteTask(id, function() {
             thisForm.remove();
             $('[task-id=' + id + ']').remove();
-            renderTaskList();
+            deleteTaskListIfEmpty();
         });
     } else {
         // this is a new task post
@@ -136,6 +137,7 @@ $(document).on('keydown', '.new-task-input', function(event) {
 $(document).on('dblclick', '.task-item .task-content', function(event) {
     var task = $(this).parent();
     var id = task.attr('task-id');
+    var phaseId = task.attr('phase-id');
     var description = task.find('.description').html();
     var month = task.find('.month').html();
     var day = task.find('.day').html();
@@ -144,6 +146,7 @@ $(document).on('dblclick', '.task-item .task-content', function(event) {
 
     task.replaceWith(Handlebars.templates['new-task-form']({
         id: id,
+        phaseId: phaseId,
         description: description,
         dueDate: date
     }));
@@ -176,7 +179,7 @@ function addAllTasks(pendingTasks, completedTasks) {
 
 // add all tasks to the UI
 function addAppTasks(tasks, phaseId) { 
-    var list = $('[phase-id=' + phaseId + ']');
+    var list = $('.tasks[phase-id=' + phaseId + ']');
         list.append(Handlebars.templates['tasks']({
             label: 'Tasks',
             tasks: tasks
@@ -194,6 +197,7 @@ function addTask(task) {
     var allTasksList = $('#task-list .list');
     var taskItem ={
         _id: task._id,
+        phase: task.phase,
         completed: task.completed,
         description: task.description,
         dueDate: task.dueDate
@@ -245,10 +249,26 @@ function deleteTask(id, callback) {
 
 function clearTasks(phaseId, appId) {
     var tasks = $('[app-id=' + appId + '] .tasks');
-    tasks.empty();
+    var oldPhaseId = tasks.attr('phase-id');
     tasks.attr('phase-id', phaseId)
-    addAppTasks([], phaseId);
-    renderTaskList();
+
+    // remove old tasks
+    $('.task-item[phase-id=' + oldPhaseId + ']').remove();
+    deleteTaskListIfEmpty();
+}
+
+// delete the task lists if they are empty
+function deleteTaskListIfEmpty() {
+    var pendingTaskList = $('.tasks-Pending .list');
+    var completedTaskList = $('.tasks-Completed .list');
+
+    if (pendingTaskList.children().length == 0) {
+        pendingTaskList.parent().remove();
+    }
+
+    if (completedTaskList.children().length == 0) {
+        completedTaskList.parent().remove();
+    }
 }
 
 // given a list of tasks, sort them by due date
