@@ -16,7 +16,7 @@ Handlebars.registerHelper("getMonth", function(datestring) {
         return date.getMonth();  
     }
 
-    return 'MM';
+    return new Date().getMonth() +1;
 });
 
 Handlebars.registerHelper("getDay", function(datestring) {
@@ -25,7 +25,7 @@ Handlebars.registerHelper("getDay", function(datestring) {
         return date.getDate();  
     }
     
-    return 'DD';
+    return new Date().getDate();
 });
 
 Handlebars.registerHelper("getYear", function(datestring) {
@@ -34,7 +34,7 @@ Handlebars.registerHelper("getYear", function(datestring) {
         return date.getFullYear();  
     }
     
-    return 'YYYY';
+    return new Date().getFullYear();
 });
 
 //toggle complete/incomplete
