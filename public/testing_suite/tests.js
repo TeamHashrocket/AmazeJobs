@@ -17,7 +17,7 @@ function ajax (params, url, restType, testName, success) {
 }
 
 function createApplication(callback) {
-    ajax({ companyName:"YOLOsoft" }, "/user/"+userId+"/applications", "POST", "Create Application", callback);
+    ajax({ companyName:"YOLOsoft" }, "/users/"+userId+"/applications", "POST", "Create Application", callback);
 }
 
 function deleteApplication(applicationId, callback) {
@@ -65,14 +65,14 @@ asyncTest("Create & Delete applications", function() {
         var initialNumApps = data.applications.length;
  
         createApplication(function(data) {
-            var applicationId1 = data.applicationId;
+            var applicationId1 = data.application._id;
 
             getApplications(function(data) {
                 var newNumApps = data.applications.length;
                 equal(newNumApps - 1, initialNumApps, "Count After Adding App");
 
                 createApplication(function(data) {
-                    var applicationId2 = data.applicationId;
+                    var applicationId2 = data.application._id;
 
                     getApplications(function(data) {
                         newNumApps = data.applications.length;
@@ -104,12 +104,13 @@ asyncTest("Create & Delete applications", function() {
 // goes through all phases except terminated also checks that you cant
 // go past offered without terminating
 asyncTest("Go Through All Phases", function() {
-    expect(15);
+    expect(13);
     createApplication(function(data) {
-        var applicationId = data.applicationId;
+        var applicationId = data.application._id;
 
         changePhase(applicationId, false, function(data) {
-            phaseId = data.phaseId;
+            phaseId = data.phase._id;
+            console.log(data)
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
@@ -118,10 +119,10 @@ asyncTest("Go Through All Phases", function() {
                         break;
                     }
                 }
-                equal(phase.phaseType, "Applying", "Checking Phase");
+                equal(phase.phaseType, "Interviewing", "Checking Phase");
 
                 changePhase(applicationId, false, function(data) {
-                    phaseId = data.phaseId;
+                    phaseId = data.phase._id;
 
                     getPhases(applicationId, function(data) {
                         for (var i=0; i<data.phases.length; i++) {
@@ -130,10 +131,10 @@ asyncTest("Go Through All Phases", function() {
                                 break;
                             }
                         }
-                        equal(phase.phaseType, "Interviewing", "Checking Phase");
+                        equal(phase.phaseType, "Offered", "Checking Phase");
 
                         changePhase(applicationId, false, function(data) {
-                            phaseId = data.phaseId;
+                            phaseId = data.phase._id;
 
                             getPhases(applicationId, function(data) {
                                 for (var i=0; i<data.phases.length; i++) {
@@ -142,28 +143,14 @@ asyncTest("Go Through All Phases", function() {
                                         break;
                                     }
                                 }
-                                equal(phase.phaseType, "Offered", "Checking Phase");
-                                phaseId = data.phaseId;
+                                equal(phase.phaseType, "Accepted", "Checking Phase");
 
                                 changePhase(applicationId, false, function(data) {
-                                phaseId = data.phaseId;
 
-                                getPhases(applicationId, function(data) {
-                                    for (var i=0; i<data.phases.length; i++) {
-                                        phase = data.phases[i];
-                                        if (phaseId == phase._id) {
-                                            break;
-                                        }
-                                    }
-                                    equal(phase.phaseType, "Accepted", "Checking Phase");
-                                    phaseId = data.phaseId;
+                                changePhase(applicationId, false, function(data) {
+                                    equal(data.phase, undefined, "Does not go past Accepted");
 
-                                    changePhase(applicationId, false, function(data) {
-                                        phaseId = data.phaseId;
-                                        equal(phaseId, undefined, "Does not go past Accepted");
-
-                                        start();
-                                    });
+                                    start();
                                 });
                             });
                             });
@@ -179,10 +166,10 @@ asyncTest("Go Through All Phases", function() {
 asyncTest("Terminate at All Phases", function() {
     expect(30);
     createApplication(function(data) {
-        var applicationId = data.applicationId;
+        var applicationId = data.application._id;
 
         changePhase(applicationId, false, function(data) {
-            var phaseId = data.phaseId;
+            var phaseId = data.phase._id;
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
@@ -191,10 +178,10 @@ asyncTest("Terminate at All Phases", function() {
                         break;
                     }
                 }
-                equal(phase.phaseType, "Applying", "Checking Phase");
+                equal(phase.phaseType, "Interviewing", "Checking Phase");
 
                 changePhase(applicationId, true, function(data) {
-                    phaseId = data.phaseId;
+                    phaseId = data.phase._id;
 
                     getPhases(applicationId, function(data) {
                         for (var i=0; i<data.phases.length; i++) {
@@ -212,10 +199,10 @@ asyncTest("Terminate at All Phases", function() {
     });
     
     createApplication(function(data) {
-        var applicationId = data.applicationId;
+        var applicationId = data.application._id;
 
         changePhase(applicationId, false, function(data) {
-            var phaseId = data.phaseId;
+            var phaseId = data.phase._id;
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
@@ -224,10 +211,10 @@ asyncTest("Terminate at All Phases", function() {
                         break;
                     }
                 }
-                equal(phase.phaseType, "Applying", "Checking Phase");
+                equal(phase.phaseType, "Interviewing", "Checking Phase");
 
                 changePhase(applicationId, false, function(data) {
-                    phaseId = data.phaseId;
+                    phaseId = data.phase._id;
 
                     getPhases(applicationId, function(data) {
                         for (var i=0; i<data.phases.length; i++) {
@@ -236,10 +223,10 @@ asyncTest("Terminate at All Phases", function() {
                                 break;
                             }
                         }
-                        equal(phase.phaseType, "Interviewing", "Checking Phase");
+                        equal(phase.phaseType, "Offered", "Checking Phase");
 
                         changePhase(applicationId, true, function(data) {
-                            phaseId = data.phaseId;
+                            phaseId = data.phase._id;
 
                             getPhases(applicationId, function(data) {
                                 for (var i=0; i<data.phases.length; i++) {
@@ -258,10 +245,10 @@ asyncTest("Terminate at All Phases", function() {
     });
 
     createApplication(function(data) {
-        var applicationId = data.applicationId;
+        var applicationId = data.application._id;
 
         changePhase(applicationId, false, function(data) {
-            var phaseId = data.phaseId;
+            var phaseId = data.phase._id;
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
@@ -270,10 +257,10 @@ asyncTest("Terminate at All Phases", function() {
                         break;
                     }
                 }
-                equal(phase.phaseType, "Applying", "Checking Phase");
+                equal(phase.phaseType, "Interviewing", "Checking Phase");
 
                 changePhase(applicationId, false, function(data) {
-                    phaseId = data.phaseId;
+                    phaseId = data.phase._id;
 
                     getPhases(applicationId, function(data) {
                         for (var i=0; i<data.phases.length; i++) {
@@ -282,10 +269,10 @@ asyncTest("Terminate at All Phases", function() {
                                 break;
                             }
                         }
-                        equal(phase.phaseType, "Interviewing", "Checking Phase");
+                        equal(phase.phaseType, "Offered", "Checking Phase");
 
                         changePhase(applicationId, false, function(data) {
-                            phaseId = data.phaseId;
+                            phaseId = data.phase._id;
 
                             getPhases(applicationId, function(data) {
                                 for (var i=0; i<data.phases.length; i++) {
@@ -294,10 +281,10 @@ asyncTest("Terminate at All Phases", function() {
                                         break;
                                     }
                                 }
-                                equal(phase.phaseType, "Offered", "Checking Phase");
+                                equal(phase.phaseType, "Accepted", "Checking Phase");
 
                                 changePhase(applicationId, true, function(data) {
-                                    phaseId = data.phaseId;
+                                    phaseId = data.phase._id;
 
                                     getPhases(applicationId, function(data) {
                                         for (var i=0; i<data.phases.length; i++) {
@@ -324,13 +311,13 @@ asyncTest("Terminate at All Phases", function() {
 asyncTest("Phase Changes Don't Affect Other Applications", function() {
     expect(13);
     createApplication(function(data) {
-        var applicationId1 = data.applicationId;
+        var applicationId1 = data.application._id;
 
         createApplication(function(data) {
-            var applicationId2 = data.applicationId;
+            var applicationId2 = data.application._id;
 
             changePhase(applicationId1, false, function(data) {
-                var phaseId1 = data.phaseId;
+                var phaseId1 = data.phase._id;
 
                 getPhases(applicationId1, function(data) {
                     for (var i=0; i<data.phases.length; i++) {
@@ -339,10 +326,10 @@ asyncTest("Phase Changes Don't Affect Other Applications", function() {
                             break;
                         }
                     }
-                    equal(phase.phaseType, "Applying", "Checking Phase 1");
+                    equal(phase.phaseType, "Interviewing", "Checking Phase 1");
 
                     changePhase(applicationId2, false, function(data) {
-                        var phaseId2 = data.phaseId;
+                        var phaseId2 = data.phase._id;
 
                         getPhases(applicationId1, function(data) {
                             for (var i=0; i<data.phases.length; i++) {
@@ -351,10 +338,10 @@ asyncTest("Phase Changes Don't Affect Other Applications", function() {
                                     break;
                                 }
                             }
-                            equal(phase.phaseType, "Applying", "Checking Phase 2");
+                            equal(phase.phaseType, "Interviewing", "Checking Phase 2");
 
                             changePhase(applicationId1, false, function(data) {
-                                phaseId1 = data.phaseId;
+                                phaseId1 = data.phase._id;
 
                                 getPhases(applicationId1, function(data) {
                                     for (var i=0; i<data.phases.length; i++) {
@@ -363,7 +350,7 @@ asyncTest("Phase Changes Don't Affect Other Applications", function() {
                                             break;
                                         }
                                     }
-                                    equal(phase.phaseType, "Interviewing", "Checking Phase 1");
+                                    equal(phase.phaseType, "Offered", "Checking Phase 1");
 
                                     getPhases(applicationId2, function(data) {
                                         for (var i=0; i<data.phases.length; i++) {
@@ -372,7 +359,7 @@ asyncTest("Phase Changes Don't Affect Other Applications", function() {
                                                 break;
                                             }
                                         }
-                                        equal(phase.phaseType, "Applying", "Checking Phase 2");
+                                        equal(phase.phaseType, "Interviewing", "Checking Phase 2");
                                         start();
                                     });
                                 });
@@ -385,62 +372,14 @@ asyncTest("Phase Changes Don't Affect Other Applications", function() {
     });
 });
 
-// Creating tasks with and without descriptions (space)
-asyncTest("Create Tasks With and Without Descriptions and Dates", function() {
-    expect(11);
-    createApplication(function(data) {
-        var applicationId = data.applicationId;
-
-        changePhase(applicationId, false, function(data) {
-            var phaseId = data.phaseId;
-
-            getPhases(applicationId, function(data) {
-                for (var i=0; i<data.phases.length; i++) {
-                    phase = data.phases[i];
-                    if (phaseId == phase._id) {
-                        break;
-                    }
-                }
-                equal(phase.phaseType, "Applying", "Checking Phase");
-
-                createTask(phaseId, " ", undefined ,function(data) {
-                    var taskId1 = data.taskId;
-                    var curTime = new Date();
-
-                    createTask(phaseId, "YOLO SWAG", curTime, function(data) {
-                        var taskId2 = data.taskId;
-
-                        getTasks(phaseId, function(data){
-                            for (var i = 0; i<data.tasks.length; i++) {
-                                var task = data.tasks[i];
-
-                                if (task._id == taskId1) {
-                                    equal(task.description, " ", "Test Empty Task Description");
-                                    equal(task.dueDate, undefined, "Test Empty Date");
-
-                                } else if (task._id == taskId2) {
-                                    equal(task.description, "YOLO SWAG", "Test Nonempty Task Description");
-                                    equal(toString(new Date (task.dueDate)), toString(curTime), "Test Nonempty Date");
-                                }
-                            }
-
-                            start();
-                        });
-                    });
-                });
-            });
-        });
-    });
-});
-
 // Editing task descriptions, dates, and completed
 asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
     expect(21);
     createApplication(function(data) {
-        var applicationId = data.applicationId;
+        var applicationId = data.application._id;
 
         changePhase(applicationId, false, function(data) {
-            var phaseId = data.phaseId;
+            var phaseId = data.phase._id;
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
@@ -449,14 +388,16 @@ asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
                         break;
                     }
                 }
-                equal(phase.phaseType, "Applying", "Checking Phase");
+                equal(phase.phaseType, "Interviewing", "Checking Phase");
 
-                createTask(phaseId, " ", undefined ,function(data) {
-                    var taskId1 = data.taskId;
+                var curTime1 = new Date();
 
+                createTask(phaseId, " ", curTime1 ,function(data) {
+                    var taskId1 = data.task._id;
+                    var curTime2 = new Date();
 
-                    createTask(phaseId, " ", undefined, function(data) {
-                        var taskId2 = data.taskId;
+                    createTask(phaseId, " ", curTime2, function(data) {
+                        var taskId2 = data.task._id;
 
                         getTasks(phaseId, function(data){
                             for (var i = 0; i<data.tasks.length; i++) {
@@ -464,12 +405,12 @@ asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
 
                                 if (task._id == taskId1) {
                                     equal(task.description, " ", "Test Empty Task Description");
-                                    equal(task.dueDate, undefined, "Test Empty Due Date");
+                                    equal(toString(new Date(task.dueDate)), toString(curTime1), "Test Due Date");
                                     equal(task.completed, false, "Test False Completed");
 
                                 } else if (task._id == taskId2) {
                                     equal(task.description, " ", "Test Empty Task Description");
-                                    equal(task.dueDate, undefined, "Test Empty Due Date");
+                                    equal(toString(new Date(task.dueDate)), toString(curTime2), "Test Due Date");
                                     equal(task.completed, false, "Test False Completed");
                                 }
                             }
@@ -483,12 +424,12 @@ asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
 
                                         if (task._id == taskId1) {
                                             equal(task.description, "Change 1", "Test edit 1");
-                                            equal(toString(new Date(task.dueDate)), toString(curTime), "Test edit 1");
+                                            equal(toString(new Date(task.dueDate)), toString(curTime1), "Test edit 1");
                                             equal(task.completed, true, "Test edit 1");
 
                                         } else if (task._id == taskId2) {
                                             equal(task.description, " ", "Make sure edit 1 didnt change task 2 description");
-                                            equal(task.dueDate, undefined, "Make sure edit 1 didnt change task 2 date");
+                                            equal(toString(new Date(task.dueDate)), toString(curTime2), "Make sure edit 1 didnt change task 2 date");
                                             equal(task.completed, false, "Make sure edit 1 didnt change task 2 completed");
                                         }
                                     }
@@ -505,13 +446,13 @@ asyncTest("Edit Task Descriptions, Dates, and Completed", function() {
 });
 
 // Creating and deleting tasks
-asyncTest("Create and Delete Tasks With and Without Descriptions and Dates", function() {
+asyncTest("Create and Delete Tasks", function() {
     expect(17);
     createApplication(function(data) {
-        var applicationId = data.applicationId;
+        var applicationId = data.application._id;
 
         changePhase(applicationId, false, function(data) {
-            var phaseId = data.phaseId;
+            var phaseId = data.phase._id;
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
@@ -520,20 +461,21 @@ asyncTest("Create and Delete Tasks With and Without Descriptions and Dates", fun
                         break;
                     }
                 }
-                equal(phase.phaseType, "Applying", "Checking Phase");
+                equal(phase.phaseType, "Interviewing", "Checking Phase");
 
                 getTasks(phaseId, function(data){
                     equal(data.tasks.length, 0, "Count Initial Num of Tasks");
+                    var curTime1 = new Date();
 
-                    createTask(phaseId, " ", undefined ,function(data) {
-                        var taskId1 = data.taskId;
+                    createTask(phaseId, " ", curTime1 ,function(data) {
+                        var taskId1 = data.task._id;
 
                         getTasks(phaseId, function(data){
                             equal(data.tasks.length, 1, "Count after adding a task");
-                            var curTime = new Date();
+                            var curTime2 = new Date();
 
-                            createTask(phaseId, "YOLO SWAG", curTime, function(data) {
-                                var taskId2 = data.taskId;
+                            createTask(phaseId, "YOLO SWAG", curTime2, function(data) {
+                                var taskId2 = data.task._id;
 
                                 getTasks(phaseId, function(data){
                                     equal(data.tasks.length, 2, "Count after adding a second task");
@@ -543,7 +485,7 @@ asyncTest("Create and Delete Tasks With and Without Descriptions and Dates", fun
                                             equal(data.tasks.length, 1, "Count after adding a second task");
 
                                             equal(data.tasks[0].description, "YOLO SWAG", "Check that we deleted the correct task");
-                                            equal(toString(new Date(data.tasks[0].dueDate)), toString(curTime), "Check that we deleted the correct task");
+                                            equal(toString(new Date(data.tasks[0].dueDate)), toString(curTime2), "Check that we deleted the correct task");
 
                                             start();
                                         });
@@ -562,10 +504,10 @@ asyncTest("Create and Delete Tasks With and Without Descriptions and Dates", fun
 asyncTest("Create and Edit Tasks in Different Phases of Same Application", function() {
     expect(20);
     createApplication(function(data) {
-        var applicationId = data.applicationId;
+        var applicationId = data.application._id;
 
         changePhase(applicationId, false, function(data) {
-            var phaseId1 = data.phaseId;
+            var phaseId1 = data.phase._id;
 
             getPhases(applicationId, function(data) {
                 for (var i=0; i<data.phases.length; i++) {
@@ -574,16 +516,18 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
                         break;
                     }
                 }
-                equal(phase.phaseType, "Applying", "Checking Phase");
+                equal(phase.phaseType, "Interviewing", "Checking Phase");
 
-                createTask(phaseId1, " ", undefined ,function(data) {
-                    var taskId1 = data.taskId;
+                var curTime1 = new Date();
+                createTask(phaseId1, " ", curTime1 ,function(data) {
+                    var taskId1 = data.task._id;
 
                     changePhase(applicationId, false, function(data) {
-                        var phaseId2 = data.phaseId;
+                        var phaseId2 = data.phase._id;
+                        var curTime2 = new Date();
 
-                        createTask(phaseId2, " ", undefined, function(data) {
-                            var taskId2 = data.taskId;
+                        createTask(phaseId2, " ", curTime2, function(data) {
+                            var taskId2 = data.task._id;
 
                             getTasks(phaseId2, function(data){
                                 for (var i = 0; i<data.tasks.length; i++) {
@@ -591,7 +535,7 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
 
                                     if (task._id == taskId2) {
                                         equal(task.description, " ", "Test New Task Description");
-                                        equal(task.dueDate, undefined, "Test New Task Due Date");
+                                        equal(toString(new Date(task.dueDate)), toString(curTime2), "Test New Task Due Date");
                                         equal(task.completed, false, "Test New Task Completed");
 
                                     } else if (task._id == taskId1) {
@@ -621,7 +565,7 @@ asyncTest("Create and Edit Tasks in Different Phases of Same Application", funct
 
                                                 if (task._id == taskId1) {
                                                     equal(task.description, " ", "Test Old Task Description");
-                                                    equal(task.dueDate, undefined, "Test Old Task Date");
+                                                    equal(toString(new Date(task.dueDate)), toString(curTime1), "Test Old Task Date");
                                                     equal(task.completed, false, "Test Old Task Completed");
 
                                                 } else if (task._id == taskId2) {
