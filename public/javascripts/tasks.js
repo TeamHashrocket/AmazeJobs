@@ -119,6 +119,7 @@ $(document).on('keydown', '#new-task-input', function(event) {
         // this is a delete
         deleteTask(id, function() {
             thisForm.remove();
+            $('[task-id=' + id + ']').remove();
             renderTaskList();
         });
     } else {
