@@ -67,6 +67,6 @@ a {
   color: black !important;
 }
 
-.accordion .task-item div {
+.task-item div {
   display: inline-block;
 }
