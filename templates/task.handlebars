@@ -1,9 +1,13 @@
 <div class='item' task-id={{_id}}>
-	<div class='ui checkbox'>
-		{{#if completed }}
-			<input class='task-checkbox' type='checkbox' name={{_id}} checked> <label>{{description}} {{dueDate}}</label>
-		{{else}}
-			<input class='task-checkbox' type='checkbox' name={{_id}}> <label>{{description}} {{dueDate}}</label>
-		{{/if}}
-	</div>
+    <div class='ui checkbox'>
+        {{#if completed }}
+            <input class='task-checkbox' type='checkbox' name={{_id}} checked>
+        {{else}}
+            <input class='task-checkbox' type='checkbox' name={{_id}}>
+        {{/if}}
+        <label>
+            <div class='description'>{{description}}</div> 
+            <div class='dueDate'>{{dueDate}}</div>
+        </label>
+    </div>
 </div>

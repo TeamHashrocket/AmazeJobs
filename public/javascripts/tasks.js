@@ -33,15 +33,19 @@ $(document).on('keydown', '#new-task-input', function(event) {
     });
 });
 
-//edit task
-$(document).on('dblclick', '.task', function(event) {
-    event.preventDefault();
+// edit task
+$(document).on('dblclick', '.task-checkbox', function(event) {
+    var task = $(this);
+    var id = $(this).parent().parent().attr('task-id');
+
+    $(this).replaceWith(Handlebars.templates['new-task-form']({
+        taskId: id,
+        description: task.find('.description').val(),
+        dueDate: task.find('.dueDate').val()
+    }));
 
     var item = $(this).parent();
     var id = item.attr('task-id');
-
-    var description = $('input[name=description]').val();
-    var dueDate = $('input[name=date]').val();
 
     if (description) {
         $.post(
