@@ -79,7 +79,7 @@ function addAllTasks(pendingTasks, completedTasks) {
 
 // add all tasks to the UI
 function addAppTasks(tasks, id) {
-    var list = $('#'+id);
+    var list = $('.content[phase-id=' + id + '] .tasks');
     if (tasks.tasks.length != 0) {
         list.append(Handlebars.templates['tasks']({
             label: tasks.label,
