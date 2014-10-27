@@ -57,7 +57,8 @@ function renderTaskList(renderApplications){
                     // add the application and its tasks
                     var tasks = response.pendingTasks.concat(response.completedTasks);
                     application.tasks = sortByDueDate(tasks);
-                    addApplication(application); 
+
+                    addApplication(application, application.currentPhase.phaseType); 
                 }
                 
                 // add to the accumulating tasks

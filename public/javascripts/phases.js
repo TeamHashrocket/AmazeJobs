@@ -21,10 +21,8 @@ var phaseChange = function(terminated, that) {
 
         updatePhaseLabels(phase.phaseType, appId);
         clearTasks(phase._id, appId);
-        if(terminated){
-        console.log('termianted in phases')
-        $('.title[app-id ='+appId+']').addClass('terminated');
-    }
+        $('.title[app-id ='+appId+']').removeClass("Applying Interviewing Offered Terminated Accepted");
+        $('.title[app-id ='+appId+']').addClass(phase.phaseType);
     }).fail(function(error) {
         handleError(error);
     });

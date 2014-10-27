@@ -30,8 +30,7 @@ $(document).on('keydown', '#new-application-input', function(event) {
         var phaseId = response.application.currentPhase;
         response.application.currentPhase = { _id: phaseId, phaseType: 'Applying' };
         response.application.tasks =[];
-        
-        addApplication(response.application);
+        addApplication(response.application, response.application.currentPhase.phaseType);
     }).fail(function(error) {
         handleError(error);
     });
@@ -57,10 +56,11 @@ $(document).on('click', '#delete-application', function(event) {
 Handlebars.registerPartial('application', Handlebars.templates['application']);
 Handlebars.registerPartial('new-task', Handlebars.templates['new-task']);
 // add an application to the UI
-function addApplication(application) {
+function addApplication(application, terminated) {
     var list = $('#application-list');
     list.prepend(Handlebars.templates['application']({
-        application: application
+        application: application,
+        terminated : terminated
     }));
 
     addAppTasks(application.tasks, application.currentPhase._id);
