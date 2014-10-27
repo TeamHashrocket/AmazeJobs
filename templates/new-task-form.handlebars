@@ -1,29 +1,33 @@
-<div id='new-task-input'>
-    <input type="checkbox" disabled>
-    <input type='text' name='description' placeholder='New Task'>
+<div id='new-task-input' class={{id}}>
+	{{#if completed}}
+    	<input type="checkbox" checked disabled>
+    {{else}}
+    	<input type="checkbox" disabled>
+    {{/if}}
+    <input type='text' name='description' placeholder='New Task'>{{description}}
     (
     <div class="ui dropdown">
-        <div class="text">MM</div>
+        <div class="text">{{month}}</div>
         <div class="menu" style="overflow:auto;max-height:200px;">
-            {{#for 1 12 1}}
+            {{#for 1 13 1}}
                 <div class="item">{{this}}</div>
             {{/for}}
         </div>
     </div>
     /
     <div class="ui dropdown">
-        <div class="text">DD</div>
+        <div class="text">{{day}}</div>
         <div class="menu" style="overflow:auto;max-height:200px;">
-            {{#for 1 31 1}}
+            {{#for 1 32 1}}
                 <div class="item">{{this}}</div>
             {{/for}}
         </div>
     </div>
     /
     <div class="ui dropdown">
-        <div class="text">YYYY</div>
+        <div class="text">{{year}}</div>
         <div class="menu" style="overflow:auto;max-height:200px;">
-            {{#for 2014 2030 1}}
+            {{#for 2014 2031 1}}
                 <div class="item">{{this}}</div>
             {{/for}}
         </div>
