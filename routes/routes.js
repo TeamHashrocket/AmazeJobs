@@ -70,6 +70,7 @@ module.exports = function(app) {
         Request Body: empty
         Response:
             - user: the user
+            - userIsNew: whether or not the user is new
             - error: error if there was one
     */
     app.get('/user', function(req, res) {

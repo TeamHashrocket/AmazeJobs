@@ -1,17 +1,15 @@
 // primary author: Elliott
 function handleError(error) {
     console.log(error);
-    $('#error').html(Handlebars.templates['error']({
-        error: 'Something went wrong'
-    }));
+    showDialog('Something went wrong');
 }
 
-function removeError() {
-    $('#error').html('');
+function removeDialog() {
+    $('#dialog').html('');
 }
 
-function showError(error) {
-    $('#error').html(Handlebars.templates['error']({
-        error: error
+function showDialog(text) {
+    $('#dialog').html(Handlebars.templates['dialog']({
+        text: text
     }));
 }

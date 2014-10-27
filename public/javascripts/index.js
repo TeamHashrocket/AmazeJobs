@@ -12,6 +12,13 @@ $(document).ready(function() {
         '/user/'
     ).done(function(response) {
         userId = response.user._id;
+        var userIsNew = response.userIsNew;
+
+        // if the user is new, show a first time user help dialog
+        if (userIsNew != undefined) {
+            showHelp();
+        }
+
         // render tasks and applications
         renderTaskList(true);
     }).fail(function(error) {
@@ -83,4 +90,12 @@ function renderTaskList(renderApplications){
         handleError(error);
     });
 
+}
+
+
+function showHelp() {
+    var help = 'Click "Add Task" to add a new task, hit enter to submit. ' +
+                'Double click an existing task to edit it, hit enter to submit. ' +
+                'To delete a task, make its description empty.';
+    showDialog(help);
 }

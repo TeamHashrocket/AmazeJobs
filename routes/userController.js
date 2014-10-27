@@ -49,10 +49,15 @@ module.exports = {
     getLoggedInUser: function(req, res) {
         var user = req.session.userId
 
+        // save if the user is new and reset it
+        var userIsNew = req.session.userIsNew;
+        req.session.userIsNew = undefined;
+        req.session.save();
+
         User.findOne({ _id: user }, function (err, user) {
             if (err) return handleError(res, 500, err);
             if (user == undefined) return handleError(res, 404, 'User not found');
-            res.json({ user: user });
+            res.json({ user: user, userIsNew: userIsNew });
         });
     }
 }
@@ -82,12 +87,27 @@ var savePersonalInfo = function(googlePlusInfo, req, res) {
         }
     }
 
-    // update name or insert anew if not in database
-    User.findOneAndUpdate({ email:email }, { email:email, name:name }, {upsert: true}, function (err, user) {
+    // try to find the user
+    User.findOne({ email:email }, function (err, user) {
         if (err) return handleError(res, 500, err);
 
-        req.session.userId = user.id;
-        req.session.save();
-        res.redirect('/');
+        // create a new user and save the fact that they're new to the session
+        if (user == undefined) {
+            var newUser = new User({ name: name, email: email });
+        
+            newUser.save(function (err, user) {
+                if (err) return handleError(res, 500, err);
+                userObject = user;
+                req.session.userIsNew = true;
+                req.session.userId = userObject.id;
+                req.session.save();
+                res.redirect('/');
+            });
+
+        } else {
+            req.session.userId = user.id;
+            req.session.save();
+            res.redirect('/');
+        }
     });
 }
