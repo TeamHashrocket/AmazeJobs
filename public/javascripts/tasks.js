@@ -5,7 +5,12 @@ Handlebars.registerHelper('for', function(from, to, incr, block) {
         accum += block.fn(i);
     return accum;
 });
-
+//toggle complete/incomplete
+$(document).on('click', '.checkbox', function(event){
+    var id = $(this).attr('name');
+    console.log(id);
+    //$.post().done().fail();
+});
 // make new task input form
 $(document).on('click', '#new-task-label', function(event) {
     event.preventDefault();
