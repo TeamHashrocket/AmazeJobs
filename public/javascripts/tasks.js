@@ -139,13 +139,13 @@ $(document).on('dblclick', '.task-item .description', function(event) {
     var task = $(this).parent().parent().parent();
     var id = task.attr('task-id');
     var description = task.find('.description').html();
-    var month = task.find('#month').html();
-    var day = task.find('#day').html();
-    var year = task.find('#year').html();
+    var month = task.find('.month').html();
+    var day = task.find('.day').html();
+    var year = task.find('.year').html();
     var date;
 
     if (month != undefined) {
-        date = new Date(month, day, year);
+        date = new Date(year, month, day);
     }
 
     task.replaceWith(Handlebars.templates['new-task-form']({
