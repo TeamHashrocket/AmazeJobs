@@ -65,8 +65,19 @@ function addAllTasks(pendingTasks, completedTasks) {
             tasks: completedTasks
         }));
     }
+    $('.ui.checkbox').checkbox();
 }
-
+// add all tasks to the UI
+function addAppTasks(tasks, id) {
+    var list = $('#'+id);
+    if (tasks.tasks.length != 0) {
+        list.append(Handlebars.templates['tasks']({
+            label: tasks.label,
+            tasks: tasks.tasks
+        }));
+    }
+    $('.ui.checkbox').checkbox();
+}
 // given a list of tasks, sort them by due date
 function sortByDueDate(list) {
     return list.sort(function(a,b) {

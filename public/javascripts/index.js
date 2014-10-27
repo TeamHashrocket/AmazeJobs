@@ -16,7 +16,8 @@ $(document).ready(function() {
             var applications = response.applications;
             var pendingTasks = [];
             var completedTasks = [];
-
+            var counter = 0;
+            var len = applications.length;
             applications.forEach(function(application) {
                 // get all tasks
                 $.get(
@@ -30,17 +31,20 @@ $(document).ready(function() {
                     // add to the accumulating tasks
                     pendingTasks = pendingTasks.concat(response.pendingTasks);
                     completedTasks = completedTasks.concat(response.completedTasks);
+                    
+                    counter+=1;
+                    if(counter == len){
+                        // sort tasks
+                        pendingTasks = sortByDueDate(pendingTasks);
+                        completedTasks = sortByDueDate(completedTasks);
+                        // display tasks
 
+                        addAllTasks(pendingTasks, completedTasks,'#task-list');
+                    }
                 }).fail(function(error) {
                     handleError(error);
                 });
             });
-
-            // sort tasks
-            pendingTasks = sortByDueDate(pendingTasks);
-            completedTasks = sortByDueDate(completedTasks);
-            // display tasks
-            addAllTasks(pendingTasks, completedTasks);
 
         }).fail(function(error) {
             handleError(error);

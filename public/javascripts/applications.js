@@ -87,6 +87,6 @@ function addApplication(application) {
     list.prepend(Handlebars.templates['application']({
         application: application
     }));
-
+    addAppTasks(application.tasks, application._id);
     $('.ui.accordion').accordion();
 }
