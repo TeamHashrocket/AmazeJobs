@@ -9,6 +9,34 @@ Handlebars.registerHelper('for', function(from, to, incr, block) {
         accum += block.fn(i);
     return accum;
 });
+
+Handlebars.registerHelper("getMonth", function(datestring) {
+    if (datestring) {
+        var date = new Date(datestring);
+        return date.getMonth();  
+    }
+
+    return 'MM';
+});
+
+Handlebars.registerHelper("getDay", function(datestring) {
+    if (datestring) {
+        var date = new Date(datestring);
+        return date.getDay();  
+    }
+    
+    return 'DD';
+});
+
+Handlebars.registerHelper("getYear", function(datestring) {
+    if (datestring) {
+        var date = new Date(datestring);
+        return date.getYear();  
+    }
+    
+    return 'YYYY';
+});
+
 //toggle complete/incomplete
 $(document).on('mouseup', ':checkbox', function(event){
     var id = $(this).attr('name');
@@ -79,9 +107,7 @@ $(document).on('keydown', '#new-task-input', function(event) {
                     _id: id,
                     completed: completed,
                     description: description,
-                    month: month,
-                    day: day,
-                    year: year
+                    dueDate: date.toString()
                 }));
             });
         } else {
@@ -167,14 +193,11 @@ function addAppTasks(tasks, phaseId) {
 function addTask(task) {
     var appTaskList = $('[phase-id=' + task.phase + '] .list');
     var allTasksList = $('#task-list .list');
-    var date = new Date(task.dueDate);
     var taskItem = Handlebars.templates['task']({
         _id: task._id,
         completed: task.completed,
         description: task.description,
-        month: date.getMonth(),
-        day: date.getDay(),
-        year: date.getYear(),
+        dueDate: task.dueDate
     });
 
     appTaskList.append(taskItem);

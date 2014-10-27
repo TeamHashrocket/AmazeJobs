@@ -7,7 +7,7 @@
     <input type='text' id='description' value={{description}}>
     (
     <div id='month' class='ui dropdown'>
-        <div class='text'>{{month}}</div>
+        <div class='text'>{{getMonth dueDate}}</div>
         <div class='menu' style='overflow:auto;max-height:200px;'>
             {{#for 1 13 1}}
                 <div class='item'>{{this}}</div>
@@ -16,7 +16,7 @@
     </div>
     /
     <div id='day' class='ui dropdown'>
-        <div class='text'>{{day}}</div>
+        <div class='text'>{{getDay dueDate}}</div>
         <div class='menu' style='overflow:auto;max-height:200px;'>
             {{#for 1 32 1}}
                 <div class='item'>{{this}}</div>
@@ -25,7 +25,7 @@
     </div>
     /
     <div id='year' class='ui dropdown'>
-        <div class='text'>{{year}}</div>
+        <div class='text'>{{getYear dueDate}}</div>
         <div class='menu' style='overflow:auto;max-height:200px;'>
             {{#for 2014 2031 1}}
                 <div class='item'>{{this}}</div>
