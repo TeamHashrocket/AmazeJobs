@@ -95,3 +95,8 @@ input:focus {
 .Accepted.active {
   background-color: rgba(40, 160, 49, 0.7) !important;
 }
+
+.ui.info.segment {
+  background-color: #E6F4F9;
+  color: #4D8796;
+}
