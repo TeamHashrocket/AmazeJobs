@@ -95,7 +95,3 @@ input:focus {
 .Accepted.active {
   background-color: rgba(40, 160, 49, 0.7) !important;
 }
-.Help{
-  background-color: rgba(250, 255, 81, 0.7) !important;
-  color: white !important;
-}

@@ -94,8 +94,8 @@ function renderTaskList(renderApplications){
 
 
 function showHelp() {
-    var help = 'Click "Add Task" to add a new task, hit enter to submit. ' +
+    var helpText = 'Click "Add Task" to add a new task, hit enter to submit. ' +
                 'Double click an existing task to edit it, hit enter to submit. ' +
                 'To delete a task, make its description empty.';
-    showDialog(help);
+    showDialog(helpText, 'info');
 }
