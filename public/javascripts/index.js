@@ -92,10 +92,15 @@ function renderTaskList(renderApplications){
 
 }
 
+Handlebars.registerHelper('breaklines', function(text) {
+    text = Handlebars.Utils.escapeExpression(text);
+    text = text.replace(/(\r\n|\n|\r)/gm, '<br>');
+    return new Handlebars.SafeString(text);
+});
 
 function showHelp() {
-    var helpText = 'Click "Add Task" to add a new task, hit enter to submit. ' +
-                'Double click an existing task to edit it, hit enter to submit. ' +
+    var helpText = 'Click "Add Task" to add a new task, hit enter to submit.\n' +
+                'Double click an existing task to edit it, hit enter to submit.\n' +
                 'To delete a task, make its description empty.';
     showDialog(helpText, 'info');
 }
