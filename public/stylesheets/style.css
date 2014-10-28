@@ -100,3 +100,8 @@ input:focus {
   background-color: #E6F4F9;
   color: #4D8796;
 }
+
+.ui.error.segment {
+  background-color: #F1D7D7;
+  color: #A95252;
+}
