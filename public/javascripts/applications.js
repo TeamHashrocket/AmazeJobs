@@ -17,7 +17,7 @@ $(document).on('keydown', '#new-application-input', function(event) {
     var companyName = $('input[name=companyName]').val();
 
     if (companyName == '') {
-        return showError('Please enter a company name');
+        return showDialog('Please enter a company name', 'error');
     }
 
     // put the new application button back

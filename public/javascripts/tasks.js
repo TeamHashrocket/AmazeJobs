@@ -92,7 +92,7 @@ $(document).on('keydown', '.new-task-input', function(event) {
     
 
     if (month == 'MM' || day == 'DD' || year == 'YYYY') {
-        return showError('Please enter a date');
+        return showDialog('Please enter a date', 'error');
     }
 
     var date = new Date(year, month, day);
