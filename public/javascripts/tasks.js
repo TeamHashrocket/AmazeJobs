@@ -195,7 +195,7 @@ function addAppTasks(tasks, phaseId) {
 // add a single task to both the app task list and the total task list
 function addTask(task) {
     var appTaskList = $('[phase-id=' + task.phase + '] .list');
-    var allTasksList = $('#task-list .list');
+    var allTasksList = $('.tasks-Pending .list');
     var taskItem ={
         _id: task._id,
         phase: task.phase,
