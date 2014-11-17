@@ -204,8 +204,13 @@ function addTask(task) {
         dueDate: task.dueDate
     };
 
+    // if no tasks in pending list, create the pending list
     if(allTasksList.children().length==0) {
-        addAllTasks([taskItem], []);    
+        var list = $('#task-list');
+        list.prepend(Handlebars.templates['tasks']({
+            label: 'Pending Tasks',
+            tasks: [taskItem]
+        }));  
     } else {
         allTasksList.append(Handlebars.templates['task'](taskItem));
     }
