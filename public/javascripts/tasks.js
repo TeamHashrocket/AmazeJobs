@@ -95,7 +95,7 @@ $(document).on('keydown', '.new-task-input', function(event) {
         return showDialog('Please enter a date', 'error');
     }
 
-    var date = new Date(year, parseInt(month) - 1, day);
+    var date = new Date(year, parseInt(month), day);
 
     // existing task
     if (id && description) {
